@@ -82,9 +82,9 @@ Distributed under the MIT License. See LICENSE for more information.
 
 Chris Hubbard – <chubbard@iwillfearnoevil.com>
 
-Project Link: https://github.com/Guyverix/Vigilare-NMS-GUI
-Project Link: https://github.com/Guyverix/Vigilare-NMS-API
-Project Link: https://github.com/Guyverix/Vigilare-NMS-POLLER
+- [ ] Project Link: https://github.com/Guyverix/Vigilare-NMS-GUI
+- [ ] Project Link: https://github.com/Guyverix/Vigilare-NMS-API
+- [ ] Project Link: https://github.com/Guyverix/Vigilare-NMS-POLLER
 
 # Acknowledgements
 This project has been built using the following frameworks and libraries
