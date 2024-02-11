@@ -1,0 +1,64 @@
+Mapping notes, and details.
+<br>
+<pre>
+MONITORS:
+  CREATE:
+    Initial creation of monitors does NOT add hosts at creation time
+    Iteration cycle outside of existing values require a restart of the poller
+      * different iteration cycles are distinct daemons
+    Graphite is not usable when there is not an existing template file for SNMP
+      * Manual testing and validation scripts exist in templates/directory in API
+    databaseMetric is saved as JSON in the database
+    NRPE, SHELL currently internally attempt to parse performance metrics from return data
+      * if parsing suceeds, that is sent to graphite by default currently
+    check args: supports the following args:
+      * $hostname
+      * $ipAddress
+      * defined database hostAttributes as an array based on hostname + checkName (future)
+
+    SNMP: 
+    check name
+    check args
+    type: walk, get
+    Storage: database only
+        * databaseMetric should be tested before using on adhoc metric sizes being added to database
+        * graphite can be selected ONLY when a template exists that will parse the results
+    iteration: 300
+
+    NRPE:
+    check name
+    check args
+    type: nrpe
+    storage: database, graphite (internal attempts parsing to graphite)
+    iteration: 300
+
+    SHELL:
+    check name
+    check args
+    type: shell
+    storage: database, graphite (internal attempts parsing to graphite)
+    iteration: 300
+
+    CURL:
+    check name
+    check args
+    type: curl
+    storage: database
+    iteration: 300
+
+    FUTURE:
+    check name
+    check args
+    type: TBD
+    storage: database
+    iteration: 300
+  
+  UPDATE:
+    Set hostnames to be monitored by created poller
+    Alter existing values for given monitors
+
+  DELETE:
+    Remove hosts from monitor
+    Remove single host from monitor
+    Remove entire monitor
+</pre>

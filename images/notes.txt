@@ -1,0 +1,28 @@
+wget -nd -r -A jpeg,jpg,bmp,gif,png https://fatduck.org/gnulinux/distro-logos.en.html
+
+https://stackoverflow.com/questions/4602153/how-do-i-use-wget-to-download-all-images-into-a-single-folder-from-a-url
+
+Where to pull the Linux OS icons from and how :)
+images/linux/
++++++++++++++++++++++++++++
+Navi:
+images/navigation
+
++++++++++++++++++++++++++++
+Misc:
+images/misc
+This includes things like corporate logos..
+
+++++++++++++++++++++++++++
+Unsorted or testing:
+images/unsorted
+
+++++++++++++++++++++++++++
+Windows specific
+images/windows
+Anyhing to do with WinBlows :)
+
+++++++++++++++++++++++++++
+
+
+This is not a rule, just a rough idea of where to store stuff 

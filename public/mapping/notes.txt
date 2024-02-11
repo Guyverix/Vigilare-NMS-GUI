@@ -1,0 +1,27 @@
+It is annoying, however we cannot easily call 127.0.0.1 or localhost for the API calls.
+
+this is due to CORS set on the browser.  Using the public IP, or the hostname works.  However this is sub-optimal.
+
+Going to have to address this issue or make a better solution for the destination.  Perhaps use an incllude, with the API hostname and ports
+defined and then consumed internally on the web page itself.  This could work for all pages, and have a common destination value.
+
+
+config/api.php contains vars to use with an include:
+apiHostname
+apiUrl
+apiPort
+
+Future: (currently unused for api calls)
+apiUser
+apiPass
+
+
+The mapping directory is likely going to simply be a bunch of small scripts that will do one small thing, and be broken into
+different categories.
+
+IE
+ Add new host, change existing host, nuke host
+ Add new monitor, change existing monitor, disable monitor
+
+I am waffling on the idea of a single page to do each of these groups of actions..  Perhaps a main page with subpages for the acutal work..
+

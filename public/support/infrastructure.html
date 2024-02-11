@@ -1,0 +1,32 @@
+infrastructure page
+<pre>
+
+
+The infrastructure link is simply a list of hosts broken out into BASIC types.
+
+This allows for hostGroups to exist so we can bundle hosts together in a reproducible way.
+
+The intent is not for VHOST's to be defined here, although it is possible to do so.
+
+Overall the intent is a visual representation of what we have in place.
+
+Being able to hang service checks from this is a nice bonus.
+
+That being said we must use caution, as there are always damn snowflakes that
+
+do not fit.
+
+Oddballs that fall into a category BUT do not fit the monitoring spec, are going to need some
+kind of ignore flag for the hostGroup setting.  However this is going to be fragile I suspect.
+
+Additional thought is going to have to be put into this.
+
+
+The Alive designation is a possible landing point for hosts that cannot be monitored via some kind
+of template, or for things I was trying to avoid such as VHOSTs.
+
+This will allow an area to exist that will be outside of the blanket template system.  Hosts in here
+must have their monitors defined on a per-host basis.  That will be the only way to reasonably do any
+kind of heartbeat unique to the host itself.
+
+</pre>

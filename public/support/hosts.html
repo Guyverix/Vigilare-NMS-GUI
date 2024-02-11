@@ -1,0 +1,37 @@
+hosts page
+
+<pre>
+Hosts are defined by physical or logical types, not by OS running on them.
+
+OS information is a host attribute
+
+Anything with an IP can be a host.
+
+Virtual hosts are going to need to be studied with care, as they are really a
+true host with an alternate name.  Service checks will have to be aware of what
+they are checking when dealing with virtual hosts.
+
+Some things will check IP, others will check by FQDN.  both must be supported to make
+this work the way it should.
+
+Service checks will need to be able to either already HAVE the IP adddress, or a query
+will have to be made.  Think it is a better idea to have the IP already on hand if we can
+do some kind of join on hosts >> IP.  This can be done on specific host checks, however we run
+into trouble with the hostgroups.  Since that is a named list, we are still going to have to pull
+hostnames when we get a hostGroup.  We should grab the IP at that time.
+
+
+Hosts defined for infrastructure can only exist in a single path.  Virtual hosts, while it may be pretty
+to define as something else, are not real things, so we are not going to pretend they are.  Service checks
+against a host will be able to run against VHOSTS that are defined.  
+
+KVM and other virtualization guests ARE real, and are treated as discrete entities.
+
+Pathing:
+globalMapping/host
+
+Options:
+create, update, delete, find
+
+
+</pre>

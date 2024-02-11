@@ -1,0 +1,5 @@
+This is simply a holding area where I can call graph commands and check rendering
+
+In general the hosts route is going to contain "live" URLs that will be in use.  Just need
+somewhere I can test and see if it "feels" like the graphs rendered belong.
+

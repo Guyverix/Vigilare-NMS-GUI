@@ -1,0 +1,20 @@
+This is going to be one of the more complex page sets.
+
+Overall we are going to show a lot of details as well as many different options
+related to the given host.
+
+Breakdown of Components, as well as Monitor changes or status will be done here.
+
+This has to look good dammit!  
+
+
+Use the templates that you have been writing.  Keep support for adhoc ones
+as well.  If a user adds a template in there, lets leverage it shall we?
+
+How will we know if we need a display template?  Lets go off of our monitors
+since those are likely going to be the oddballs that can have additonal info.
+
+All builtin stuff will be available IF stuff exists to pull for them.
+
+Use cheap and fast API calls to see what we have available, and THEN begin
+the more expensive queries for data at that point.

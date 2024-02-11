@@ -1,0 +1,113 @@
+<br><br> <!-- More stupid spacing down so display does not get clipped -->
+<div class="container-fluid px-4">
+  <h1 class="mt-4"></h1>
+  <div class="row justify-content-center">
+    <div class="col-xl-3 col-md-3">
+      <div class="card bg-success text-white mb-3">
+        <div class="card-body">
+          <i class="fas fa-plus-circle fa-lg"></i>
+          <h5 class="card-title">New Monitor</h5>
+          <p class="card-text">Create new monitors for NRPE, SNMP, shell, etc.  This will allow for a complete new monitor.  Only after creation can you add hosts or hostgroups to the monitor.</p>
+           <a href="/monitor/index.php?&page=addMonitor.php" class="stretched-link"></a>
+           <!--          <a href="#" class="btn btn-primary">New</a>   -->
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div class="card bg-warning text-dark mb-3">
+        <div class="card-body">
+          <i class="fas fa-cog fa-spin fa-lg"></i>
+          <h5 class="card-title">Change Monitor</h5>
+          <p class="card-text">Change a specific monitor which you know the ID of.  This will generally be unused.  Other pages will allow for this in a more consumable way.  However if you DO know the id number, this will allow for changes as well.</p>
+          <a href="/monitor/index.php?&page=changeMonitor.php" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div class="card bg-danger text-white mb-3">
+        <div class="card-body">
+          <i class="fas fa-exclamation-circle fa-lg"></i>
+          <h5 class="card-title">Remove Monitor</h5>
+          <p class="card-text">Remove a specific monitor.  This is a complete removal not a disable for a given monitor when the ID is known.  If you make a mistake, this is not recoverable and you will have to create an enitre new monitor again.</p>
+          <a href="/monitor/index.php?&page=removeMonitor.php" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end of first row of cards -->
+
+  <div class="row justify-content-center">
+    <div class="col-xl-3 col-md-3">
+      <div class="card bg-success text-white mb-3">
+        <div class="card-body">
+          <i class="fas fa-plus-circle fa-lg"></i>
+          <h5 class="card-title">Search Monitors</h5>
+          <p class="card-text">Search all defined monitors, both enabled and disabled that match your search criteria.  From here you can choose a monitor to change.</p>
+          <a href="/monitor/index.php?&page=searchMonitor.php" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div class="card bg-warning text-dark">
+        <div class="card-body">
+          <i class="fas fa-exclamation-triangle fa-lg"></i>
+          <h5 class="card-title">Disable Monitor</h5>
+          <p class="card-text">Disable a specific monitor when you know the specific monitor ID value.  This is more of a placeholder, and will be unlikely to be commonly used.  The common way to do this will be to change the monitor after searching for the one you care about.</p>
+          <a href="/monitor/index.php?&page=disableMonitor.php" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div>
+      </div>
+    </div>
+  </div>
+  <!-- end of second row of cards -->
+
+  <div class="row justify-content-center">
+    <div class="col-xl-3 col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <i class="fas fa-plus-circle fa-lg"></i>
+          <h5 class="card-title">Add Host to Monitor</h5>
+          <p class="card-text">Add a new host to an existing monitor when you know the host id, and the monitor id values.  This is also a catchall and will likely be removed.  Use the search and change from there.</p>
+          <a href="/monitor/index.php?&page=monitorAddHost.php" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div>
+      </div>
+    </div>
+  </div>
+  <br> <!-- stupid, but need the gap to look right -->
+  <!-- end third row of cards -->
+
+  <div class="row justify-content-center">
+    <div class="col-xl-3 col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <i class="fas fa-plus-circle fa-lg"></i>
+          <h5 class="card-title">Add HostGroup to Monitor</h5>
+          <p class="card-text">Add an existing HostGroup to a monitor when you know the name of the HostGroup name and the monitor id values.  This should be done in the search and change area.  This is a placeholder and will be rarely if ever used.</p>
+          <a href="/monitor/index.php?&page=monitorAddHostgroup.php" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div>
+      </div>
+    </div>
+  </div>
+  <!-- end fourth row of cards -->
+
+</div>
+

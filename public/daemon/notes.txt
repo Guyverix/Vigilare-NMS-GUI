@@ -1,0 +1,19 @@
+This directory is an example of how to add addtional pages for use in the NMS.
+
+You must recreate this directory structure with your directory name which will be used for the pathing..
+
+Note that if you make deep directory structures, the include files may be incorrect and require path adjustments.
+
+It is assumed that the path will start under the /public directory
+
+All templating assumes this.  If you do something else, you will likely need to adjust the includes, or the index file
+
+While I call this a template system, it is VERY simplistic.  If there are customizations done it would be a lot less user friendly and make trouble later down the road.
+
+Overall, keeping this "template" simple means it will be possible for even non-developers to extend the UI for what is needed.
+
+Since this is very generic, and even composer is not being used, changes should always be kept at the Tinker-Toy level whenever possible.
+
+YOU liely will not always be the person changing code, and if you make it too comlex, or get "clever" it will be a PITA for someone else to maintain.
+
+Everything I am doing in here is attempting to follow a KISS principle.  I encourage you to attempt this as well.

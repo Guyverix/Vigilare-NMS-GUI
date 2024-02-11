@@ -1,0 +1,7 @@
+This is the basic login area.
+It also ends up being the catchall for dealing with register and password resets as well.
+
+Remember just because an account was created, does NOT mean that they will be able to access stuff..
+
+
+the account must be enabled by an admin.  A real human has to say "yes, they are allowed to see stuff"
