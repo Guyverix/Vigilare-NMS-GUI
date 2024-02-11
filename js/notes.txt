@@ -1,0 +1,7 @@
+People may notice that I have a bit of the sb-demo JS in here.  when I was learning bootstrap basics I was using a lot
+of their logic.  I am going to leave it in place for a bit longer before cleanup.  
+
+Of note, I am attempting to have all javascript LOCAL to this server.  An NMS should never be reliant on anything
+outside of itself to do its job.  Additionally higher security zones in a company may not allow outbound connections.
+
+Cant forget that what I am building has to work on more than my personal servers..  :)
