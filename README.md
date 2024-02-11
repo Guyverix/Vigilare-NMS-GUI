@@ -18,6 +18,7 @@ Welcome to Vigilare, an open-source fault management system designed to provide 
 
 
 ## Getting Started
+- [ ] At this time I consider this to be Alpha level code.  Functional but buggy (02-11-24)
 - [ ] All testing done on Ubuntu / Debian systems
 - [ ] Latest testing Ubuntu 20.04.6 LTS
 - [ ] If the GUI is running on the same host as the API server and that is already installed, no additional packages are needed specifically for the GUI.
