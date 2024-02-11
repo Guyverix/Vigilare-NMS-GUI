@@ -94,3 +94,8 @@ This project has been built using the following frameworks and libraries
 - [ ] Simple datatables
 - [ ] Font Awesome
 - [ ] jquery
+
+Heavily influenced how I built the UI
+- [ ] sb-admin template
+- [ ] https://startbootstrap.com/template/sb-admin
+- [ ] https://github.com/StartBootstrap
