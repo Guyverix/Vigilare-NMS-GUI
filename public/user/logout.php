@@ -23,6 +23,9 @@
   unset($_COOKIE['userId']);
   setcookie('userId', '','-1', '/');
 
+  unset($_COOKIE['clientTimezone']);
+  setcookie('clientTimezone', '','-1', '/');
+
   header('Location: /login/login.php');  // After we have saved the nuked cookies go to login page
 
 ?>
