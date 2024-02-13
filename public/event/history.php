@@ -39,7 +39,7 @@
     // debugger($_POST);
     $post = ['id' => $_POST['id']];
     $post += ['reason' => $_POST['reason']];
-    $moveToHistory = callApiPost("/event/moveFromHistory", $post, $headers);
+    $moveToHistory = callApiPost("/events/moveFromHistory", $post, $headers);
     // Disalbe refreshes causing reposts
     echo '<script type="text/javascript">' . "\n";
     echo 'if ( window.history.replaceState ) {' . "\n";
