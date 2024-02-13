@@ -1,3 +1,9 @@
 Storage area for graphs that we are going to consume on the main index page.
 
 Currently index.php includes main.php.  We add graphs into that point via includes.  All vars will be inside the graph files so we can figure out how we want them to look
+
+My thought on this, especially with the main page is to have it be kind of vague since it should be easy enough to add new graphs for the main dashboard.  I believe the best options would be more generic graphs with the links defined to drill down for details.  The main index does NOT auto-reload, but perhaps it would be reasonalbe to have the independent graphs do so.
+
+Looking at the initial page, I am thinking that 9 is likely the maximum number of graphs that should be visible, but that is going to end up being decided by the end user...
+
+
