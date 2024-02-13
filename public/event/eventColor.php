@@ -52,6 +52,7 @@
   $rawActiveEvents = callApiGet("/events/view/eventSeverity/DESC/order", $post, $headers);
   $activeEvents = json_decode($rawActiveEvents['response'], true);
 
+  // debugger($_COOKIE);
 
   // Try to count our events
   $eventCount = count($activeEvents['data']);

@@ -3,7 +3,7 @@
     What are we going to display today?
   */
 
-  header('Refresh: 45');  // reload the damn page every X seconds
+  // header('Refresh: 45');  // reload the damn page every X seconds NOT ON HISTORY
 
   //echo '<META HTTP-EQUIV=Refresh CONTENT="10"> ';
   echo '<br><br><br>'; // only needed if we have a horozontal bar
@@ -39,7 +39,7 @@
     // debugger($_POST);
     $post = ['id' => $_POST['id']];
     $post += ['reason' => $_POST['reason']];
-    $moveToHistory = callApiPost("/history/moveToActive", $post, $headers);
+    $moveToHistory = callApiPost("/event/moveFromHistory", $post, $headers);
     // Disalbe refreshes causing reposts
     echo '<script type="text/javascript">' . "\n";
     echo 'if ( window.history.replaceState ) {' . "\n";
@@ -73,16 +73,16 @@
   echo '<p class="text-end">Last Refresh: ' . date('Y-m-d H:i:s',$localTime) . "&nbsp&nbsp  </p>";
 
   // Load the move to history modal here
-  if (isset($_POST['moveToHistory']) ) {
+  if (isset($_POST['moveFromHistory']) ) {
     $evid = $_POST['evid'];
     $hostname = $_POST['hostname'];
     //debugger($_POST);
     //exit();
     unset($_POST);
-    modalMoveToHistory($evid, $hostname);
+    modalMoveFromHistory($evid, $hostname);
     // Only load the JS when we need it
     echo '<script type="text/javascript">' . "\n";
-    echo "    var myModal = new bootstrap.Modal(document.getElementById('eventToHistoryModal'), {})" . "\n";
+    echo "    var myModal = new bootstrap.Modal(document.getElementById('eventFromHistoryModal'), {})" . "\n";
     echo '    myModal.toggle()' . "\n";
     echo 'if ( window.history.replaceState ) {' . "\n";
     echo '  window.history.replaceState( null, null, window.location.href );' . "\n";
@@ -198,11 +198,11 @@
             // Table inside the table to force the buttons to stay next to each other... sigh....
             echo '<table>';
              echo '<tr><td>';
-               echo '<form id="moveToHistory' . $events['evid'] . '" role="form" action="" method="POST">';
+               echo '<form id="moveFromHistory' . $events['evid'] . '" role="form" action="" method="POST">';
                echo '<input type="hidden" name="event" value="' . json_encode($events,1) . '">';
                echo '<input type="hidden" name="evid" value="' . $events['evid'] . '">';
-               echo '<input type="hidden" name="hostname" value="' . $events['hostname'] . '">';
-               echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="moveToHistory" form="moveToHistory' . $events['evid'] . '"><i class="fas fa-plane"></i></button>';
+               echo '<input type="hidden" name="hostname" value="' . $events['device'] . '">';
+               echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="moveFromHistory" form="moveFromHistory' . $events['evid'] . '"><i class="fas fa-plane"></i></button>';
                echo '</form>';
                echo '</td><td>';
                echo '<form id="ackEvent" role="form" action="" method="POST">';

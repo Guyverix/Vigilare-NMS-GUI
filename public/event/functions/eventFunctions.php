@@ -168,4 +168,54 @@ function modalMoveToHistory($evid, $hostname) {
   echo '</div>';
 }
 
+function modalMoveFromHistory($evid, $hostname) {
+  $user = $_COOKIE['realName'];
+  $userId = $_COOKIE['id'];
+
+  echo '<div class="modal" tabindex="-1" id="eventFromHistoryModal">';
+  echo '  <div class="modal-dialog">';
+  echo '    <div class="modal-content">';
+  echo '      <div class="modal-header">';
+  echo '        <h5 class="modal-title">Move event from history to active event</h5>';
+  echo '        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+  echo '      </div>';
+  echo '      <div class="modal-body">';
+
+  echo '        <form class="form-inline" id="realMoveFromHistory" role="form" action="" method="POST">';  // Should post to itself outside of the modal
+
+  echo '        <div class="form-floating mb-3">';
+  echo '          <input class="form-control" type="text" name="id" value="' . $evid . '" readonly>';
+  echo '          <label for="id">Event ID</label>';
+  echo '        </div>';
+
+  echo '        <div class="form-floating mb-3">';
+  echo '          <input class="form-control" type="text" name="hostname" value="' . $hostname . '" readonly>';
+  echo '          <label for="id">Hostname</label>';
+  echo '        </div>';
+
+  echo '        <div class="form-floating mb-3">';
+  echo '          <input class="form-control" type="textarea" name="reason" value="">';
+  echo '          <label for="reason">Reason to move</label>';
+  echo '        </div>';
+
+  echo '        <div class="form-floating mb-3">';
+  echo '          <input class="form-control" type="text" name="user" value="' . $user . '" readonly>';
+  echo '          <label for="user">Your Username</label>';
+  echo '        </div>';
+  echo '        <input type="hidden" name="userid" value="' . $userId . '">';
+
+  echo '        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">';
+  echo '          <button type="submit" class="btn btn-warning" name="realMoveFromHistory" form="realMoveFromHistory"> Move from history </button> ';
+  echo '        </div>';
+
+  echo '        </form>';
+
+  echo '      </div>';
+  echo '      <div class="modal-footer">';
+  echo '      </div>';
+  echo '    </div>';
+  echo '  </div>';
+  echo '</div>';
+}
+
 ?>
