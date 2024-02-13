@@ -1,5 +1,3 @@
-This is simply a holding area where I can call graph commands and check rendering
+Storage area for graphs that we are going to consume on the main index page.
 
-In general the hosts route is going to contain "live" URLs that will be in use.  Just need
-somewhere I can test and see if it "feels" like the graphs rendered belong.
-
+Currently index.php includes main.php.  We add graphs into that point via includes.  All vars will be inside the graph files so we can figure out how we want them to look

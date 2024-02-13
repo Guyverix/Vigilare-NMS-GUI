@@ -76,7 +76,7 @@
     readfile(__DIR__ . '/includes/leftVerticalMenu.html');
   }
   else {
-    readfile(__DIR__ . '/shared/leftVerticalMenu.html');
+//    readfile(__DIR__ . '/shared/leftVerticalMenu.html');
   }
 
   echo '<!-- Any <nav> goes here including user options -->';
@@ -122,7 +122,6 @@
     <main>
       <!-- This is where you can add your page data easiest -->
 <?php
-//  echo "<BR><BR>HERE<BR>";
   include_once __DIR__ . ("/main.php");
 ?>
 
