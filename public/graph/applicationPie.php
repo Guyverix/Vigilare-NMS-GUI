@@ -1,7 +1,11 @@
 <?php
 
 echo '<script src="/js/charts/chartjs/4.3.2/chart.umd.js" crossorigin="anonymous"> </script>';
+// https://www.chartjs.org/docs/master/charts/doughnut.html
+// https://www.chartjs.org/docs/latest/charts/doughnut.html
 
+
+// Adding so we have our API call ability
 include_once __DIR__ . ("/../../functions/generalFunctions.php"); // DEBUG ONLY
 // $_COOKIE['token'] = 'put token here';                          // DEBUG ONLY
 $headers = array();
