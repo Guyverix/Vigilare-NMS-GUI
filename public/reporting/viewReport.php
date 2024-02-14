@@ -66,15 +66,19 @@
     echo '</thead>';
 
     // Now loop through our data
+    //debugger($reporting);
     foreach ($reporting as $report) {
       $arrayCount = count($report);
-      for ( $i = 0; $i < $arrayCount; $i++) {
-        echo '<tr>';
+      //      echo "arrayCount " . $arrayCount . "<br>";
+      //      debugger($report);
+      echo '<tr>';
+        //      for ( $i = 0; $i < $arrayCount; $i++) {
         foreach ($report as $k => $v) {
+          //echo "KEY " . $k . " VALUE " . $v . "<br>";
           echo '<td>' . $v . '</td>';
         }
-        echo '</tr>';
-      }
+        //      }
+      echo '</tr>';
     }
     echo '
       </table>
