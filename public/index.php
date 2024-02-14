@@ -28,6 +28,8 @@
   $title = 'Vigilare NMS - Main';
 
   // begin loading page since we have valid cookies
+  echo '<META HTTP-EQUIV=Refresh CONTENT="120"> ';  // comment this out if index refresh gets annoying
+
   if ( file_exists (__DIR__ . '/includes/head.html')) {
     readfile(__DIR__ . '/includes/head.html');
   }
