@@ -1,5 +1,5 @@
 <?php
-
+// Load our JS to make pretty pictures
 echo '<script src="/js/charts/chartjs/4.3.2/chart.umd.js" crossorigin="anonymous"> </script>';
 
 include_once __DIR__ . ("/../../functions/generalFunctions.php"); // DEBUG ONLY
