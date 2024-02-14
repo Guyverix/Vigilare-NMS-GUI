@@ -251,8 +251,5 @@
   <script src="/js/simple-datatables/simple-datatables.js"></script>
 
 <?php
-echo '  </div>';
-//echo '  <script src="/js/simple-datatables/simple-datatables.js"></script>';
-//echo '  <script src="/js/simple-datatables/script.js"></script>';
-
+  echo '  </div>';  // be complete... sigh..
 ?>
