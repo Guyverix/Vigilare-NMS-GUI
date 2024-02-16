@@ -3,9 +3,9 @@
     What are we going to display today?
   */
 
+  //echo '<META HTTP-EQUIV=Refresh CONTENT="45"> ';
   header('Refresh: 45');  // reload the damn page every X seconds
 
-  //echo '<META HTTP-EQUIV=Refresh CONTENT="10"> ';
   echo '<br><br><br>'; // only needed if we have a horozontal bar
 
 
@@ -13,13 +13,12 @@
   if ( ! function_exists('debugger')) {
     require(__DIR__ . '/../../functions/generalFunctions.php');
   }
-  // checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
+  checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
 
   // Load local vars for use (urls, ports, etc)
   require_once __DIR__ . "/../../config/api.php";
 
   // Hosts and Devices have A LOT of variables in play.  We need functions specific to this group
-  // require_once __DIR__ . "/functions/eventFunctions.php";
   include __DIR__ . "/functions/eventFunctions.php";
 
   // Grab our POSSIBLE values so users can choose what they change
@@ -28,7 +27,6 @@
   $cookieTimezone = $_COOKIE['clientTimezone'];
   $post = array();  // We are using post, so give it an empty array to post with
   $quitEarly = 0;
-
 
   // echo $cookieTimezone;
   // timezone stuff: https://stackoverflow.com/questions/6939685/get-client-time-zone-from-browser
@@ -239,13 +237,10 @@
         });
       }
     });
-    
 //    setTimeout(function(){
 //      simpleDatatables.datatable.refresh();
 //      window.location.reload(1);
 //    }, 5000);
-
-
   </script>
   <!-- datatables not loaded with footer, add it now -->
   <script src="/js/simple-datatables/simple-datatables.js"></script>
