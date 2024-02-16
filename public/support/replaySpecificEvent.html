@@ -1,0 +1,99 @@
+Replay Event notes, and details.
+<br>
+<pre>
+Use:
+  Alteration of a given event either active or from history.  This allows
+  for future events to behave in the "mapped" fashion and be reproducible.
+  This is also the area where you map any "unmapped" or "unknown" type of events
+  into the database and set the initial values for them.
+
+Location:
+  Main >> Events >> Replay Event
+  Choose the event that happend in the past, and click the heart-break icon on the far right.
+
+Display:
+  The far left shows exactly what was saved into the database.  The right side table is your
+  basic manipulation area.  Testing the mapping does not save changes into the database, but validates
+  your PHP syntax.  This does not guarentee that your changes will work, just that they are syntatically
+  correct.
+
+Display "Parsed Values and Changes":
+  Every variable that is in use for the given event has the ability to be modified by the Event pre-processing.
+  Do keep in mind that the simpler the processing the better.  Doing big complex definitions will work but
+  will be less maintainable by end users when something changes in the future.
+
+  It is worth noting that some caution must be used for the received OID or default name, as well as the
+  alarm name itself.
+  If a raw OID was received, leave it.  This is your unique value for future events.  You should however
+  get on the public internet and see what the manufacturer says that alarm means, and use that to create
+  your alarm name.
+
+  The alarm names must be unique in the database.  It is encouraged to use camelCase
+  for your alarm names when possible (just so some kind of standard is set).
+
+  Never use the keyword "unmapped" for your alarm name.  This has special meaning for events.  I would
+  even discourage having that string in an alarm name in general. "app-unmapped" and "unmappedApp"
+  could bite you in the future, so just dont.
+
+  Note: In some cases, arrays as strings are making it into things like summary from NRPE checks
+        however this is inconsistent.  Always validate what the event came in like when
+        working on a pre-processing transformation of your event.
+
+        At this time Post-Processing is only stubbed.  It does nothing, as I have not really
+        found a good use case for it (yet/ever).
+
+  The supported variables that are in place currently are:
+  $evid            (string)       event ID.  Never change this
+  $known_hostname  (string)       generally the FQDN from table Device.hostname
+  $receive_time    (string)       date stamp in UTC
+  $event_age_out   (int)          timer in seconds to allow event to remain active.
+  $counter         (int)          counts times the event has fired off without clearing
+  $receiver        (string)       Usually the IP address of the trap or API receiver
+  $event_severity  (int)          Number from 0 (clear) to 5 (critical)
+  $event_ip        (string)       generally the IP address from table Device.address
+  $event_source    (string)       The IP address that sent the event.  This can be different than the host in alarm
+  $event_name      (string)       A unique name for the alarm
+  $event_type      (int)          Not completely active.  Integer value for snmptrap, local check, remote checks (default 3)
+  $monitor         (int)          Not completely active.  Integer defining if this should be monitored or not
+  $event_summary   (string)       A summary of an event for the UI to display
+  $details         (array)        A usually parsable array of raw data that consists of everything that was sent with the event
+  $details_array   (array)        If $details is not a valid array, this has attempted to convert it into one.
+
+  Example Uses:
+    Set a pretty summary:
+      $event_summary = "Event " . $event_name . " was recieved from " . $known_hostname;
+
+    Set an override severity other than default when something matches:
+      if ( $known_hostname == "fake.host.com" ) {
+        $event_severity = 5;
+      }
+
+    Change severity if we have a high count of events:
+      if ($counter >= 10) {
+        $event_severity = 5;
+      }
+
+    More complex change example: 
+    Note: This specific event type has array["string oid value"] defined inside it
+          All traps are different, and will have different array types
+
+    In this example, we are exploding the array $details and looking at
+    each line for a string match.
+      foreach ($details as $loc) {
+        if ( false !== strpos($loc, "1.3.6.1.4.1.24591.1.1.3") ) {
+          $rawName = explode("24591.1.1.3", $loc);
+          $event_name = trim($rawName[1]);
+        }
+      }
+      if ( empty($event_name)) {
+        $event_name = "blahEventName";
+      }
+
+After successful tests:
+  Simply save the mapping with the "Change Mapping Now" button.  All future
+  events that match the incomming OID or eventName will follow your pre-processing
+  logic and alter the event the way you are expecting.
+
+
+</pre>
+<br>
