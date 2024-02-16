@@ -1,4 +1,7 @@
 <!-- Why the hell is this the only way to get a client timezone!??  -->
+<META Http-Equiv="Cache-Control" Content="no-cache"/>
+<META Http-Equiv="Pragma" Content="no-cache"/>
+<META Http-Equiv="Expires" Content="0"/>
 
 <script src="/js/jquery/jquery-1.7.1.min.js"></script>
 
@@ -91,8 +94,36 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     }
 }
 ?>
-
 <!DOCTYPE html>
+<?php
+  // Only clear on initial page load, NEVER login POST attempts (which also loads the page)
+  // Someone goes to login, then they are stuck logging in, even if they are still valid with the cookies.
+  if (! $_SERVER['REQUEST_METHOD'] === 'POST') {
+    setcookie('session', '','-1', '/');
+    unset($_COOKIE['session']);
+
+    setcookie('token', '','-1', '/');
+    unset($_COOKIE['token']);
+
+    setcookie('apiServer', '','-1', '/');
+    unset($_COOKIE['apiServer']);
+
+    setcookie('email', '','-1', '/');
+    unset($_COOKIE['email']);
+
+    setcookie('realName', '','-1', '/');
+    unset($_COOKIE['realName']);
+
+    setcookie('id', '','-1', '/');
+    unset($_COOKIE['id']);
+
+    setcookie('userId', '','-1', '/');
+    unset($_COOKIE['userId']);
+
+    setcookie('clientTimezone', '','-1', '/');
+    unset($_COOKIE['clientTimezone']);
+}
+?>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
