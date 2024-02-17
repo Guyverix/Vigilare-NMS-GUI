@@ -38,6 +38,7 @@ foreach ($outputFiltered['data'] as $eventCount) {
 $pieValue = rtrim(rtrim($pieValue, ' '), ',');
 $pieName = rtrim(rtrim($pieName, ' '), ',');
 $pieColor = rtrim(rtrim($pieColor, ' '), ',');
+$pieValue = ltrim($pieValue, ',');
 //$pieName = rtrim($pieName, ',');
 //debugger($pieName);
 
