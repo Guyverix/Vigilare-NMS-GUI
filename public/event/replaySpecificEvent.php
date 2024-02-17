@@ -43,7 +43,7 @@
   echo '<div class="row">' . "\n";
   echo '<div class="table-responsive col-lg-4">' . "\n";
 
-  echo '<table class="table table-striped  bg-dark table-light">';
+  echo '<center><table class="table-responsive">';
   echo "<th><center>Existing Event from database (template for testing)</center></th>\n";
   echo "<tr><td>\n";
   echo "<ul class='list-group'>";
@@ -70,7 +70,7 @@
     }
     echo  "</pre>\n</li>\n</ul>\n";
 */
-    echo "</td></tr>\n</table>\n";
+    echo "</td></tr>\n</table></center>\n";
   echo "</div>\n";
 
 
@@ -100,15 +100,13 @@ if ( empty($trapOid)) {
       echo "Confirm that this was not generated via pollers.  They can leverage the output directly<br>to make events.<br>";
     echo "</td>\n</tr>\n</table>\n</center>\n";
   echo "</div>\n";
-//  echo "</div>\n";
 }
 else {
-
   // Grab a single mapping (hopefully)
   $post = ['oid' => $trapOid];
   $rawMappingFind = callApiPost('/mapping/find', $post, $headers);
   $mapping = json_decode($rawMappingFind['response'], true);
- 
+
   // If we cannot find a match, use '*'
   if ( empty($mapping['data'][0])) {
     $post = ['oid' => '*'];
@@ -120,20 +118,17 @@ else {
   // exit();
   $encodeExistingEvent = json_encode($existingEvent, 1);
   $encodeMapping = json_encode($mapping['data'][0],1 );
-
-  echo '<div class="table-responsive col-lg-6">' . "\n";
-  echo '<table class="table table-responsive table-bordered table-striped bg-dark table-light" >' . "\n";
+  echo "<div class='table-responsive col-lg-6'>\n";
+  echo '<table class="table table-bordered" >' . "\n";
   echo "<th><center>Parsed Values and Changes</center></th>\n";
   echo "<tr><td>\n";
   echo "Parsed OID Mapped from 1.3.6.1.6.3.1.1.4.1.0 or event name defined is: " . $trapOid . "<br>\n";
   echo "Retrieved value in Mapping is: " . $mapping['data'][0]['oid']. "<br><br>\n";
   echo 'Variables that can be manipulated in pre-processing and post-processing are:<br> $evid, $known_hostname, $receive_time, $event_age_out, $counter, $details,<br> $receiver, $event_severity, $event_ip, $event_source, $event_name, $event_type, $monitor, $event_summary' . "<br>\n";
-
-
+  echo '<br>Additionally, $details contains a named array of the event for manipulation as well.  Valid example would be $detail["device"], or $detail["monitor"].  These are perfectly valid to use, BUT verify the values are set before just using them.<br>';
   echo "</td></tr><tr><td>";
 
   echo '<form id="testMapping" action="/event/index.php?&page=replayTestMapping.php" method="POST">';
-
   echo "<input type='hidden' name='existingEvent' value='" . $encodeExistingEvent . "'>";
   echo "<input type='hidden' name='trapMapping' value='" . $encodeMapping . "'>";
 
