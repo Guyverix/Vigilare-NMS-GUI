@@ -69,7 +69,8 @@
   $body = "<center><table class='table-bordered  table-striped table-hover bg-dark table-dark'>\n<th>\n<center>Unmodified Event from database</center>\n</th>\n";
   $body .= "<tr>\n<td>\n";
   $body .= "<ul class='list-group'>\n";
-  $body .= '<li class="list-group-item">Summary: ' .$event_summary . "</li>\n";
+  // The summary can be big, strip it before it is too long to display correctly
+  $body .= '<li class="list-group-item">Summary: ' . substr($event_summary, 0 , 130) . "...</li>\n";
   $body .= '<li class="list-group-item">Severity: ' . $event_severity . "</li>\n";
   $body .= '<li class="list-group-item">Alarm Name: ' . $event_name . "</li>\n";
   $body .= '<li class="list-group-item">Age Out (seconds): ' . $event_age_out . "</li>\n";
@@ -84,7 +85,8 @@
   $body .= '<li class="list-group-item">Do we monitor: ' . $monitor . "</li>\n";
   $body .= '<li class="list-group-item">Raw Event ($details) as array:<pre>';
   foreach ( $details as $k => $v) {
-    $body .= "Index Key: " . $k . " contains value: " . $v . "\n";
+    // The raw data can be fugly, strip it before it is too long to display correctly
+    $body .= "Index Key: " . $k . " contains value: " . substr($v, 0, 80) . "\n";
   }
   $body .=  "</pre></li>\n</ul>\n";
   $body .= "</td></tr></table></center>";
@@ -93,6 +95,7 @@
   //exit();
   echo '<div class="modal fade" id="existingEventModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
   echo '  <div class="modal-dialog modal-xl">';
+//  echo '  <div class="modal-dialog modal-fullscreen-sm-down">';
   echo '    <div class="modal-content">';
   echo '      <div class="modal-header">';
   echo '        <h5 class="modal-title text-dark">Initial Event</h5>';
@@ -108,6 +111,7 @@
   echo '      </div>';
   echo '    </div>';
   echo '  </div>';
+  echo '</div>';
   echo '</div>';
 
 

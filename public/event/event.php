@@ -50,7 +50,7 @@
   $rawActiveEvents = callApiGet("/events/view/eventSeverity/DESC/order", $post, $headers);
   $activeEvents = json_decode($rawActiveEvents['response'], true);
 
-  // debugger($_COOKIE);
+  //debugger($_COOKIE);
 
   // Try to count our events
   $eventCount = count($activeEvents['data']);
@@ -67,7 +67,7 @@
   }
 
   $localTime = (strtotime("now") + $localOffset);
-
+  echo '<!-- cookieTimezone ' . print_r($cookieTimezone, true) . ' localTime ' . $localTime . '-->' . "\n";
   // This needs a home INSIDE the display!
   echo '<p class="text-end">Last Refresh: ' . date('Y-m-d H:i:s',$localTime) . "&nbsp&nbsp  </p>";
 
