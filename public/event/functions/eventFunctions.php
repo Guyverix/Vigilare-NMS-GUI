@@ -96,7 +96,7 @@ function getEventFiltered( $filterName = null, $direction = null , $filterValue 
 function showEventModal($array) {
 //  echo '<div class="modal modal-xl" tabindex="-1" id="showEventModal">';
   echo '<div class="modal modal-xl" id="showEventModal">';
-  echo '  <div class="modal-dialog modal-xl">';
+  echo '  <div class="modal-dialog modal-dialog-centered modal-xl">';
   echo '    <div class="modal-content">';
   echo '      <div class="modal-header">';
   echo '        <h5 class="modal-title">Event Detail</h5>';
