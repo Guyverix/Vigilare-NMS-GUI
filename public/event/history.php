@@ -205,14 +205,6 @@
                echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="moveFromHistory" form="moveFromHistory' . $events['evid'] . '"><i class="fas fa-plane"></i></button>';
                echo '</form>';
                echo '</td><td>';
-               echo '<form id="ackEvent" role="form" action="" method="POST">';
-               echo '<input type="hidden" name="event" value="' . json_encode($events,1) . '">';
-               echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="ackEvent" form="ackEvent"><i class="fas fa-check-circle"></i></button>';
-               echo '</form>';
-               echo '</td><td>';
-               echo '<form id="ticketEvent" role="form" action="" method="POST">';
-               echo '<input type="hidden" name="event" value="' . json_encode($events,1) . '">';
-               echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="ticketEvent" form="ticketEvent"><i class="fas fa-suitcase"></i></button>';
                echo '</form>';
              echo '</td></tr>';
            echo '</table>';

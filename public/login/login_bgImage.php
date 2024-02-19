@@ -34,6 +34,9 @@
 
 include_once(__DIR__ . '/../../functions/generalFunctions.php');
 
+  unset($_COOKIE['clientTimezone']);
+  setcookie('clientTimezone', '','-1', '/');
+
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the 'username' and 'password' fields are set in the POST data with actual data!
     if (isset($_POST['username'], $_POST['password']) && ! empty($_POST['username']) && ! empty($_POST['password']) ) {
@@ -53,9 +56,11 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         else {
           // At this point we are going to ATTEMPT to set the local timezone based
           // on what we know
-          if ( ! isset($_SESSION)) {
-            session_start();
-          }
+          //if ( ! isset($_SESSION)) {
+          //  session_start();
+          //}
+          session_abort();
+          session_start();
           $timezone = $_SESSION['time'];
 
           // We are going to set cookies from the response
