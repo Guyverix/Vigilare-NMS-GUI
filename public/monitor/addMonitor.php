@@ -9,6 +9,7 @@
   /*
     We need to make some API calls, so load defaults to do so
   */
+  echo "<br><br><br>";
   $headers = array();
   $headers[] = 'Authorization: Bearer ' . $_COOKIE['token'];
   // $headers[] = 'Content-length: 0';
@@ -16,8 +17,6 @@
 
 
   if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    // $headers = array();
-    // $headers[] = 'Authorization: Bearer ' . $_COOKIE['token'];
 
     $postData = $_POST;
     $callApi = callApiPost('/monitors/createMonitor', $postData, $headers);  // returns an array
@@ -27,7 +26,6 @@
     $responseString = json_encode($childDecode, 1);
 
     if ( $responseCode !== 200 && $responseCode !== 403) {    // Anything other than a 200 OK is an issue
-      echo "<br><br><br>";
       decideResponse($responseCode, $responseString );
     }
     elseif ( $responseCode == 403) {
@@ -35,7 +33,6 @@
     }
     else {
       // After a successful creation, wait and then reload the page
-      echo "<br><br><br>";
       successMessage('Monitor creation is successful.');
       $_SERVER['REQUEST_METHOD'] = '';   // Unset our POST before reloading the page :)
       /*  This is not needed.  the page loads fine even after creating a new monitor.
@@ -74,39 +71,33 @@
   // Sanity check your results
   switch ($iteration['statusCode']) {
    case 403:
-     echo "<br><br><br><br>";
      load4XX();
      $quitEarly = 1;
    case 200:
      break;
    default:
-     echo "<br><br><br><br>";
      decideResponse($iteration['statusCode']);
      $quitEarly = 1;
   }
 
   switch ($type['statusCode']) {
    case 403:
-     echo "<br><br><br><br>";
      load4XX();
      $quitEarly = 1;
    case 200:
      break;
    default:
-     echo "<br><br><br><br>";
      decideResponse($type['statusCode']);
      $quitEarly = 1;
   }
 
   switch ($storage['statusCode']) {
    case 403:
-     echo "<br><br><br><br>";
      load4XX();
      $quitEarly = 1;
    case 200:
      break;
    default:
-     echo "<br><br><br><br>";
      decideResponse($storage['statusCode']);
      $quitEarly = 1;
   }
