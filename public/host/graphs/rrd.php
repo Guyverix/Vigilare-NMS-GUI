@@ -98,6 +98,7 @@
     $post += [ 'filter' => $templateName ];
     $post += [ 'start' => $startTime ];
     $post += [ 'IgnoreMatch' => ["/run"] ];
+    // debugger($post);
     $rawRenderRrd = callApiPost("/render/render", $post, $headers);
     $renderRrd = json_decode($rawRenderRrd['response'], true);
     // debugger($renderRrd);
