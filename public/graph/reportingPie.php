@@ -16,35 +16,28 @@ if (! is_array($output)) {
 
 // Result set is ASC from API.  So debug >> critical (1 >> 5)
 $outputFiltered = json_decode($output['response'], true);
-$eventCount=count($outputFiltered['data']);
-
+$reportCount=count($outputFiltered['data']);
 //debugger($outputFiltered);
-//echo "count " . $eventCount ;
 
-$pieValue = "'" . $eventCount . "'";
-$pieName = "'Successful Runs'";
-$pieColor = "'rgb(25, 135, 84)'";
-/*
-foreach ($outputFiltered['data'] as $eventCount) {
-  switch ($eventCount['severity']) {
-    case 1: $pieName .= "'Debug', ";         $pieColor .= "'rgb(108, 117, 125)', "; break;
-    case 2: $pieName .= "'Informational', "; $pieColor .= "'rgb(13, 202, 240)', ";  break;
-    case 3: $pieName .= "'Warning', ";       $pieColor .= "'rgb(54, 162, 235)', ";  break;
-    case 4: $pieName .= "'Major', ";         $pieColor .= "'rgb(255, 193, 7)', ";   break;
-    case 5: $pieName .= "'Critical', ";      $pieColor .= "'rgb(220, 53, 69)', ";   break;
+$incomplete=0;
+$complete=0;
+foreach ($outputFiltered['data'] as $reportCounts) {
+  switch ($reportCounts['status']) {
+    case "complete":
+      $complete++;
+      break;
+    default:
+      $incomplete++;
+      break;
   }
-  $pieValue = $pieValue . ',' . $eventCount['count'];
 }
 
-//echo "" . print_r($outputFiltered);
-//exit();
-*/
-$pieValue = rtrim(rtrim($pieValue, ' '), ',');
-$pieName = rtrim(rtrim($pieName, ' '), ',');
-$pieColor = rtrim(rtrim($pieColor, ' '), ',');
-//$pieName = rtrim($pieName, ',');
+$pieValue = $complete . ',' . $incomplete;
+$pieName = '"complete Reports", "incomplete Reports"';
+$pieColor = '"rgb(25, 135, 84)","rgb(220, 53, 69)"';
+//debugger($pieValue);
 //debugger($pieName);
-
+//debugger($pieColor);
 ?>
 <div>
 <canvas id="reportingPie" width="250" height="250"></canvas>
