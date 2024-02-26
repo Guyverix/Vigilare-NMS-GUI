@@ -32,11 +32,11 @@ echo '<br><br><br>';
        <div class="col-xl-2 col-md-2">
          <div class="card bg-transparent mb-3">
            <div class="card-body">
-             <h5 class="card-title">Public Visible Events</h5>
+             <h5 class="card-title">24 hr. Public Visible Events</h5>
               <?php
                include (__DIR__ . '/graph/publicPie.php');
               ?>
-              <a class="small link" href="/reporting/index.php?&page=searchExistingReporting.php">View Reports (fake, needs ECE)</a>
+              <a class="small link" href="/reporting/index.php?&page=searchExistingReporting.php">View ECE (fake, needs ECE)</a>
               <div class="small text-light"><i class="fas fa-angle-right"></i></div>
             </div>
           </div>
@@ -46,11 +46,11 @@ echo '<br><br><br>';
        <div class="col-xl-2 col-md-2">
          <div class="card bg-transparent mb-3">
            <div class="card-body">
-              <h5 class="card-title">Application Affecting Events</h5>
+              <h5 class="card-title">Current Application Events</h5>
               <?php
                 include (__DIR__ . '/graph/applicationPie.php');
               ?>
-              <a class="small link" href="#">Application Report Details (fake, needs ECE)</a>
+              <a class="small link" href="#">View ECE (fake, needs ECE)</a>
               <div class="small text-light"><i class="fas fa-angle-right"></i></div>
             </div> <!-- card-body -->
           </div> <!-- card -->
