@@ -52,9 +52,9 @@
     and possibly interact with some portions of the site when they
     should not be able to.
   */
-  echo '<!-- Check login cookie every 15 seconds -->';
+  echo "<!-- Check login cookie every 15 seconds -->\n";
   //  echo '<body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
-  echo '<body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
+  echo '<body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >' . "\n";
 
   /*
     All navigation needs to be defined before we begin our main page
@@ -81,7 +81,7 @@
 //    readfile(__DIR__ . '/shared/leftVerticalMenu.html');
   }
 
-  echo '<!-- Any <nav> goes here including user options -->';
+  echo '<!-- Any <nav> goes here including user options -->' . "\n";
   echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
 
 

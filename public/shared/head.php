@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- shared/head.php -->
   <meta charset="utf-8" />
   <meta http-equiv="Cache-control" content="max-age=86400">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,4 +12,5 @@
   <link href="/js/bootstrap-5/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/styles.css" rel="stylesheet">
   <script src="/js/bootstrap-5/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="/js/cookie/checkCookie.js"></script>
 </head>
