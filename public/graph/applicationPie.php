@@ -27,15 +27,17 @@ foreach ($outputFiltered['data'] as $eventSeverityList) {
   $eventCount = $eventCount + $eventSeverityList['count'];
 }
 
-$pieValue = '"0","' . $eventCount . '"';
-$pieName = '"Application Events","All Events"';
-$pieColor = "'rgb(220, 53, 69)','rgb(25, 135, 84)'";
+$pieValue = '0,' . $eventCount;
+$pieName = '"Application Events", "All Events"';
+$pieColor = '"rgb(220, 53, 69)","rgb(25, 135, 84)"';
 
 //debugger($pieColor);
 //debugger($pieValue);
 //debugger($pieName);
 ?>
-<canvas id="applicationPie" width="150" height="150"></canvas>
+<div>
+  <canvas id="applicationPie" width="250" height="250"></canvas>
+</div>
 <script>
   (() => {
   'use strict'
@@ -61,7 +63,7 @@ $pieColor = "'rgb(220, 53, 69)','rgb(25, 135, 84)'";
     options: {
       plugins: {
         legend: {
-          display: false
+          display: true
         },
         tooltip: {
           boxPadding: 3
