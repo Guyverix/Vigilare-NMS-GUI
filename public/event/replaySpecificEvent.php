@@ -60,6 +60,9 @@
   echo '<li class="list-group-item">Received time: ' .     $output['data'][0]['stateChange'] . "</li>\n";
   echo '<li class="list-group-item">Receiver type: ' .     $output['data'][0]['eventReceiver'] . "</li>\n";
   echo '<li class="list-group-item">Do we monitor: ' .     $output['data'][0]['eventMonitor'] . "</li>\n";
+  echo '<li class="list-group-item">Appliction Event: ' .     $output['data'][0]['application'] . "</li>\n";
+  echo '<li class="list-group-item">Customer Visible: ' .     $output['data'][0]['customerVisible'] . "</li>\n";
+  echo '<li class="list-group-item">Host OS Event: ' .     $output['data'][0]['osEvent'] . "</li>\n";
 /*
     echo '<li class="list-group-item">Raw Event ($details) as array:<pre>' . "\n";
     if ( ! is_array($existingEvent['eventRaw'])) {
@@ -124,8 +127,9 @@ else {
   echo "<tr><td>\n";
   echo "Parsed OID Mapped from 1.3.6.1.6.3.1.1.4.1.0 or event name defined is: " . $trapOid . "<br>\n";
   echo "Retrieved value in Mapping is: " . $mapping['data'][0]['oid']. "<br><br>\n";
-  echo 'Variables that can be manipulated in pre-processing and post-processing are:<br> $evid, $known_hostname, $receive_time, $event_age_out, $counter, $details,<br> $receiver, $event_severity, $event_ip, $event_source, $event_name, $event_type, $monitor, $event_summary' . "<br>\n";
+  echo 'Variables that can be manipulated in pre-processing and post-processing are:<br> $evid, $known_hostname, $receive_time, $event_age_out, $counter, $details,<br> $receiver, $event_severity, $event_ip, $event_source, $event_name, $event_type, $monitor, $event_summary, $application, customerVisible, osEvent' . "<br>\n";
   echo '<br>Additionally, $details contains a named array of the event for manipulation as well.  Valid example would be $detail["device"], or $detail["monitor"].  These are perfectly valid to use, BUT verify the values are set before just using them.<br>';
+  echo '<br>Please reference the documentation for additional examples and data types supported for the variables listed above<br><br>';
   echo "</td></tr><tr><td>";
 
   echo '<form id="testMapping" action="/event/index.php?&page=replayTestMapping.php" method="POST">';
@@ -151,10 +155,10 @@ else {
   echo '<input type="displayName" class="form-control" id="age_out" value="' . $mapping['data'][0]['age_out'] . '" name="age_out">';
 
   echo '<label for="pre_processing">Event Pre-processing:</label><br>';
-  echo '<textarea class="form-control" rows="5" cols="80" id="pre_processing" name="pre_processing">' . $mapping['data'][0]['pre_processing'] . '</textarea><br>';
+  echo '<textarea class="form-control" rows="10" cols="80" id="pre_processing" name="pre_processing">' . $mapping['data'][0]['pre_processing'] . '</textarea><br>';
 
   echo '<label for="post_processing">Event Post-processing: (Not usually needed)</label><br>';
-  echo '<textarea class="form-control" rows="3" id="post_processing" name="post_processing">' . $mapping['data'][0]['post_processing'] . '</textarea><br>';
+  echo '<textarea class="form-control" rows="2" id="post_processing" name="post_processing">' . $mapping['data'][0]['post_processing'] . '</textarea><br>';
 
   echo '<button type="submit" class="btn btn-warning btn-lg"  value="post request">Test Mapping</button><br>';
   echo '</form>';
