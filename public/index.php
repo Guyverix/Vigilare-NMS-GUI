@@ -53,7 +53,6 @@
     should not be able to.
   */
   echo "<!-- Check login cookie every 15 seconds -->\n";
-  //  echo '<body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
   echo '<body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >' . "\n";
 
   /*
@@ -73,17 +72,8 @@
   */
 
 
-  // Left side vertical menu must be defined before the controller
-  if ( file_exists(__DIR__ . '/includes/leftVerticalMenu.html')) {
-    readfile(__DIR__ . '/includes/leftVerticalMenu.html');
-  }
-  else {
-//    readfile(__DIR__ . '/shared/leftVerticalMenu.html');
-  }
-
   echo '<!-- Any <nav> goes here including user options -->' . "\n";
   echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
-
 
   // Top bar horizontal
   if ( file_exists(__DIR__ . '/includes/topNav.html')) {
@@ -92,6 +82,7 @@
   else {
     readfile(__DIR__ . '/shared/topNav.html');
   }
+
 
   // Top search option
   if ( file_exists(__DIR__ . '/includes/search.html')) {
@@ -114,6 +105,17 @@
   else {
     include __DIR__ . ('/shared/userControls.php');
   }
+
+  // Left side vertical menu must be defined before the controller
+  if ( file_exists(__DIR__ . '/includes/leftVerticalMenu.html')) {
+    readfile(__DIR__ . '/includes/leftVerticalMenu.html');
+  }
+  else {
+    readfile(__DIR__ . '/shared/leftVerticalMenu.html');
+  }
+
+
+
 
   // Close off our NAV section now and begin to show our page
   echo '</nav>';
