@@ -36,6 +36,7 @@ echo '
 echo '
   <!-- All JS defined here when possible -->
   <!-- Remember to be anti-social when possible.  Dont pull from extnernal sources.  An NMS needs to be as stand-alone as possible -->
+  <script src="/js/scripts.js"></script>
   <script src="/js/cookie/checkCookie.js"></script>
   <script src="/js/font-awesome/all.min.js" crossorigin="anonymous"></script>
   <script src="/js/light-switch-bootstrap-main/switch.js"></script>
