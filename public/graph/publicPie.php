@@ -13,6 +13,15 @@ if (! is_array($output)) {
   $output = json_decode($output, true);
 }
 
+$rawCustomer = callApiGet("/events/view/customerVisible/like/true", $headers);
+$customer = json_decode($rawCustomer['response'], true);
+$customerData = $customer['data'];
+$customerCount = 0;
+
+if ( ! empty($customerData)) {
+  $customerCount= count($customerData);
+}
+
 // Result set is ASC from API.  So debug >> critical (1 >> 5)
 $outputFiltered = json_decode($output['response'], true);
 
@@ -24,7 +33,10 @@ foreach ($outputFiltered['data'] as $eventSeverityList) {
 //debugger($eventCount);
 //debugger($outputFiltered);
 
-$pieValue = '"0","' . $eventCount .'"';
+
+$pieValue = $customerCount . ',' . $eventCount;
+
+//$pieValue = '"0","' . $eventCount .'"';
 $pieName = "'Public Visible Events','Active Events'";
 $pieColor = "'rgb(220, 53, 69)','rgb(25, 135, 84)'";
 ?>

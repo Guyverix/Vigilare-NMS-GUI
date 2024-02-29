@@ -12,7 +12,20 @@ $headers = array();
 $headers[] = 'Content-length: 0';
 $headers[] = 'Content-type: application/json';
 $headers[] = 'Authorization: Bearer ' . $_COOKIE['token'];
+
 $output = callApiGet("/events/activeEventCountList", $headers);
+
+$rawApplication = callApiGet("/events/view/application/like/true", $headers);
+$application = json_decode($rawApplication['response'], true);
+$applicationData = $application['data'];
+$applicationCount = 0;
+
+if ( ! empty($applicationData)) {
+  $applicationCount= count($applicationData);
+}
+//debugger($applicationCount);
+//exit();
+
 // we SHOULD have gotten an array.... but if not convert it back to one
 if (! is_array($output)) {
   $output = json_decode($output, true);
@@ -27,7 +40,7 @@ foreach ($outputFiltered['data'] as $eventSeverityList) {
   $eventCount = $eventCount + $eventSeverityList['count'];
 }
 
-$pieValue = '0,' . $eventCount;
+$pieValue = $applicationCount . ',' . $eventCount;
 $pieName = '"Application Events", "All Events"';
 $pieColor = '"rgb(220, 53, 69)","rgb(25, 135, 84)"';
 
