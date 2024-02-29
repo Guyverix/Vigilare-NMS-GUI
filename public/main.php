@@ -8,7 +8,7 @@ echo '<br><br><br>';
       <div class="col-xl-2 col-md-2">
         <div class="card bg-transparent mb-3 ">
           <div class="card-body">
-            <h5 class="card-title">Reporting Health</h5>
+            <center><h5 class="card-title">Reporting Health</h5></center>
              <?php
                include (__DIR__ . '/graph/reportingPie.php');
              ?>
@@ -20,7 +20,7 @@ echo '<br><br><br>';
       <div class="col-xl-2 col-md-2">
         <div class="card bg-transparent mb-3">
           <div class="card-body">
-            <h5 class="card-title">Operations Active Events</h5>
+            <center><h5 class="card-title">Unfiltered Active Events</h5></center>
              <?php
                include (__DIR__ . '/graph/eventPie.php');
              ?>
@@ -32,7 +32,7 @@ echo '<br><br><br>';
        <div class="col-xl-2 col-md-2">
          <div class="card bg-transparent mb-3">
            <div class="card-body">
-             <h5 class="card-title">24 hr. Public Visible Events</h5>
+             <center><h5 class="card-title">Current Customer Visible Events</h5></center>
               <?php
                include (__DIR__ . '/graph/publicPie.php');
               ?>
@@ -46,7 +46,7 @@ echo '<br><br><br>';
        <div class="col-xl-2 col-md-2">
          <div class="card bg-transparent mb-3">
            <div class="card-body">
-              <h5 class="card-title">Current Application Events</h5>
+              <center><h5 class="card-title">Current Application Events</h5></center>
               <?php
                 include (__DIR__ . '/graph/applicationPie.php');
               ?>
