@@ -1,4 +1,3 @@
-  <!-- LOAD 02  PHP REQUIRES: none -->
   <!-- left side vertical menu -->
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
@@ -60,10 +59,6 @@
         </nav>
       </div>
 
-      <!-- Add Main panel content here -->
-      <!-- Figure out what the web browsers timeszone is set to -->
-
-      <!-- DataTable ONLY -->
 <!--
       <div id="layoutSidenav_content">
         <main>
