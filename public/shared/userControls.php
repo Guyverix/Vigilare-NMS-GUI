@@ -26,6 +26,7 @@
 
     echo the users "pretty" name before the class showing user options
   */
+  echo "    <!-- Begin userControls.php commonly right top placement -->\n";
   echo $realName;   // this is pulled from the cookies
 
 ?>

@@ -73,7 +73,7 @@
 
 
   echo '<!-- Any <nav> goes here including user options -->' . "\n";
-  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
+  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">' . "\n";
 
   // Top bar horizontal
   if ( file_exists(__DIR__ . '/includes/topNav.html')) {
@@ -106,19 +106,16 @@
     include __DIR__ . ('/shared/userControls.php');
   }
 
-  // Left side vertical menu must be defined before the controller
+  // Close off our NAV section now and begin to show our page
+  echo "</nav>\n";
+
+  // Left side vertical menu must be defined before the main pages.  This is not nav
   if ( file_exists(__DIR__ . '/includes/leftVerticalMenu.html')) {
     readfile(__DIR__ . '/includes/leftVerticalMenu.html');
   }
   else {
     readfile(__DIR__ . '/shared/leftVerticalMenu.html');
   }
-
-
-
-
-  // Close off our NAV section now and begin to show our page
-  echo '</nav>';
 
 ?>
   <!-- Add Main panel content here -->

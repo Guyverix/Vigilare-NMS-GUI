@@ -51,7 +51,7 @@
                   <a class="nav-link" href="/support/admin.html" target="_blank">Admin</a>
                   <a class="nav-link" href="https://github.com/Guyverix/Vigilare-NMS-GUI" target="_blank">Gitlab UI</a>
                   <a class="nav-link" href="https://github.com/Guyverix/Vigilare-NMS-API" target="_blank">Gitlab API</a>
-                  <a class="nav-link" href="http://webserver01:83/" target="_blank">PHP MyAdmin</a>
+                  <a class="nav-link" href="https://wiki.iwillfearnoevil.com/mediawiki/index.php" target="_blank">Wiki Pages</a>
                 </nav>
               </div>
             </div>
@@ -59,8 +59,3 @@
         </nav>
       </div>
 
-<!--
-      <div id="layoutSidenav_content">
-        <main>
-          <div class="container-fluid">
--->
