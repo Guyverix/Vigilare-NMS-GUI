@@ -33,12 +33,25 @@
        <div class="row justify-content-center">
           <!-- foreach loop against filestem to retrieve docs -->
           <?php
+          if (isset($_GET['page'])) {
+echo '          <div class="col-xl-6 col-md-6">' . "\n";
+echo '            <div class="card bg-success text-white mb-3 ">' . "\n";
+echo '              <div class="card-body">' . "\n";
+            readfile ($_GET['page']);
+echo '                </center></p>' . "\n";
+echo '              </div>' . "\n";
+echo '            </div>' . "\n";
+echo '          </div>' . "\n";
+          }
+          else {
             $fileList = array();
             $handle = opendir('.');
             if ($handle) {
               while (( $entry = readdir($handle)) !== FALSE) {
                 if ( is_file($entry)) {
-                  $fileList[] = $entry;
+                  if ( $entry !== "index.php") {
+                    $fileList[] = $entry;
+                  }
                 }
               }
             }
@@ -47,12 +60,14 @@
 echo '          <div class="col-lg-2 col-md-2">' . "\n";
 echo '            <div class="card bg-success text-white mb-3 ">' . "\n";
 echo '              <div class="card-body">' . "\n";
-echo '                <p class="card-text"><center>Page: ' . $file .'</center></p>' . "\n";
+$fileClean = preg_replace('/\.html/', '', $file);
+echo '                <p class="card-text"><center>Page: ' . $fileClean .'</center></p>' . "\n";
 echo '                <a href="/support/index.php?&page=' . $file . '" class="stretched-link"></a>' . "\n";
 echo '              </div>' . "\n";
 echo '            </div>' . "\n";
 echo '          </div>' . "\n";
             }
+          }
           ?>
         </div>
       </div>
