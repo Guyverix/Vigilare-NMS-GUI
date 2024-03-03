@@ -1,23 +1,25 @@
-Replay Event notes, and details.
+<br>
+<center><b>Replay Event use and details.</b></center>
+<br>
 <br>
 <pre>
-Use:
+<b>Use:</b>
   Alteration of a given event either active or from history.  This allows
   for future events to behave in the "mapped" fashion and be reproducible.
   This is also the area where you map any "unmapped" or "unknown" type of events
   into the database and set the initial values for them.
 
-Location:
+<b>Location:</b>
   Main >> Events >> Replay Event
   Choose the event that happend in the past, and click the heart-break icon on the far right.
 
-Display:
+<b>Display:</b>
   The far left shows exactly what was saved into the database.  The right side table is your
   basic manipulation area.  Testing the mapping does not save changes into the database, but validates
   your PHP syntax.  This does not guarentee that your changes will work, just that they are syntatically
   correct.
 
-Display "Parsed Values and Changes":
+<b>Display "Parsed Values and Changes": </b>
   Every variable that is in use for the given event has the ability to be modified by the Event pre-processing.
   Do keep in mind that the simpler the processing the better.  Doing big complex definitions will work but
   will be less maintainable by end users when something changes in the future.
@@ -59,7 +61,17 @@ Display "Parsed Values and Changes":
   $details         (array)        A usually parsable array of raw data that consists of everything that was sent with the event
   $details_array   (array)        If $details is not a valid array, this has attempted to convert it into one.
 
-  Example Uses:
+  The following three values are used to determine what kind of event is happening as well
+  as the overall affect against the applications and who can see the event happen.
+
+  By default if they are undefined they are false.  However setting to true will
+  draw visibility to direct service impacting events that much quicker.
+
+  $application     (string)       true or false is this an application event
+  $customerVisible (string)       true or false can a customer or end user see this
+  $osEvent         (string)       true or false is this specifically an OS level event
+
+<b>  Example Uses:</b>
     Set a pretty summary:
       $event_summary = "Event " . $event_name . " was recieved from " . $known_hostname;
 
@@ -89,7 +101,11 @@ Display "Parsed Values and Changes":
         $event_name = "blahEventName";
       }
 
-After successful tests:
+    Simple change of visibility with using defaults everywhere else:
+     $application = 'true';
+     $customerVisible = 'true';
+
+<b>After successful tests:</b>
   Simply save the mapping with the "Change Mapping Now" button.  All future
   events that match the incomming OID or eventName will follow your pre-processing
   logic and alter the event the way you are expecting.

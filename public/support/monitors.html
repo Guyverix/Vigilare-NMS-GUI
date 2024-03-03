@@ -1,64 +1,83 @@
-Mapping notes, and details.
+<br>
+<center><b>Monitor pages: use and details.</b></center>
+<br>
 <br>
 <pre>
-MONITORS:
-  CREATE:
+<b>Use:</b>
+  These pages are all specific to monitoring itself.  This is where you define your monitors at.
+  While there are several bulit in monitors already created, they may not do exactly what you
+  want.  This is the area that you define exactly what you need for your monitoring.  Overall
+  This is intended to take simple and fast monitors and run them on a given iteration cycle.
+  Fast pollers are possible, but not really recommended as per-minute, or even sub-minute
+  monitoring is not the intention of this tool.  When you start getting that granular in general
+  you are looking more at performance than failure modes, and loose the focus of what this tool
+  is intended to give you.  The fastest recommended iteration cycle is one minute, and should be
+  used with FAST simple checks.  Commonly "alive" or ping checks.  Going complex here will not
+  increase your ability to react to events and will actually hamper you with a bunch of false
+  alarms.  You will get "noise" no matter what system you use, and you are going to have to
+  keep this in mind when defining what you care about, and how often you check it.
+
+<b>MONITORS:</b>
+<b>  New Monitor:</b>
     Initial creation of monitors does NOT add hosts at creation time
     Iteration cycle outside of existing values require a restart of the poller
       * different iteration cycles are distinct daemons
     Graphite is not usable when there is not an existing template file for SNMP
-      * Manual testing and validation scripts exist in templates/directory in API
+      * Manual testing and validation scripts exist in templates/ directory on the API server
     databaseMetric is saved as JSON in the database
     NRPE, SHELL currently internally attempt to parse performance metrics from return data
-      * if parsing suceeds, that is sent to graphite by default currently
+      * if parsing suceeds, that is sent to the graphing engine by default
     check args: supports the following args:
       * $hostname
       * $ipAddress
       * defined database hostAttributes as an array based on hostname + checkName (future)
 
-    SNMP: 
+<b>    SNMP:</b>
     check name
     check args
     type: walk, get
     Storage: database only
         * databaseMetric should be tested before using on adhoc metric sizes being added to database
         * graphite can be selected ONLY when a template exists that will parse the results
+        * SNMP details are pulled from the hostAttributes array from previous discovery runs on the host
     iteration: 300
 
-    NRPE:
+<b>    NRPE:</b>
     check name
     check args
     type: nrpe
-    storage: database, graphite (internal attempts parsing to graphite)
+    storage: database, rrd, graphite (internal attempts parsing to graphite)
     iteration: 300
 
-    SHELL:
+<b>    SHELL:</b>
     check name
     check args
     type: shell
-    storage: database, graphite (internal attempts parsing to graphite)
+    storage: database, rrd, graphite (internal attempts parsing to graphite)
     iteration: 300
 
-    CURL:
+<b> (vaporware currently)   CURL:</b>
     check name
     check args
     type: curl
     storage: database
     iteration: 300
 
-    FUTURE:
+<b>    FUTURE:</b>
     check name
     check args
-    type: TBD
+    type: You tell me
     storage: database
     iteration: 300
   
-  UPDATE:
+<b>  Search Monitor:</b>
     Set hostnames to be monitored by created poller
     Alter existing values for given monitors
+    Ability to disable a specific monitor simply by changing the type to disabled
+    Remove or delete a given monitor
 
-  DELETE:
-    Remove hosts from monitor
-    Remove single host from monitor
-    Remove entire monitor
+<b>  Alter an Event Mapping for a Monitor:</b>
+    See which mapping matches your monitor, and change the default values
+    or other event attributes associated with the event when the monitor
+    sets that event.     
 </pre>

@@ -1,7 +1,52 @@
-admin page
+<br>
+<center><b>Admin pages: use and details.</b></center>
+<br>
+<br>
 <pre>
-No admin work has been done yet, so no docs yet. :P
+<b>Use:</b>
+  The Administration pages are where more sensitive controls are placed.  This is also
+  where it will be more likely to get 403 responses when you attempt to do things which require API calls.
+  Additionally, this is where tasks such as creating a maintenence event timer is defined.  While this
+  may not be the best location currently, and may move in the future the fact that you can suppress
+  events with this shows that this is something that is dangerous and can have a customer visible
+  impact if done incorrectly.
 
+<b>User Controls:</b>
+  Here is where an administrator can create new users, or change a current users access levels.  Additionally
+  you can lock accounts and do password resets for a user.  Currently a user cannot give a different user
+  more access than they themselves have.  For example a Chief Petty Officer cannot promote a Seaman Recruit
+  above the rank Chief Petty Officer.
 
+  In this use case a technician can alter a read only or even kiosk user level up to a technician level
+  but no higher.  If additional access is required, then a user with that higher level of access must
+  grant it.  Managers and supervisors must have the ability to limit who has access to what, and this seems
+  the most reasonable limit to place when working in a fault management environment.
+
+<b>Discovery Actions:</b>
+  There is still a lot of magic hand-waving on this one.  In a general sense, this functionality is more of
+  a subnet autodiscovery.  Admins need a good way to find hosts in a network.  Additionally, being able to
+  generate a report of unmonitored, or under monitored hosts can only be to the benifit of the org itself.
+
+<b>Daemon Controls:</b>
+  This is where you can stop/start/restart/status a running set of daemons against the API server itself.
+  This is not currently smart enough to restart remote poller daemons with the V1 release.  In the future
+  it does make sense to be able to do so (if possible) from this single point.  However if a daemon dies
+  it is commonly due to severe issues that need addressed in the code, so a remote restart may not take care
+  of the problem.  At that point it will require direct human intervention on the remote poller host in
+  question to fix the issue.
+
+<b>Maintenance Controls:</b>
+  This is also still at the magic hand-waving stage.  Being able to set a maintenance event is simple enough
+  but what does this mean?  In a generic sense it will be an event suppression system tied to the 
+  "Event Correlation Engine (ECE)" so that while a maintenance event is ongoing alarms firing will not
+  confuse technicians, and they can more easily validate events that remain after completion of a
+  maintenance event.
+  The plan at this point is to support create/modify/delete events that have not happened.  Historical
+  events will not be able to be removed as they are a record of what has happened in the past.  Additional
+  notes, and event RCA's should be able to be created from what a maintenance event is going to cover.
 
 </pre>
+
+  
+
+

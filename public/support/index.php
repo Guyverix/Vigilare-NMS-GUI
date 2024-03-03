@@ -35,9 +35,10 @@
           <?php
           if (isset($_GET['page'])) {
 echo '          <div class="col-xl-6 col-md-6">' . "\n";
+echo '            <h3><center><p class="output">Navigation: <a href="javascript:history.back()">go back</a> or <a href="/index.php">Go to the main page</a></p></center></h3>';
 echo '            <div class="card bg-success text-white mb-3 ">' . "\n";
 echo '              <div class="card-body">' . "\n";
-            readfile ($_GET['page']);
+                      readfile ($_GET['page']);
 echo '                </center></p>' . "\n";
 echo '              </div>' . "\n";
 echo '            </div>' . "\n";
@@ -49,7 +50,7 @@ echo '          </div>' . "\n";
             if ($handle) {
               while (( $entry = readdir($handle)) !== FALSE) {
                 if ( is_file($entry)) {
-                  if ( $entry !== "index.php") {
+                  if ( $entry !== "index.php" && (strpos($entry, '.php') !== 'false' || strpos($entry, '.html') !== 'false')) {
                     $fileList[] = $entry;
                   }
                 }
@@ -60,7 +61,10 @@ echo '          </div>' . "\n";
 echo '          <div class="col-lg-2 col-md-2">' . "\n";
 echo '            <div class="card bg-success text-white mb-3 ">' . "\n";
 echo '              <div class="card-body">' . "\n";
+// Cleanup the file name to make something readable
 $fileClean = preg_replace('/\.html/', '', $file);
+$fileClean = preg_replace('/(?<!^)([A-Z])/', ' $1', $fileClean);
+$fileClean = strtolower($fileClean);
 echo '                <p class="card-text"><center>Page: ' . $fileClean .'</center></p>' . "\n";
 echo '                <a href="/support/index.php?&page=' . $file . '" class="stretched-link"></a>' . "\n";
 echo '              </div>' . "\n";
