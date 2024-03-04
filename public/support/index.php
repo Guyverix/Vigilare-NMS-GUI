@@ -15,7 +15,7 @@
   <nav>
     <!-- Navbar -->
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="/index.php"> Vigilare NMS </a>
+    <a class="navbar-brand ps-3" href="index.php"> Vigilare NMS </a>
 
     <!-- Sidebar Toggle-->
     <!-- This does nothing if we do not have the leftVerticalMenu.??? loaded  either via shared, or includes  -->
@@ -23,6 +23,7 @@
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
     <!-- Top row of links would go here -->
+    <a class="navbar-brand ps-3" href="/index.php">Main Dashboard</a>
     <!-- User controls would go here  -->
     <!-- leftVerticialMenu would go here -->
   </nav>
