@@ -1,0 +1,76 @@
+<br>
+<center><b>Event Correlation Engine pages: use and details.</b></center>
+<br>
+<br>
+<pre>
+<b>Use:</b>
+  The "Event Correlation Engine" (ECE) is an alarm aggregation of lower level events based on predefined
+  rules.  Every run is run against the main event table, with the result showing the state at a higher level
+  for use by managers, or even public display.  Try to think of it as a simplification to give a more concice
+  summary of what is going on without too much detail to muddy the waters.
+
+  The location for the ECE is under the Admin panel.  Currently the database is defined, but no pages or
+  logic leverages this yet.
+
+  The ECE is going to end up being a compex beast, which will leverage multiple
+  API calls to render its display.  Additionally once the number of rules gets high enough, I expect to
+  see a service decline overall since it has to run all rules at once.  In the future, I will likely
+  end up filtering this down to specific services on demand.  However note that if a dashboard is in the
+  mix for public use, this will imply that everything is shown.  So this will run the full ruleset currently.
+
+<b>Logic:</b>
+  We can have N+1 events active, but until they match rules that are defined higher levels of display will not
+  reflect the issues.  For example, the public does not need to see on a dashboard if a hard drive is full.
+
+  This being the case, the initial values defined within the event specifically: application, customerVisible, osEvent
+  come into play much more.  These three values specficially are the first canary used to see if we need to change states
+  of the higher level monitoring.  Additionally, we can also create rules that will take events that are not flagged with
+  true on these alarms and if too many exist active at a given time will trigger warnings at a higher level even if overall
+  the events themselves are on their own not showing a service impact.
+
+  Servce A, has Application B and Application C associated with it.  If Application C gets 20 non-customer affecting events
+  active at once, it will still trigger a warning event in the ECE due to the fact that something serious is happening, but
+  not specifically service impacting from the monitoring perspective.
+
+<b>Scale:</b>
+  The way the ECE intended to scale, is that a company, or org will have N+1 services that they offer users or customers.
+  To make the service, you have N+1 Applications doing the work.  Each specific application can have N+1 servers or hosts
+  where the compute is done.
+
+  Once the initial up-down monitoring is in place and active, this is the point where an operator begins to look at performance
+  and decide on the level of degrade they can handle before having the ECE start changing states at a higher level.  One
+  company may allow for 10 servers to be down in a fleet of 20, but another may consider that an event type that should
+  bubble up and become visible on a customer facing dashboard.  This should all be dependent on what the SLA is defined as
+  for a given company.  Additionally, this will allow for different kinds of reporting to happen for proof of meeting or
+  missing a given SLA.
+
+<b>Rules:</b>
+  The current rules are defined in the Event Correlation Engine table.  By design every rule is run on a cycle
+  and "hits" will cause an event of some kind to be displayed at a higher level.  The event display will commonly
+  be one of two types, either a summary green/yellow/red stoplight style, or look identical to the normal "Event Engine"
+  output and display a summary in the same way as unfiltered events.
+
+  Rule definitions are based on arrays of matches.  This is a positive match based system.  IE, if you do not match
+  a rule, then no event can occur.
+
+  Rules are run in order, this way we will always have consistent results.  It will also make it easier to create
+  a different type of event if we always run the exact same way.
+
+  Rules can only escalate up, never down.  We assume a good state, and at any point that we are not, we change
+  state in the ECE and count the hit as a discrete value.  Each hit will set its own event summary for what it was
+  looking for when it triggered.
+
+  Simple rules are as follows:
+    * Application A: 0 hostGroup['foo'] if > 30 Major alarms for any hosts in this group no matter the
+                     reason, raise a Yellow warning
+    * Application B: 0 Any alarms with a application = true at Major or below raise a yellow warning
+    * Application B: 1 Any alarms with customerVisible = true at Major or below raise a Red warning which
+                     will override rule 0 and add a second active event (We have 2 events, and overall Red health)
+
+  Complex rule examples:
+    * Sorry, but have not tried to make really ugly rules yet, as I much prefer the KISS principle and am less
+      inclined to make one rule I cannot read compared to 5 (or even 10) simple ones I can understand.
+
+
+
+</pre>
