@@ -18,8 +18,8 @@
         <div class="card-body">
           <i class="fas fa-cog fa-spin fa-lg"></i>
           <h5 class="card-title">Change User</h5>
-          <p class="card-text">Use search users.</p>
-          <a href="/admin/index.php?&page=changeUser.php" class="stretched-link"></a>
+          <p class="card-text">Search all users that exist.  Both enabled and disabled users can be found here and manipulated from this point.</p>
+          <a href="/admin/index.php?&page=searchUser.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
@@ -27,9 +27,9 @@
       <div class="card bg-danger text-white mb-3">
         <div class="card-body">
           <i class="fas fa-exclamation-circle fa-lg"></i>
-          <h5 class="card-title">Remove User</h5>
-          <p class="card-text">Use search users.</p>
-          <a href="/admin/index.php?&page=removeUser.php" class="stretched-link"></a>
+          <h5 class="card-title">Event Correlation Engine</h5>
+          <p class="card-text">Alter ECE behavior.  Enable or disable existing rules.</p>
+          <a href="#" class="stretched-link"></a>
         </div>
       </div>
     </div>
@@ -40,25 +40,30 @@
     <div class="col-xl-3 col-md-3">
       <div class="card bg-success text-white mb-3">
         <div class="card-body">
-          <i class="fas fa-cog fa-spin fa-lg"></i>
-          <h5 class="card-title">Change User</h5>
-          <p class="card-text">Search all users that exist.  Both enabled and disabled users can be found here and manipulated from this point.</p>
-          <a href="/admin/index.php?&page=searchUser.php" class="stretched-link"></a>
+          <i class="fas fa-cog fa-lg"></i>
+          <h5 class="card-title">Create Maintenance Event</h5>
+          <p class="card-text">Set a new future maintenance event..</p>
+          <a href="#" class="stretched-link"></a>
         </div>
       </div>
     </div>
     <div class="col-xl-3 col-md-3">
       <div class="card bg-warning text-dark">
         <div class="card-body">
-          <i class="fas fa-exclamation-triangle fa-lg"></i>
-          <h5 class="card-title">Disable User</h5>
-          <p class="card-text">Use search users.</p>
-          <a href="/admin/index.php?&page=disableUser.php" class="stretched-link"></a>
+          <i class="fas fa-exclamation-triangle fa-spin fa-lg"></i>
+          <h5 class="card-title">Change Maintenance Event</h5>
+          <p class="card-text">Alter or cancel an existing maintenence event</p>
+          <a href="#" class="stretched-link"></a>
         </div>
       </div>
     </div>
     <div class="col-xl-3 col-md-3">
-      <div>
+      <div class="card bg-danger text-white mb-3">
+        <div class="card-body">
+          <i class="fas fa-exclamation-circle fa-lg"></i>
+          <h5 class="card-title">Event Correlation Engine Testing</h5>
+          <p class="card-text">Test ECE rules before activation. </p>
+          <a href="#" class="stretched-link"></a>
       </div>
     </div>
   </div>
@@ -66,27 +71,27 @@
 
   <div class="row justify-content-center">
     <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-3">
-     <div class="card bg-warning text-dark">
+     <div class="card bg-success text-white mb-3">
         <div class="card-body">
-          <i class="fas fa-cog fa-spin fa-lg"></i>
+          <i class="fas fa-cog fa-lg"></i>
           <h5 class="card-title">Subnet Discovery</h5>
-          <p class="card-text">Run a scan of a given subnet to add hosts into the system.  This is only discovery, it will not add monitoring.</p>
+          <p class="card-text">Run a scan of a given subnet to add hosts into the system.</p>
           <a href="/discovery/index.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
     <div class="col-xl-3 col-md-3">
-      <div class="card bg-danger text-white">
+      <div class="card bg-warning text-dark mb-3">
         <div class="card-body">
-          <i class="fas fa-exclamation-circle fa-lg"></i>
+          <i class="fas fa-exclamation-circle fa-spin fa-lg"></i>
           <h5 class="card-title">Daemon Control</h5>
           <p class="card-text">Start Stop Restart and status the running Daemons</p>
           <a href="/daemon/index.php" class="stretched-link"></a>
         </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-3">
+      <div>
       </div>
     </div>
   </div>
