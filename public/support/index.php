@@ -37,7 +37,7 @@
           if (isset($_GET['page'])) {
 echo '          <div class="col-xl-6 col-md-6">' . "\n";
 echo '            <h3><center><p class="output">Navigation: <a href="javascript:history.back()">go back</a> or <a href="/index.php">Go to the main page</a></p></center></h3>';
-echo '            <div class="card bg-success text-white mb-3 ">' . "\n";
+echo '            <div class="card bg-info text-dark mb-3 ">' . "\n";
 echo '              <div class="card-body">' . "\n";
                       readfile ($_GET['page']);
 echo '                </center></p>' . "\n";
@@ -60,7 +60,7 @@ echo '          </div>' . "\n";
             closedir($handle);
             foreach ($fileList as $file) {
 echo '          <div class="col-lg-2 col-md-2">' . "\n";
-echo '            <div class="card bg-success text-white mb-3 ">' . "\n";
+echo '            <div class="card bg-info text-dark mb-3 ">' . "\n";
 echo '              <div class="card-body">' . "\n";
 // Cleanup the file name to make something readable
 $fileClean = preg_replace('/\.html/', '', $file);

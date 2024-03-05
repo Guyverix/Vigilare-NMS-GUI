@@ -32,6 +32,27 @@
   active at once, it will still trigger a warning event in the ECE due to the fact that something serious is happening, but
   not specifically service impacting from the monitoring perspective.
 
+<b>Current Table definitions:</b>
+  Currently the ECE database table contains different definitions to work with
+  * id (integer)
+    * This is the rule number globally, not the order it is run in
+  * active (string)
+    * true or false (is the rule "active")
+  * appName (string)
+    * Generic name for the applications grouped together IE webservers
+  * appRuleOrder (integer)
+    * define the order you wish the rules to run in.
+  * serviceName (string)
+    * This is the name of the service being provided.  Later I may flip this and Application
+    * This is the name that your customers know for the service being provided
+  * raw (string)
+    * true or false (is the appCorrelation raw SQL or a template)
+  * appCorrleation (text)
+    * either JSON array of standardized values or raw SQL command
+  * eceSummary (text)
+    * PHP code to set values for display and override defaults
+    * This is beginnings of logic to increment and leverage earlier rule results and compound and evealuate them.
+
 <b>Scale:</b>
   The way the ECE intended to scale, is that a company, or org will have N+1 services that they offer users or customers.
   To make the service, you have N+1 Applications doing the work.  Each specific application can have N+1 servers or hosts
@@ -60,6 +81,12 @@
   state in the ECE and count the hit as a discrete value.  Each hit will set its own event summary for what it was
   looking for when it triggered.
 
+  appCorrelation template JSON values:
+    * { "table": "event", "column": "device", "search": "equal", "value": "guyver-myth.iwillfearnoevil.com", "link": "and" , "table2": "history", "column2": "endTime", "search2": "greaterEqual", "value2": "INTERVAL -1 day"}
+    * { "table": "event", "column": "application", "search": "equal", "value": "true", "link": "none" }
+    * Currently only supports one link of "and" or "or" as SQL clauses in the template.  More complex results
+      will require using raw SQL queries.
+
   Simple rules are as follows:
     * Application A: 0 hostGroup['foo'] if > 30 Major alarms for any hosts in this group no matter the
                      reason, raise a Yellow warning
@@ -70,7 +97,6 @@
   Complex rule examples:
     * Sorry, but have not tried to make really ugly rules yet, as I much prefer the KISS principle and am less
       inclined to make one rule I cannot read compared to 5 (or even 10) simple ones I can understand.
-
 
 
 </pre>

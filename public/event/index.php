@@ -48,8 +48,8 @@
       readfile(__DIR__ . '/shared/head.html');
     }
   }
-
-  echo '<script src="/js/cookie/checkCookie.js"></script>';
+  //  Dupe of inside head
+  //  echo '<script src="/js/cookie/checkCookie.js"></script>' ."\n";
 
   /*
     Set the body of the HTML now
@@ -61,7 +61,7 @@
     and possibly interact with some portions of the site when they
     should not be able to.
   */
-  echo '<!-- Check login cookie every 15 seconds --><body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
+  echo "<!-- Check login cookie every 15 seconds -->\n<body class='sb-nav-fixed' onload='setInterval(checkCookieExpiration, 15000)' >\n";
 
   /*
     All navigation needs to be defined before we begin our main page
