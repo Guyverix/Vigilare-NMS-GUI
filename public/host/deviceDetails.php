@@ -133,40 +133,36 @@
      IE snmptrap, or even from local checks.
   */
 
-  $isMonitored = '<img src="/images/generic/orange_dot.png" style="width:20px;height:20px;"> Inctive </img>';
-//  if ( is_array($rawActiveMonitors['data'])) {
-//    foreach ($rawActiveMonitors['data'] as $findAlive) {
-//      if ( $findAlive['type'] == 'alive' ) {
+  $isMonitored = '<img src="/images/generic/orange_dot.png" style="width:20px;height:20px;"> Inctive </img>' . "\n";
 
   if ( is_array($rawDeviceProperties['data'])) {
     foreach ($rawDeviceProperties['data'] as $findAlive) {
       if ( $findAlive['isAlive'] == 'alive' ) {
-        $isMonitored = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> Alive </img>';
+        $isMonitored = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> Alive </img>' . "\n";
       }
-//      elseif ( $findAlive['type'] == 'dead' ) {
       elseif ( $findAlive['isAlive'] == 'dead' ) {
-        $isMonitored = '<img src="/images/generic/red_dot.png" style="width:20px;height:20px;"> Dead </img>';
+        $isMonitored = '<img src="/images/generic/red_dot.png" style="width:20px;height:20px;"> Dead </img>' . "\n";
       }
     }
   }
 
   // Show if we CAN ( not do ) have active checks
-  $activeMonitors = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> Active Monitors Disabled </img>';
+  $activeMonitors = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> Active Monitors Disabled </img>' . "\n";
   if ( isset($rawDeviceProperties['data'][0]['productionState']) && $rawDeviceProperties['data'][0]['productionState'] == 0 ) {
-    $activeMonitors = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> Active Monitors Enabled </img>';
+    $activeMonitors = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> Active Monitors Enabled </img>' . "\n";
   }
 
   // Show if SNMP is configured and available
-  $snmpState = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> SNMP Inactive </img>';
+  $snmpState = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> SNMP Inactive </img>' . "\n";
   if (isset($rawDeviceProperties['data'][0]['properties'])) {
     $findSnmpState = json_decode($rawDeviceProperties['data'][0]['properties'], true);
     if ($findSnmpState['snmpEnable'] == 'true') {
-     $snmpState = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> SNMP Enabled </img>';
+     $snmpState = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> SNMP Enabled </img>' . "\n";
     }
   }
 
   // Not existing yet, but have the bubble in place for when code exists
-  $maintenanceState = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> No Active Maintenance </img>';
+  $maintenanceState = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> No Active Maintenance </img>' . "\n";
 
 
 //  echo "<br><br><br>";
@@ -196,128 +192,251 @@
   <div class="container">
     <?php
       // Only findPropterties needs to talk to the API at this point
-      echo '<form id="findProperties" action="" method="POST"><input type="hidden" name="id" value="' . $id . '"></form>';
+      echo '<form id="findProperties" action="" method="POST"><input type="hidden" name="id" value="' . $id . '"></form>' . "\n";
 
       // Add additional hidden inputs with the data we have already pulled.  Dont call the API unless needed for something else
-      echo '<form id="hostProperties" method="POST" action="/host/index.php?&page=hostPropertiesEdit.php">';
-        echo '<input type="hidden" name="id" value="' . $id . '">';
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">';
-        echo '<input type="hidden" name="deviceProperties" value="' . htmlspecialchars($rawDeviceProperties['data'][0]['properties']) . '">';
-      echo '</form>';
+      echo '<form id="hostProperties" method="POST" action="/host/index.php?&page=hostPropertiesEdit.php">' . "\n";
+        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="deviceProperties" value="' . htmlspecialchars($rawDeviceProperties['data'][0]['properties']) . '">' . "\n";
+      echo '</form>' . "\n";
 
-      echo '<form id="hostModify"     action="/host/index.php?&page=modifyDevice.php"          method="POST">';
-        echo '<input type="hidden" name="id" value="' . $id . '">';
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">';
-        echo '<input type="hidden" name="address" value="' . $rawDeviceProperties['data'][0]['address'] . '">';
-        echo '<input type="hidden" name="firstSeen" value="' . $rawDeviceProperties['data'][0]['firstSeen'] . '">';
-        echo '<input type="hidden" name="productionState" value="' . $rawDeviceProperties['data'][0]['productionState'] . '">';
-        echo '<input type="hidden" name="isAlive" value="' . $rawDeviceProperties['data'][0]['isAlive'] . '">';
-      echo '</form>';
+      echo '<form id="hostModify"     action="/host/index.php?&page=modifyDevice.php"          method="POST">' . "\n";
+        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="address" value="' . $rawDeviceProperties['data'][0]['address'] . '">' . "\n";
+        echo '<input type="hidden" name="firstSeen" value="' . $rawDeviceProperties['data'][0]['firstSeen'] . '">' . "\n";
+        echo '<input type="hidden" name="productionState" value="' . $rawDeviceProperties['data'][0]['productionState'] . '">' . "\n";
+        echo '<input type="hidden" name="isAlive" value="' . $rawDeviceProperties['data'][0]['isAlive'] . '">' . "\n";
+      echo '</form>' . "\n";
 
-      echo '<form id="hostDelete"     action="/host/index.php?&page=deviceDelete.php" method="POST">';
-        echo '<input type="hidden" name="id" value="' . $id . '">';
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">';
-        echo '<input type="hidden" name="address" value="' . $rawDeviceProperties['data'][0]['address'] . '">';
-        echo '<input type="hidden" name="firstSeen" value="' . $rawDeviceProperties['data'][0]['firstSeen'] . '">';
-        echo '<input type="hidden" name="productionState" value="' . $rawDeviceProperties['data'][0]['productionState'] . '">';
-        echo '<input type="hidden" name="isAlive" value="' . $rawDeviceProperties['data'][0]['isAlive'] . '">';
-      echo '</form>';
+      echo '<form id="hostDelete"     action="/host/index.php?&page=deviceDelete.php" method="POST">' . "\n";
+        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="address" value="' . $rawDeviceProperties['data'][0]['address'] . '">' . "\n";
+        echo '<input type="hidden" name="firstSeen" value="' . $rawDeviceProperties['data'][0]['firstSeen'] . '">' . "\n";
+        echo '<input type="hidden" name="productionState" value="' . $rawDeviceProperties['data'][0]['productionState'] . '">' . "\n";
+        echo '<input type="hidden" name="isAlive" value="' . $rawDeviceProperties['data'][0]['isAlive'] . '">' . "\n";
+      echo '</form>' . "\n";
 
-      echo '<form id="hostMonitors" method="POST" action="/host/index.php?&page=deviceMonitors.php">';
-        echo '<input type="hidden" name="id" value="' . $id . '">';
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">';
-        echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">';
-      echo '</form>';
+      echo '<form id="hostMonitors" method="POST" action="/host/index.php?&page=deviceMonitors.php">' . "\n";
+        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">' . "\n";
+      echo '</form>' . "\n";
 
-      echo '<form id="addMonitors"    action="/host/addMonitors.php"         method="POST"><input type="hidden" name="id" value="' . $id . '"></form>';
+      echo '<form id="addMonitors"    action="/host/addMonitors.php"         method="POST"><input type="hidden" name="id" value="' . $id . '"></form>' . "\n";
 
-      echo '<form id="hostGraphs"     action="/host/index.php?&page=deviceGraphs.php"          method="POST">';
-        echo '<input type="hidden" name="id" value="' . $id . '">';
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">';
-        echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">';
-      echo '</form>';
+      echo '<form id="hostGraphs"     action="/host/index.php?&page=deviceGraphs.php"          method="POST">' . "\n";
+        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">' . "\n";
+      echo '</form>' . "\n";
 
-      echo '<form id="performance"    action="/host/index.php?&page=devicePerformance.php"   method="POST">';
-        echo '<input type="hidden" name="id" value="' . $id . '">';
-        echo '<input type="hidden" name="id" value="' . $id . '">';
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">';
-        echo '<input type="hidden" name="performanceData" value="' . htmlspecialchars(json_encode($rawDevicePerformance['data'], 1)) . '">';
-      echo '</form>';
+      echo '<form id="performance"    action="/host/index.php?&page=devicePerformance.php"   method="POST">' . "\n";
+        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
+        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="performanceData" value="' . htmlspecialchars(json_encode($rawDevicePerformance['data'], 1)) . '">' . "\n";
+      echo '</form>' . "\n";
 
       // Decide if we have run discovery against host before or not
       if ( ! isset($rawDeviceProperties['data'][0]['properties'])) {
-        echo '<button form="findProperties" name="findProperties" type="submit" class="btn btn-success">Discover Properties</button> ';
+        echo '<button form="findProperties" name="findProperties" type="submit" class="btn btn-success">Discover Properties</button> ' . "\n";
       }
       else {
-        echo '<button form="hostProperties" type="submit" class="btn btn-primary">Change Properties</button> ';
+        echo '<button form="hostProperties" type="submit" class="btn btn-primary">Change Properties</button> ' . "\n";
       }
-      echo '<button form="hostModify" type="submit" class="btn btn-warning">Modify Device</button> ';
+      echo '<button form="hostModify" type="submit" class="btn btn-warning">Modify Device</button> ' . "\n";
 
       // Decide if we have monitors to show or not
       if ( isset($rawActiveMonitors['data'][0])) {
-        echo '<button form="hostMonitors" type="submit" class="btn btn-primary">Change Monitors</button> ';
+        echo '<button form="hostMonitors" type="submit" class="btn btn-primary">Change Monitors</button> ' . "\n";
       }
       else {
-        echo '<button form="hostMonitors" type="submit" class="btn btn-success">Add Monitors</button> ';
+        echo '<button form="hostMonitors" type="submit" class="btn btn-success">Add Monitors</button> ' . "\n";
       }
 
       // Decide if we have Host or Device components we are aware of for display ( from database not graphs? )
       if ( isset($rawDevicePerformance['data'][0])) {
-        echo '<button form="performance" type="submit" class="btn btn-primary">Device Performance</button> ';
+        echo '<button form="performance" type="submit" class="btn btn-primary">Device Performance</button> ' . "\n";
       }
 
       // Decide if we have any RRD or Graphite graphs to display (influx will come with V2?)
       if ( in_array("rrd", $storage) || in_array("graphite", $storage)) {
-        echo '<button form="hostGraphs" type="submit" class="btn btn-primary">Graphs</button> ';
+        echo '<button form="hostGraphs" type="submit" class="btn btn-primary">Graphs</button> ' . "\n";
       }
 
-      echo '<button class="btn btn-primary"> &nbsp </button> ';  // Just a simple spacer that does nothing
-      echo '<button form="hostDelete" type="submit" class="btn btn-danger">Delete Device</button> ';
+      echo '<button class="btn btn-primary"> &nbsp </button> ' . "\n";  // Just a simple spacer that does nothing
+      echo '<button form="hostDelete" type="submit" class="btn btn-danger">Delete Device</button> ' . "\n";
 
 
 
       // We now have our tabs across the top.
       // Build out our Device table now.
-      echo '<table class="table table-striped bg-dark table-dark"><tbody>';
-      //      echo '<tr><td><b>Device:</b> ' . $rawDeviceProperties['data'][0]['hostname'] . '</td><td><b>Device Id:</b> ' . $rawDeviceProperties['data'][0]['id'] . '</td><td><b>Address:</b> ' . $rawDeviceProperties['data'][0]['address'] . '</td><td>' . $isMonitored . '<br>' . $activeMonitors . '<br>' .  $snmpState . '<br>' . $maintenanceState . '</td></tr>';
-      echo '<tr>';
-      echo '<td><b>Device:</b> ' . $rawDeviceProperties['data'][0]['hostname'] . '<br>';
-      echo '<b>Device Id:</b> ' . $rawDeviceProperties['data'][0]['id'] . '<br>';
-      echo '<b>Address:</b> ' . $rawDeviceProperties['data'][0]['address'] . '</td>';
-      echo '<td>' . $isMonitored . '<br>' . $activeMonitors . '<br>' .  $snmpState . '<br>' . $maintenanceState . '</td></tr>';
+      echo '<table class="table table-striped bg-dark table-dark"><tbody>' . "\n";
+      //      echo '<tr><td><b>Device:</b> ' . $rawDeviceProperties['data'][0]['hostname'] . '</td><td><b>Device Id:</b> ' . $rawDeviceProperties['data'][0]['id'] . '</td><td><b>Address:</b> ' . $rawDeviceProperties['data'][0]['address'] . '</td><td>' . $isMonitored . '<br>' . $activeMonitors . '<br>' .  $snmpState . '<br>' . $maintenanceState . '</td></tr>' . "\n";
+      echo '<tr>' . "\n";
+      echo '<td><b>Device:</b> ' . $rawDeviceProperties['data'][0]['hostname'] . '<br>' . "\n";
+      echo '<b>Device Id:</b> ' . $rawDeviceProperties['data'][0]['id'] . '<br>' . "\n";
+      echo '<b>Address:</b> ' . $rawDeviceProperties['data'][0]['address'] . '</td>' . "\n";
+      echo '<td>' . $isMonitored . '<br>' . $activeMonitors . '<br>' .  $snmpState . '<br>' . $maintenanceState . '</td></tr>' . "\n";
         // Build subtable left side
-        echo '<tr><td>';
-        echo '<table class="table table-striped bg-dark table-dark"><tbody>';
-        echo '<tr><td><img src="' . $osImg . '" style="width:250px;height:250px;"></img></td>';
-        echo '<td>';
+        echo '<tr><td>' . "\n";
+        echo '<table class="table table-striped bg-dark table-dark"><tbody>' . "\n";
+        echo '<tr><td><img src="' . $osImg . '" style="width:250px;height:250px;"></img></td>' . "\n";
+        echo '<td>' . "\n";
           foreach (array_reverse($sev) as $singleSeverity) {
-            echo '<button class="btn btn-' . $singleSeverity['color'] . '">' . $singleSeverity['count'] . '</button><br>';
+            echo '<button class="btn btn-' . $singleSeverity['color'] . '">' . $singleSeverity['count'] . '</button><br>' . "\n";
           }
-          echo '</td><td>';
+          echo '</td><td>' . "\n";
           // second column sub-sub table (sue me, it works)
-          echo '<table class="table table-striped bg-dark table-dark"> <center><b> Details 30 days </b></center> <tbody>';
-            echo '<tr><td align="right">Availability:</td><td> ' . $availability . '</td></tr>';
-            echo '<tr><td align="right">Active alarm SUM:</td><td> ' . $alarmTime . '</td></tr>';
-            echo '<tr><td align="right">History alarm SUM:</td><td> ' . $historyTime . '</td></tr>';
-            echo '<tr><td align="right">Monitorable:</td><td> ' . $monitorable . '</td></tr>';
-            echo '<tr><td align="right">First Seen:</td><td> ' . $rawDeviceProperties['data'][0]['firstSeen'] . '</td></tr>';
-          echo '</tbody></table>';
-          echo '</td>';
-        echo '<tr>';
-        echo '</tbody></table></td>';
+          echo '<table class="table table-striped bg-dark table-dark"> <center><b> Details 30 days </b></center> <tbody>' . "\n";
+            echo '<tr><td align="right">Availability:</td><td> ' . $availability . '</td></tr>' . "\n";
+            echo '<tr><td align="right">Active alarm SUM:</td><td> ' . $alarmTime . '</td></tr>' . "\n";
+            echo '<tr><td align="right">History alarm SUM:</td><td> ' . $historyTime . '</td></tr>' . "\n";
+            echo '<tr><td align="right">Monitorable:</td><td> ' . $monitorable . '</td></tr>' . "\n";
+            echo '<tr><td align="right">First Seen:</td><td> ' . $rawDeviceProperties['data'][0]['firstSeen'] . '</td></tr>' . "\n";
+          echo '</tbody></table>' . "\n";
+          echo '</td>' . "\n";
+        echo '<tr>' . "\n";
+        echo '</tbody></table></td>' . "\n";
         // thrid column
-        echo '<td colspan=2>';
-          echo '<table class="table table-striped bg-dark table-dark"><center><b>System information: ' . $hrSystemUpdate . '</b><center><tbody>';
+        echo '<td colspan=2>' . "\n";
+          echo '<table class="table table-striped bg-dark table-dark"><center><b>System information: ' . $hrSystemUpdate . '</b><center><tbody>' . "\n";
           foreach($deviceInformation as $deviceDetails) {
             foreach($deviceDetails as $hrSystem => $hrValue) {
-              echo '<tr><td align="right">' . $hrSystem . ':</td><td>' . $hrValue . '</td></tr>';
+              echo '<tr><td align="right">' . $hrSystem . ':</td><td>' . $hrValue . '</td></tr>' . "\n";
             }
           }
-          echo '</tbody></table>';
-        echo '</td></tr>';
-      echo '</tbody></table>';
+          echo '</tbody></table>' . "\n";
+        echo '</td></tr>' . "\n";
+      echo '</tbody></table>' . "\n";
 
+
+  // At this point we are at the end of the define UI page.
+  // now build simple-datatable with active and historical events
+  echo '<table id="dt-host-events" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;">Active Events' . "\n";
+  echo '<head><tr><th>Start</th><th>Summary</th></tr></head>' . "\n";
+  echo '<tbody>' . "\n";
+  if ( count($rawActiveEvents['data']) == 0 ) {
+    echo "<tr><td colspan=2 class='table-success'><center>No active events found</center></td></tr>";
+  }
+  else {
+    foreach ($rawActiveEvents['data'] as $activeEvent) {
+          switch ($activeEvent['eventSeverity']) {
+            case "0":
+              $rowColor=' class="table-success"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "1":
+              $rowColor=' class="table-secondary"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "2":
+              $rowColor=' class="table-primary"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "3":
+              $rowColor=' class="table-info"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "4":
+              $rowColor=' class="table-warning"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "5":
+              $rowColor=' class="table-danger"';
+              $linkColor=' class="link-primary"';
+              break;
+          }
+      echo "<tr><td " . $rowColor . ">" . $activeEvent['startEvent'] . "</td><td " . $rowColor . ">" . $activeEvent['eventSummary'] . "</td></tr>";
+    }
+  }
+  echo "</tbody></table>";
+?>
+  <table id="dt-host-history" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;">Historical Events
+  <head><tr><th>End</th><th>Summary</th></tr></head>
+<?php
+  if ( count($rawHistoryEvents['data']) == 0 ) {
+    echo "<tr><td colspan=2 class='table-success'><center>No historical events found</center></td></tr>";
+  }
+  else {
+    foreach ($rawHistoryEvents['data'] as $historyEvent) {
+          switch ($historyEvent['eventSeverity']) {
+            case "0":
+              $rowColor=' class="table-success"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "1":
+              $rowColor=' class="table-secondary"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "2":
+              $rowColor=' class="table-primary"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "3":
+              $rowColor=' class="table-info"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "4":
+              $rowColor=' class="table-warning"';
+              $linkColor=' class="link-danger"';
+              break;
+            case "5":
+              $rowColor=' class="table-danger"';
+              $linkColor=' class="link-primary"';
+              break;
+          }
+      echo "<tr><td " . $rowColor . ">" . $historyEvent['endEvent'] . "</td><td " . $rowColor . ">" . $historyEvent['eventSummary'] . "</td></tr>\n";
+    }
+  }
+  echo "</table>";
   ?>
+  <!-- Add our JS here so we dont have to escape or make it look uglier than it does -->
+  <script> window.addEventListener("DOMContentLoaded", event => {
+    const datatablesSimple = document.getElementById("dt-host-events");
+    if (datatablesSimple) {
+      new simpleDatatables.DataTable("#dt-host-events", {
+        searchable: true,
+        sortable: true,
+        storable: true,
+        paging: true,
+        perPage: 5,
+        perPageSelect:[5,10,25,50],
+        labels: {
+          placeholder: "Search Active Events"
+        }
+        });
+      }
+    });
+  </script>
+
+  <script> window.addEventListener("DOMContentLoaded", event => {
+    const datatablesSimple = document.getElementById("dt-host-history");
+    if (datatablesSimple) {
+      new simpleDatatables.DataTable("#dt-host-history", {
+        searchable: true,
+        sortable: true,
+        storable: true,
+        paging: true,
+        perPage: 10,
+        perPageSelect:[10,25,50,100],
+        labels: {
+          placeholder: "Search Historical Events"
+        }
+        });
+      }
+    });
+  </script>
+
+
+  <!-- datatables not loaded with footer, add it now -->
+  <script src="/js/simple-datatables/simple-datatables.js"></script>
+
+
+
   <?php
   }
   else {
