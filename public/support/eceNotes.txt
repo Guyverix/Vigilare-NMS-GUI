@@ -1,0 +1,57 @@
+<pre>
+ECE
+parent have have N+1 children
+parent may or may not have hosts associated with it
+parent may or may not have checks associated with it
+
+In this case, it is simply a named placeholder.
+
+In the event of no children or no hosts / checks then
+it is kind of useless other than showing it exists.
+
+This is perfectly valid, but does nothing really.
+
+
+Children can have N+1 children
+child may or may not have hosts associated with it
+child may or may not have checks associated with it
+
+If nothing is defined, for hosts or checks, this
+does nothing active.  It simply shows flow
+
+  When hosts and / or checks are defined:
+
+  This is when logic comes into play.
+  All current behavior is based on counts ATM...
+
+  count associateed hosts in alarm
+  count service checks in alarm
+
+  bubble up event to App and service if
+  criteria is met.  This is where fleets will come in handy
+
+  IE: We  have 3 hosts, and only one is in alarm the logic says
+      this is ok until >= 66% of the hosts go into alarm of some kind
+      If we have a second one go into alarm, THEN bubble up
+
+  This same logic can be done against service checks in alarm.
+
+  Additionally, this system should be able to leverage all values from the event
+  database, so we can count the number of times a host went into alarm in X minutes
+  and bubble up on that if we wish to.
+
+  The ECE is going to have to be time-banded, so if checks look back in time
+  they age off the ECE match points.
+
+  For further back looks at things, that is where a report is more apropriate.
+
+  The ECE must be simple and as fast as possible.  Thats mainly the reason
+  I am using simple numbers from the event table.  Complex relationships
+  will likely cause heartburn for someone trying to maintain the system
+  for realtime display.  Chaining the relationships seems like a reasonable
+  compromise.
+
+  03-06-24 WIP
+
+</pre>
+
