@@ -5,15 +5,13 @@
 
   // header('Refresh: 45');  // reload the damn page every X seconds NOT ON HISTORY
 
-  //echo '<META HTTP-EQUIV=Refresh CONTENT="10"> ';
   echo '<br><br><br>'; // only needed if we have a horozontal bar
-
 
   // After POST sometimes it was not loading the functions.. sigh..
   if ( ! function_exists('debugger')) {
     require(__DIR__ . '/../../functions/generalFunctions.php');
   }
-  // checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
+  checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
 
   // Load local vars for use (urls, ports, etc)
   require_once __DIR__ . "/../../config/api.php";
