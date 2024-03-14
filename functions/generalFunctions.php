@@ -30,7 +30,21 @@ $_COOKIE = array("token" => "1234Fake");
 $test = var_dump(checkCookie($_COOKIE));
 */
 
-
+function checkTimer($COOKIE) {
+  // Nice to have, but does not break if missing
+  if (! isset($COOKIE['expire'])) {
+    return 0;
+  }
+  else {
+    $lifeTime = $COOKIE['expire'];
+    $timeNow = time();
+    $timeLook = $timeNow + 900;
+    if ( $timeLook > $lifeTime ) {
+     //   loadWarning("now: " . $timeNow . " future " . $timeLook . " expires " . $lifeTime);
+     loadWarning("Your login session ends in less than 15 minutes");
+    }
+  }
+}
 /*
   The following few pages are actually going to be closer to toast or flash
   as we do not know always if we have the access for stuff we are asking for
@@ -109,6 +123,10 @@ function loadUnknown($message) {
   echo '</center>';
   echo '</div></div>';
 
+}
+
+function loadWarning($message) {
+  echo '<div class="alert alert-primary" role="alert"><center>' . $message . '</center></div>';
 }
 
 function load403() {  // An absolute login required
