@@ -34,8 +34,8 @@
 
 include_once(__DIR__ . '/../../functions/generalFunctions.php');
 
-  unset($_COOKIE['clientTimezone']);
-  setcookie('clientTimezone', '','-1', '/');
+//  unset($_COOKIE['clientTimezone']);
+//  setcookie('clientTimezone', '','-1', '/');
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the 'username' and 'password' fields are set in the POST data with actual data!
@@ -76,6 +76,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             'httponly' => false,
             'samesite' => 'Lax'
          );
+          setcookie("expire",        $expire , $options);
           setcookie("Authorization", $response['data']['token'] , $options);
           setcookie("token",         $response['data']['token'] , $options);
           setcookie("id",            $response['data']['user']['id'], $options );
@@ -103,30 +104,37 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
 <?php
   // Only clear on initial page load, NEVER login POST attempts (which also loads the page)
   // Someone goes to login, then they are stuck logging in, even if they are still valid with the cookies.
-  if (! $_SERVER['REQUEST_METHOD'] === 'POST') {
-    setcookie('session', '','-1', '/');
-    unset($_COOKIE['session']);
-
-    setcookie('token', '','-1', '/');
-    unset($_COOKIE['token']);
-
-    setcookie('apiServer', '','-1', '/');
-    unset($_COOKIE['apiServer']);
-
-    setcookie('email', '','-1', '/');
-    unset($_COOKIE['email']);
-
-    setcookie('realName', '','-1', '/');
-    unset($_COOKIE['realName']);
-
-    setcookie('id', '','-1', '/');
-    unset($_COOKIE['id']);
-
-    setcookie('userId', '','-1', '/');
-    unset($_COOKIE['userId']);
-
-    setcookie('clientTimezone', '','-1', '/');
+  //  if (! $_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (empty($_POST) || ! isset($_POST)) {
     unset($_COOKIE['clientTimezone']);
+    setcookie('clientTimezone', '','-1', '/');
+
+    unset($_COOKIE['expire']);
+    setcookie('expire', '','-1', '/');
+
+    unset($_COOKIE['session']);
+    setcookie('session', '','-1', '/');
+
+    unset($_COOKIE['token']);
+    setcookie('token', '','-1', '/');
+
+    unset($_COOKIE['apiServer']);
+    setcookie('apiServer', '','-1', '/');
+
+    unset($_COOKIE['email']);
+    setcookie('email', '','-1', '/');
+
+    unset($_COOKIE['realName']);
+    setcookie('realName', '','-1', '/');
+
+    unset($_COOKIE['id']);
+    setcookie('id', '','-1', '/');
+
+    unset($_COOKIE['userId']);
+    setcookie('userId', '','-1', '/');
+
+    unset($_COOKIE['clientTimezone']);
+    setcookie('clientTimezone', '','-1', '/');
 }
 ?>
 <html lang="en">
