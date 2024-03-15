@@ -90,7 +90,7 @@
     $newAgeOut=$_POST['age_out'];
     $newPreProcessing=$_POST['pre_processing'];
     $newPostProcessing=$_POST['post_processing'];
-
+    // debugger($_POST);
 
     /*
       Show results of validation checking
@@ -140,6 +140,7 @@
     $body .= '<li class="list-group-item">Receiver type: ' . $receiver . "</li>\n";
     $body .= '<li class="list-group-item">Do we monitor: ' . $monitor . "</li>\n";
     $body .= '<li class="list-group-item">Raw Event ($details) as array:<pre>';
+    // debugger($details);
     foreach ( $details as $k => $v) {
       // The raw data can be fugly, strip it before it is too long to display correctly
       $body .= "Index Key: " . $k . " contains value: " . substr($v, 0, 80) . "\n";
@@ -171,7 +172,6 @@
     echo '</div>';
   }
 
-
   //  echo '<div class="row">';
   //  echo '<div class="table-responsive col-md-6">';
   /* this is going to be the first row under the "popup" */
@@ -195,8 +195,18 @@
 
       Actually SHOW our work here
     */
-    eval($newPreProcessing);
-    //deugger($newPreProcessing);
+    // debugger($newPreProcessing);
+    // https://stackoverflow.com/questions/3223899/php-eval-and-capturing-errors-as-much-as-possible
+    try {
+      $success = @eval($newPreProcessing);
+      
+    }
+    catch (Throwable $t) {
+     loadUnknown("FATAL! Issues found.  Even if syntax is correct the logic evaluated does not work right<br><br>\n" . $t);
+     echo '<center><button type="button" class="btn btn-danger btn-lg"> <a href="javascript:history.back()">Go Back and try again</a> </button></center>';
+     echo "<p></p>";
+    }
+//    debugger($newPreProcessing);
     echo '<center><button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#existingEventModal">  Review existing unmodified event </button></center><br>';
     echo '<div class="row">';
     echo '<div class="table-responsive col-lg-4">';
