@@ -58,13 +58,15 @@
       echo '<tr><td>' . $report['template'] .'</td>';
       echo '<td>';
 
-      echo '<form id="runTemplate" method="POST" action="/reporting/index.php?&page=runReport.php">';
-      echo '<input type="hidden" name="template" value="' .htmlspecialchars(json_encode($report,1)) . '">';
-      echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="useTemplate" form="runTemplate">Run Now <i class="fas fa-play"></i></button> </form></td><td>';
+      echo '<form id="runTemplate_' . $report['template'] . '" method="POST" action="/reporting/index.php?&page=runReport.php">';
+      echo '<input type="hidden" name="template" value="' .htmlspecialchars(json_encode($report['template'],1)) . '">';
+      echo '<input type="hidden" name="templateArgs" value="' .htmlspecialchars(json_encode($report,1)) . '">';
+      echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="useTemplate" form="runTemplate_' . $report['template'] . '">Run Now <i class="fas fa-play"></i></button> </form></td><td>';
 
-      echo '<form id="findReport" method="POST" action="/reporting/index.php?&page=searchExistingReporting.php">';
+      echo '<form id="findReport_' . $report['template'] . '" method="POST" action="/reporting/index.php?&page=searchExistingReporting.php">';
       echo '<input type="hidden" name="template" value="' . $report['template'] . '">';
-      echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="searchTemplate" form="findReport">Find Completed <i class="fas fa-eye"></i></button> </form>';
+      echo '<input type="hidden" name="templateArgs" value="' .htmlspecialchars(json_encode($report,1)) . '">';
+      echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="searchTemplate" form="findReport_' . $report['template'] . '">Find Completed <i class="fas fa-eye"></i></button> </form>';
 
       echo '</td></tr></div>';
     }
