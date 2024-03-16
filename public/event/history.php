@@ -33,11 +33,24 @@
   // Pull our events now
 
   // Modal calling post here.  Move to history before loading active events page
-  if (isset($_POST['realMoveToActive'])) {
-    // debugger($_POST);
+
+  //  if (isset($_POST['realMoveToActive'])) {
+  if (isset($_POST['realMoveFromHistory'])) {
     $post = ['id' => $_POST['id']];
     $post += ['reason' => $_POST['reason']];
     $moveToHistory = callApiPost("/events/moveFromHistory", $post, $headers);
+    $resultMoveToActive = json_decode($moveToHistory['response'], true);
+    $responseCode = $resultMoveToActive['statusCode'];
+    $responseString = json_encode($resultMoveToActive['data'], 1);
+    if ( $responseCode !== 200 && $responseCode !== 403) {    // Anything other than a 200 OK is an issue
+      decideResponse($responseCode, $responseString );
+    }
+    elseif ( $responseCode == 403) {
+      load403Warn("Expired access credentials");
+    }
+    else {
+      successMessage("Event " . $_POST['id'] . " moved from history back to active event");
+    }
     // Disalbe refreshes causing reposts
     echo '<script type="text/javascript">' . "\n";
     echo 'if ( window.history.replaceState ) {' . "\n";

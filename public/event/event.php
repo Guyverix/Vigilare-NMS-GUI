@@ -3,8 +3,8 @@
     What are we going to display today?
   */
 
-  //echo '<META HTTP-EQUIV=Refresh CONTENT="45"> ';
-  header('Refresh: 45');  // reload the damn page every X seconds
+  echo '<META HTTP-EQUIV=Refresh CONTENT="45"> ';
+  // header('Refresh: 45');  // reload the damn page every X seconds
 
   echo '<br><br><br>'; // only needed if we have a horozontal bar
 

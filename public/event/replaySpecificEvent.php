@@ -134,7 +134,7 @@ else {
   echo '<tr><td>$known_hostname </td><td>String: Defined from table Device.  Either FQDN or IP commonly</td><tr>';
   echo '<tr><td>$receive_time</td><td>String: Last time event was received.  Can differ from Start Event</td><tr>';
   echo '<tr><td>$event_age_out</td><td>Integer: seconds.  Either clears after this many seconds or another event happens</td><tr>';
-  echo '<tr><td>$counter</td><td>Integer: value of times seen since start of evnet</td><tr>';
+  echo '<tr><td>$counter</td><td>Integer: value of times seen since start of event (will always be 1?)</td><tr>';
   echo '<tr><td>$details</td><td>String or array: much of the raw data.  This one can cause trouble, avoid if possible</td><tr>';
   echo '<tr><td>$receiver</td><td>String: either Trap, or IP address</td><tr>';
   echo '<tr><td>$event_severity</td><td>Integer: severity from 0(ok) to 5(critical)</td><tr>';
