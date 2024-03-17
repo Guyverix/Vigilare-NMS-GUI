@@ -104,7 +104,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
 <?php
   // Only clear on initial page load, NEVER login POST attempts (which also loads the page)
   // Someone goes to login, then they are stuck logging in, even if they are still valid with the cookies.
-  //  if (! $_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
+  // NO!  If multiple tabs are open this will cause issues, dammit
+
+/*
+  // if (! $_SERVER['REQUEST_METHOD'] === 'POST') {
   if (empty($_POST) || ! isset($_POST)) {
     unset($_COOKIE['clientTimezone']);
     setcookie('clientTimezone', '','-1', '/');
@@ -136,6 +141,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     unset($_COOKIE['clientTimezone']);
     setcookie('clientTimezone', '','-1', '/');
 }
+*/
 ?>
 <html lang="en">
     <head>
