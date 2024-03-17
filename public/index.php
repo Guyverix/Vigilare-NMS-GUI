@@ -10,7 +10,7 @@
 
   require_once(__DIR__ . '/../functions/generalFunctions.php');
   checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
-
+  checkTimer($_COOKIE);
   /*
     This is the boilerplate that all pages need to adhere to.
     Only if there is custom work will it read the  includes page.

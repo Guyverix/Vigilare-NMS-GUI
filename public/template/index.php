@@ -6,6 +6,7 @@
 
   require_once(__DIR__ . '/../../functions/generalFunctions.php');
   checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
+  checkTimer($_COOKIE);
 
   // Load local vars for use (urls, ports, etc)
   require_once __DIR__ . "/../../config/api.php";

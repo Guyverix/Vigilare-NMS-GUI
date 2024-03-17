@@ -20,7 +20,7 @@
     $post = $_POST;
     $rawRunReport = callApiPost('/reporting/run', $post, $headers);
     $runReport = json_decode($rawRunReport['response'], true);
-    $responseCode = $runReport['responseCode'];
+    $responseCode = $runReport['statusCode'];
     $responseString = $runReport['data'];
 
     if ($responseCode !== 200 && $responseCode !== 403) {    // Anything other than a 200 OK is an issue
@@ -42,7 +42,6 @@
                 window.location = "/reporting/index.php?&page=searchExistingReporting.php";
               }, 3000);
             </script>';
-//      exit(); // Do not let the remainder of the page render
     }
   }
 
