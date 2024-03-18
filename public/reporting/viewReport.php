@@ -22,12 +22,13 @@
     $rawReportingList = json_decode($rawReportingList, true);
   }
   $reportingList = json_decode($rawReportingList['response'], true);
-  $reporting = $reportingList['data'];
+  $reporting = $reportingList['data']['reportResult'];
+  $filterValues = $reportingList['data']['filterValues'];
   $quitEarly = 0;
 
 
   $postArray = json_encode($reporting,1);
-  // debugger($reportingList);
+  // debugger($filterValues);
   // Sanity check your results
   switch ($reportingList['statusCode']) {
    case 403:
@@ -54,10 +55,20 @@
     echo $reportName . '</h1></center>';
     echo '<center><button form="downloadCsv" type="submit" class="btn btn-default btn-info btn-sm"><span class="glyphicon glyphicon-off"></span>Download CSV</button> &nbsp</center> ';
     echo '</form>';
-    echo '
-      <div class="container-lg">
-      <table id="dt-reporting" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;">
-    ';
+    echo '<div class="container-fluid">';
+    echo '<div class="row justify-content-center">';
+
+    // show our filter values if known
+    echo '<div class="col-sm-2">';
+    echo '<table id="filters" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;"><b><center>Filters if known</center></b>';
+    foreach ($filterValues as $key => $value) {
+     echo "<tr><td><b>" . $key . "</b></td><td>" . $value . "</td></tr>";
+    }
+    echo "</table>";
+    echo '</div>';
+    // show our report now
+    echo '<div class="col-lg-6">';
+    echo '<table id="dt-reporting" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;">';
     // Create a table legend so we know what the values mean
     echo '<thead>';
     foreach($reporting[0] as $k1 => $v1) {
@@ -82,6 +93,7 @@
     }
     echo '
       </table>
+      </div>
       </div>
   <!-- datatables not loaded with footer, add it now -->
   <script> window.addEventListener("DOMContentLoaded", event => {
