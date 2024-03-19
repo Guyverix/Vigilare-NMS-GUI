@@ -78,7 +78,7 @@
                                break;
                            }
                            echo "<tr $rowColor >\n";
-                           echo "<td><center><a href='/host/deviceDetails.php?id=" . $event['device'] . "' target='_blank' " . $linkColor . ' > ' .  $event['device'] . ' </a></center></td>';
+                           echo "<td><center><a href='/host/index.php?&page=deviceDetails.php&id=" . $event['id'] . "' target='_blank' " . $linkColor . ' > ' .  $event['device'] . ' </a></center></td>';
                            echo "<td>" . $event['eventName'] . "</td>\n";
                            echo "<td>" . $event['eventSummary'] . "</td>\n";
 
@@ -158,7 +158,7 @@
                                break;
                            }
                            echo "<tr $rowColor >\n";
-                           echo "<td><center><a href='/host/deviceDetails.php?id=" . $event['device'] . "' target='_blank' " . $linkColor . ' > ' .  $event['device'] . ' </a></center></td>';
+                           echo "<td><center><a href='/host/index.php?&page=deviceDetails.php&id=" . $event['id'] . "' target='_blank' " . $linkColor . ' > ' .  $event['device'] . ' </a></center></td>';
                            echo "<td>" . $event['eventName'] . "</td>\n";
                            echo "<td>" . $event['eventSummary'] . "</td>\n";
 
