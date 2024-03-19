@@ -2,4 +2,5 @@ config/api.php
 testing_and_cruft/**
 js/charts/testing_only_COMMERCIAL_DO_NOT_USE/**
 public/graph/testing/**
+public/noise/**
 *.swp
