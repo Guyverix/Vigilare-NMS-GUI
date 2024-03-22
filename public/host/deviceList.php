@@ -69,7 +69,8 @@
   foreach($devices as $device) {
     echo '<tr>';
     echo '<td>' . $device['id'] . '</td>';
-    echo '<td><a href="./index.php?&page=deviceDetails.php&id=' . $device['id']. '" target="_blank">' . $device['hostname'] . '</a></td>';
+//    echo '<td><a href="./index.php?&page=deviceDetails.php&id=' . $device['id']. '" target="_blank">' . $device['hostname'] . '</a></td>';  <!-- opens in new page -->
+    echo '<td><a href="./index.php?&page=deviceDetails.php&id=' . $device['id']. '">' . $device['hostname'] . '</a></td>';
     echo '<td>' . $device['address'] . '</td>';
     echo '<td>' . $device['productionState'] . '</td>';
     if ( $device['isAlive'] == "alive") {
