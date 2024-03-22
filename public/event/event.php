@@ -2,6 +2,24 @@
   /*
     What are we going to display today?
   */
+/*
+  if ( ! isset($_COOKIE['showEventAck'])) {
+    $convert = 8640000;
+    $options = array(
+      'expires' => time() + $convert,
+      'path' => '/',
+      'domain' => '',
+      'secure' => 'false',
+      'httponly' => 'false',
+      'samesite' => 'Lax'
+    );
+debugger($options);
+    $test = setcookie('showEventAck', 'true', $options);
+    $_COOKIE['showEventAck'] = 'true';
+debugger($test);
+  }
+*/
+
 
   echo '<META HTTP-EQUIV=Refresh CONTENT="45"> ';
   // header('Refresh: 45');  // reload the damn page every X seconds
@@ -30,7 +48,6 @@
 
   // echo $cookieTimezone;
   // timezone stuff: https://stackoverflow.com/questions/6939685/get-client-time-zone-from-browser
-  // Pull our events now
 
   // Modal calling post here.  Move to history before loading active events page
   if (isset($_POST['realMoveToHistory'])) {
@@ -46,11 +63,28 @@
     echo '</script>' . "\n";
   }
 
+  if (isset($_COOKIE['showEventAck'])) {
+    $displayAck = $_COOKIE['showEventAck'];
+  }
+  else {
+    $displayAck = 'true';
+  }
+  // Show only certain severities
+
+  if (isset($_COOKIE['showEventSeverity'])) {
+    $displaySeverity = $_COOKIE['showEventSeverity'];
+    $displaySeverity = explode(',', $displaySeverity);
+  }
+  else {
+    // explode saves as string, so match string on defaults
+    $displaySeverity = [ 0 => "0", 1 => "1", 2 => "2", 3 => "3", 4 => "4", 5 => "5" ];
+  }
+  debugger($displaySeverity);
+
+  // Pull our events now
   // Get our event information now
   $rawActiveEvents = callApiGet("/events/view/eventSeverity/DESC/order", $post, $headers);
   $activeEvents = json_decode($rawActiveEvents['response'], true);
-
-  //debugger($_COOKIE);
 
   // Try to count our events
   $eventCount = count($activeEvents['data']);
@@ -60,14 +94,22 @@
   // second attempt at good counts
   $eventCount= count($eventList);
 
+  /*
+    All this work to make our timezone dynamic, Gah!
+  */
   $cookieTimezone = explode(' ', $cookieTimezone);
   $localOffset = ( $cookieTimezone[1] * 3600);   // hour offset * minutes in an hour
   if ( empty($localOffset)) {
     $localOffset = 0;
   }
-
   $localTime = (strtotime("now") + $localOffset);
   echo '<!-- cookieTimezone ' . print_r($cookieTimezone, true) . ' localTime ' . $localTime . '-->' . "\n";
+
+
+
+
+
+
   // This needs a home INSIDE the display!
   echo '<p class="text-end">Last Refresh: ' . date('Y-m-d H:i:s',$localTime) . "&nbsp&nbsp  </p>";
 
@@ -162,7 +204,7 @@
           }
           else {
             // If we know we have a device id, then go to the device details page
-            echo '<td><center><a href="/host/index.php?&page=deviceDetails.php&id=' . $events['id'] . '" target="_blank" ' . $linkColor . ' > ' .  $events['device'] . ' </a></center></td>';
+            echo '<td><center><a href="/host/index.php?&page=deviceDetails.php&id=' . $events['id'] . '"' . $linkColor . ' > ' .  $events['device'] . ' </a></center></td>';
           }
           // This defines a modal for seeing as many event details as we can supply
           echo '<td>';

@@ -175,7 +175,7 @@
           }
           else {
             // If we know we have a device id, then go to the device details page
-            echo '<td><center><a href="/host/index.php?&page=deviceDetails.php&id=' . $events['id'] . '" target="_blank" ' . $linkColor . ' > ' .  $events['device'] . ' </a></center></td>';
+            echo '<td><center><a href="/host/index.php?&page=deviceDetails.php&id=' . $events['id'] . '"' . $linkColor . ' > ' .  $events['device'] . ' </a></center></td>';
           }
           // This defines a modal for seeing as many event details as we can supply
           echo '<td>';

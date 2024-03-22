@@ -10,6 +10,63 @@
   checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
   checkTimer($_COOKIE);
 
+  // Has to be done before the headers are sent
+  if ( isset($_GET['showEventAck'])) {
+    $convert = 8640000;
+    $options = array(
+      'expires' => time() + $convert,
+      'path' => '/event/',
+      'domain' => '',
+      'secure' => 'false',
+      'httponly' => 'false',
+      'samesite' => 'Lax'
+    );
+    $checkAckSet = setcookie('showEventAck', $_GET['showEventAck'] , $options);
+    // debugger($checkAckSet);
+  }
+
+  if ( ! isset($_COOKIE['showEventAck'])) {
+    $convert = 8640000;
+    $options = array(
+      'expires' => time() + $convert,
+      'path' => '/event/',
+      'domain' => '',
+      'secure' => 'false',
+      'httponly' => 'false',
+      'samesite' => 'Lax'
+    );
+    $checkAckSet = setcookie('showEventAck', 'true', $options);
+    // debugger($checkAckSet);
+  }
+
+  if ( isset($_GET['showEventSeverity'])) {
+    $convert = 8640000;
+    $options = array(
+      'expires' => time() + $convert,
+      'path' => '/event/',
+      'domain' => '',
+      'secure' => 'false',
+      'httponly' => 'false',
+      'samesite' => 'Lax'
+    );
+    $checkAckSet = setcookie('showEventSeverity', $_GET['showEventSeverity'] , $options);
+    // debugger($checkAckSet);
+  }
+
+  if ( ! isset($_COOKIE['showEventSeverity'])) {
+    $convert = 8640000;
+    $options = array(
+      'expires' => time() + $convert,
+      'path' => '/event/',
+      'domain' => '',
+      'secure' => 'false',
+      'httponly' => 'false',
+      'samesite' => 'Lax'
+    );
+    $checkAckSet = setcookie('showEventSeverity', '0,1,2,3,4,5', $options);
+    // debugger($checkAckSet);
+  }
+
   // Load local vars for use (urls, ports, etc)
   require_once __DIR__ . "/../../config/api.php";
 
