@@ -79,7 +79,7 @@ debugger($test);
     // explode saves as string, so match string on defaults
     $displaySeverity = [ 0 => "0", 1 => "1", 2 => "2", 3 => "3", 4 => "4", 5 => "5" ];
   }
-  debugger($displaySeverity);
+  // debugger($displaySeverity);
 
   // Pull our events now
   // Get our event information now
