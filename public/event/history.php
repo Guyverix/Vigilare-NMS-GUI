@@ -63,7 +63,19 @@
   // Get our event information now
   $rawActiveEvents = callApiGet("/history/viewLimit/200", $post, $headers);
   $activeEvents = json_decode($rawActiveEvents['response'], true);
+  $resposneCode2=(int)$activeEvents['statusCode'];
+  $responseString2=$activeEvents['data'];
 
+
+  if (  $resposneCode2 !== 200 &&  $responseCode2 !== 403) {    // Anything other than a 200 OK is an issue
+    decideResponse($responseCode2, $responseString2 );
+  }
+  elseif ( $resposneCode2 == 403) {
+    load403Warn("Expired access credentials");
+  }
+  else {
+    // do nothing... we want a 200
+  }
 
   // Try to count our events
   $eventCount = count($activeEvents['data']);
