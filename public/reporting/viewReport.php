@@ -26,9 +26,19 @@
   $filterValues = $reportingList['data']['filterValues'];
   $quitEarly = 0;
 
+  try {
+    $reporting = json_decode($reporting, true);
+  }
+  catch (throwable $t) {
+    var_dump($t);
+  }
+  //  debugger($reporting);
 
   $postArray = json_encode($reporting,1);
+  // debugger($postArray);
+
   // debugger($filterValues);
+
   // Sanity check your results
   switch ($reportingList['statusCode']) {
    case 403:
@@ -77,11 +87,11 @@
     echo '</thead>';
 
     // Now loop through our data
-    //debugger($reporting);
+    // debugger($reporting);
     foreach ($reporting as $report) {
-      $arrayCount = count($report);
-      //      echo "arrayCount " . $arrayCount . "<br>";
-      //      debugger($report);
+      // $arrayCount = count($report);
+      // echo "arrayCount " . $arrayCount . "<br>";
+      // debugger($report);
       echo '<tr>';
         //      for ( $i = 0; $i < $arrayCount; $i++) {
         foreach ($report as $k => $v) {

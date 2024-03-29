@@ -18,6 +18,7 @@
 
   if ( isset($_POST['submitReport'])) {
     $post = $_POST;
+//debugger($post);
     $rawRunReport = callApiPost('/reporting/run', $post, $headers);
     $runReport = json_decode($rawRunReport['response'], true);
     $responseCode = $runReport['statusCode'];
@@ -49,6 +50,7 @@
   $template = $rawPost['template'];
   $usedVars = json_decode($rawPost['usedVars'],true);
 
+
   if ( $quitEarly == 0 ) {
   // This is the landing page
   ?>
@@ -69,6 +71,7 @@
                 echo "<center><input id='form_" . $singleVar . "' type='text' name='" . $singleVar . "' class='form-control' value='' required='required' data-error='You must set a value that matches what the filter is expecting.'></center>\n";
               }
               echo "<input type='hidden' name='template' value='" . $template . "'>";
+//              echo "<input type='hidden' name='templateArgs' value='" . $template . "'>";
               echo "<center><button form='run-report-form' type='submit' name='submitReport' value='true' class='btn btn-info btn-md'>Run Report Now</button></center>";
               echo "</div> <!-- form-group -->\n";
               echo "</form>";
