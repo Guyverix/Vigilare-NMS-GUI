@@ -31,10 +31,7 @@
   $post = array();  // We are using post, so give it an empty array to post with
   $quitEarly = 0;
 
-//debugger($_POST);
-
-
-
+  // debugger($_POST);
 
   // Retrieve our data that was sent to us
   if (isset($_POST['id'])) {
@@ -56,7 +53,7 @@
     $post += ['hostId' => $_POST['hostId']];
     $addMonitor = callApiPost("/monitors/monitorAddHost", $post, $headers);
     $addMonitor = json_decode($addMonitor['response'],true);
-   
+ 
     switch ($addMonitor['statusCode']) {
      case 403:
        load4XX();
@@ -114,7 +111,7 @@
     $activeMonitors = $activeMonitors['data']['result'];
     $post = array();
   }
-
+  // debugger($activeMonitors);
   $rawFullMonitorList = callApiPost("/monitors/findMonitors", $post, $headers);
   $rawFullMonitorList = json_decode($rawFullMonitorList['response'], true);
 
