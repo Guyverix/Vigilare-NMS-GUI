@@ -263,7 +263,7 @@
       storable: false,
       paging: true,
       perPage: 10,
-      perPageSelect:[],
+      perPageSelect:[10,20],
       labels: {
         placeholder: "hostgroup filter"
       }
@@ -281,7 +281,7 @@
       storable: false,
       paging: true,
       perPage: 10,
-      perPageSelect:[],
+      perPageSelect:[10,20],
       labels: {
         placeholder: "hostname filter"
       }
