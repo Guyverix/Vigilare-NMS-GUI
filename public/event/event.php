@@ -20,8 +20,8 @@ debugger($test);
   }
 */
 
-
   echo '<META HTTP-EQUIV=Refresh CONTENT="45"> ';
+  header("Cache-Control: no-store, no-cache, must-revalidate");
   // header('Refresh: 45');  // reload the damn page every X seconds
 
   echo '<br><br><br>'; // only needed if we have a horozontal bar
@@ -32,6 +32,9 @@ debugger($test);
     require(__DIR__ . '/../../functions/generalFunctions.php');
   }
   checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
+
+  $displayAck = '';
+  $displaySeverity = '';
 
   // Load local vars for use (urls, ports, etc)
   require_once __DIR__ . "/../../config/api.php";
@@ -105,14 +108,54 @@ debugger($test);
   $localTime = (strtotime("now") + $localOffset);
   echo '<!-- cookieTimezone ' . print_r($cookieTimezone, true) . ' localTime ' . $localTime . '-->' . "\n";
 
-
-
-
+  echo '<div class="container-fluid">';
+  echo "<table width='100%'><td>";
+  // Little table to allow for filtering severities
+  echo "<form id='saveFilter' action='' method='POST'>";
+  for ($i = 0; $i < 6; $i++) {
+    $checked = '';
+    switch ($i) {
+      case 1:
+        if (in_array($i,$displaySeverity)) { $checked = 'checked'; }
+        echo '<label><button class="btn btn-sm btn-outline-secondary "><input type="checkbox" name="activeFilter[]" value="1" ' . $checked . ' > Debug </button> </label>' . "\n";
+        break;
+      case 2:
+        if (in_array($i,$displaySeverity)) { $checked = 'checked'; }
+        echo '<label><button class="btn btn-sm btn-outline-primary ">  <input type="checkbox" name="activeFilter[]" value="2" ' . $checked . ' > Information </button> </label>' . "\n";
+        break;
+      case 3:
+        if (in_array($i,$displaySeverity)) { $checked = 'checked'; }
+        echo '<label><button class="btn btn-sm btn-outline-info "><input type="checkbox" name="activeFilter[]" value="3" ' . $checked . ' > Error </button> </label>' . "\n";
+        break;
+      case 4:
+        if (in_array($i,$displaySeverity)) { $checked = 'checked'; }
+        echo '<label><button class="btn btn-sm btn-outline-warning "><input type="checkbox" name="activeFilter[]" value="4" ' . $checked . ' > Warning </button> </label>' . "\n";
+        break;
+      case 5:
+        if (in_array($i,$displaySeverity)) { $checked = 'checked'; }
+        echo '<label><button class="btn btn-sm btn-outline-danger "><input type="checkbox" name="activeFilter[]" value="5" ' . $checked . ' > Critical </button></label>' . "\n";
+        break;
+    }  // end switch
+  }  // end for loop
+  echo '&nbsp<button type="submit" class="btn btn-sm btn-outline-primary" name="saveFilter" form="saveFilter"><i class="fas fa-bookmark"></i> Save filter</button>' . "\n";
+  echo "</form></td>\n";
+  
+  echo "<td>";
+  echo "<form id='chooseAck' action='' method='POST'>";
+  if ($displayAck == 'true') {
+    echo '<label><button type="submit" name="viewAck" form="chooseAck" value="false" class="btn btn-sm btn-outline-success ">Hide Acknoweleged</button></label>' . "\n";
+  }
+  else {
+    echo '<label><button type="submit" name="viewAck" form="chooseAck" value="true" class="btn btn-sm btn-outline-success ">Show Acknoweleged</button></label>' . "\n";
+  }
+  echo "</form>\n";
+  echo "</td>";
 
 
   // This needs a home INSIDE the display!
-  echo '<p class="text-end">Last Refresh: ' . date('Y-m-d H:i:s',$localTime) . "&nbsp&nbsp  </p>";
-
+  echo "</div><div class='col text-right'>";
+  echo '<td class="text-end">Last Refresh: ' . date('Y-m-d H:i:s',$localTime) . "&nbsp&nbsp  </td>";
+  echo "</table>";
   // Load the move to history modal here
   if (isset($_POST['moveToHistory']) ) {
     $evid = $_POST['evid'];
@@ -146,8 +189,9 @@ debugger($test);
     echo '</script>' . "\n";
   }
 
+  echo '</div>  <div class="container-fluid">';
+
 ?>
-  <div class="container-fluid">
   <table id="dt-events" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;">
     <thead>
       <tr>
@@ -170,6 +214,7 @@ debugger($test);
 
       <?php
         foreach($eventList as $events) {
+          if (in_array($events['eventSeverity'], $displaySeverity)) {
           //          debugger($events);
           switch ($events['eventSeverity']) {
             case "0":
@@ -257,6 +302,7 @@ debugger($test);
                echo '</form>';
              echo '</td></tr>';
            echo '</table>';
+          } // end if in_array filter for ignoring severities
         }  // end foreach loop
 
         ?>

@@ -24,11 +24,6 @@ function checkCookie($COOKIE) {
     return 0;
   }
 }
-/*
-$_COOKIE = array("token" => "1234Fake");
-//$_COOKIE = array("token2" => "1234Fake");
-$test = var_dump(checkCookie($_COOKIE));
-*/
 
 function checkTimer($COOKIE) {
   // Nice to have, but does not break if missing
@@ -38,13 +33,30 @@ function checkTimer($COOKIE) {
   else {
     $lifeTime = $COOKIE['expire'];
     $timeNow = time();
-    $timeLook = $timeNow + 900;
+    $timeLook = $timeNow + 3600;
     if ( $timeLook > $lifeTime ) {
      //   loadWarning("now: " . $timeNow . " future " . $timeLook . " expires " . $lifeTime);
-     loadWarning("Your login session ends in less than 15 minutes");
+     loadWarning("<br><br>Your login session ends in less than 60 minutes");
     }
   }
 }
+
+function setCookieSimple($name, $value, $storePath,  $timer = null) {
+  // timer is in seconds..
+  if (is_null($timer)) { $timer = 86400; }
+  $convert = $timer;
+  $options = array(
+    'expires' => time() + $convert,
+    'path' => $storePath,
+    'domain' => '',
+    'secure' => false,
+    'httponly' => false,
+    'samesite' => 'Lax'
+  );
+  setcookie($name, $value, $options);
+}
+
+
 /*
   The following few pages are actually going to be closer to toast or flash
   as we do not know always if we have the access for stuff we are asking for
