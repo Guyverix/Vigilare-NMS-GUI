@@ -23,7 +23,16 @@
 
   // Saves cookie value for filtering
   if (isset($_POST['saveFilter'])) {
-    $convert=implode(',', $_POST['activeFilter']);
+    // debugger($_POST);
+    if ( ! empty($_POST['activeFilter']) && is_array($_POST['activeFilter'])) {
+      $convert=implode(',', $_POST['activeFilter']);
+    }
+    elseif ( ! empty($_POST['activeFilter']) && ! is_array($_POST['activeFilter'])) {
+      $convert=$_POST['activeFilter'];
+    }
+    else {
+      $convert=0;
+    }
     setCookieSimple('showEventSeverity', $convert, '/event/', 8640000);
     // debugger($_COOKIE);
     header("Refresh:0");
