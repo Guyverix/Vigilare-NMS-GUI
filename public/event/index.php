@@ -157,6 +157,13 @@
 
   // Close off our NAV section now and begin to show our page
   echo '</nav>';
+
+  // Left side vertical menu must be defined before the main pages.  This is not nav
+  if ( file_exists(__DIR__ . '/includes/leftVerticalMenu.html')) {
+    readfile(__DIR__ . '/includes/leftVerticalMenu.html');
+    $extraDiv='true';
+  }
+
 ?>
   <!-- Add Main panel content here -->
   <div id="layoutSidenav_content">
@@ -175,6 +182,11 @@
     </main>
   </div>
 <?php
+  if ( $extraDiv == 'true' ) {
+    // Needed when we have the leftVerticalMenu loaded... Sigh...
+    echo "</div>";
+  }
+
   /*
     Load our Javascript and footers at this point.
     Any JS changes require the bottomFooter to be loaded from the includes, instead of shared

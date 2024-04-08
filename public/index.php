@@ -42,6 +42,19 @@
     }
   }
 
+  if ( ! isset($_SESSION)) {
+    session_start();
+  }
+
+  if ( empty($_COOKIE['clientTimezone'])) {
+    // This is specifically if it did not get set at login
+    $timezone = $_SESSION['time'];
+    if ( ! empty($timezone)) {
+      setCookieSimple('clientTimezone', $timezone , '/', 864000);
+    }
+  }
+
+
   /*
     Set the body of the HTML now
     this will also look for cookie expiration and forward back to login
