@@ -151,10 +151,8 @@ debugger($test);
   echo "</form>\n";
   echo "</td>";
 
-
-  // This needs a home INSIDE the display!
   echo "</div><div class='col text-right'>";
-  echo '<td class="text-end"><button class="btn btn-sm btn-outline-success ">Last Refresh: ' . date('Y-m-d H:i:s',$localTime) . "&nbsp&nbsp</button>  </td>";
+  echo '<td class="text-end"><button class="btn btn-sm btn-outline-dark ">Last Refresh: ' . date('Y-m-d H:i:s',$localTime) . "&nbsp&nbsp</button>  </td>";
   echo "</table>";
   echo "<br>";
   // Load the move to history modal here
@@ -177,7 +175,8 @@ debugger($test);
 
   // Load the event details modal here
   if (isset($_POST['displayDetails']) ) {
-    unset($_POST['displayDetails']);
+    // unset($_POST['displayDetails']);
+    // debugger($_POST);
     $eventDetails = $_POST;
     showEventModal($eventDetails);
     // Only load the JS when we need it

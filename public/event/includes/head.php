@@ -14,5 +14,5 @@
   <link href="/css/styles.css" rel="stylesheet">
   <link href="/js/bootstrap-5/css/bootstrap.min.css" rel="stylesheet">
   <script src="/js/cookie/checkCookie.js"></script>
-  <!--  <script src="/js/bootstrap-5/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>  -->
+  <script src="/js/bootstrap-5/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </head>
