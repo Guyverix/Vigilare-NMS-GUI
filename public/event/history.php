@@ -183,7 +183,7 @@
           echo '<tr ' . $rowColor . ' >';
           if (empty($events['id'])) {
             // If we do not have a device that has an id, then go to the create device page
-            echo '<td><center><a href="/host/index.php?&page=createDevice.php&hostname=' . $events['device'] . '&address=' . $events['eventAddress'] . '" target="_blank" ' . $linkColor . ' > ' .  $events['device'] . ' </a></center></td>';
+            echo '<td><center><a href="/host/index.php?&page=createHost.php&hostname=' . $events['device'] . '&address=' . $events['eventAddress'] . '" target="_blank" ' . $linkColor . ' > ' .  $events['device'] . ' </a></center></td>';
           }
           else {
             // If we know we have a device id, then go to the device details page

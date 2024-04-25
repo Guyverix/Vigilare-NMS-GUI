@@ -215,7 +215,6 @@
     // https://stackoverflow.com/questions/3223899/php-eval-and-capturing-errors-as-much-as-possible
     try {
       $success = @eval($newPreProcessing);
-      
     }
     catch (Throwable $t) {
      loadUnknown("FATAL! Issues found.  Even if syntax is correct the logic evaluated does not work right<br><br>\n" . $t);
