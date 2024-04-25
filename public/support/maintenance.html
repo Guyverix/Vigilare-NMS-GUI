@@ -1,0 +1,30 @@
+<br>
+<center><b>Maintenance pages: use and details.</b></center>
+<br>
+<br>
+<pre>
+<b>Use:</b>
+  Creation and modification of a maintenance type event.  This is used for temporary suppression of events that fire within a given time-band.
+  It is critical to note, that full outages can be suppressed when using this.  There is preliminary support for Maintenance events that are not
+  expected to be service impacting and can event when something like that happens, but this is mainly stubbed at this time.  Version 1 will mainly
+  be givning support to the suppression of events for a given timeframe and then remove the suppression after that point.
+
+  Internally housekeeping will age out events even when they are suppressed just like normal.  It will continue to work against all
+  events that occur, and set or clear events based on notification or timer expires.  At the end of a maintenance event all outstanding events
+  will show up within the Event Console with all counters intact.
+
+  It is important to remember that these events were suppressed unless specifically looked for in the console or at a host level.
+
+<b>Create:</b>
+  Creating a maintenenace event will cover hosts, or host groups that are given for the event.  Each event has a start and end time.
+  The hosts associated with the event will not event in the main console until event completion.  The ability to see the events and see only
+  maintenance related events can be done via a secondary Matintenance Event Page.
+
+<b>Update:</b>
+  Updating an event is only possible if the event has not completed yet.  There is not much point in editing something that already happened.
+
+<b>Delete:</b>
+  Deleting an event is normally only possible against events in the future.  If an event was cancelled but not removed, it will remain in the database
+  forever unless an Admin goes to remove it from the database with additional privileges.
+
+</pre>
