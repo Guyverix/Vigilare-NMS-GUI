@@ -12,6 +12,12 @@
 
     States set in events CAN be overridden. (eventually)
 
+
+    The API call is going to apply ALL of the rules and return the data
+    for all rules it is aware of.  Makes more sense than filtering down
+    at least for the V1 version.
+
+
   */
 
   echo '<META HTTP-EQUIV=Refresh CONTENT="120"> ';

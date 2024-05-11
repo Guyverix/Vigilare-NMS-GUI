@@ -1,9 +1,9 @@
 <?php
 /*
-  Although UI is using hostname, we actually prefer id from the device/host table
-  as the id value is the final truth.  Unfortunately, the filesystem and Graphite
-  paths are defined on a hostname basis.  Due to this, queries are based on hostname
-  when we have to, but will be id when possible elsewhere.
+  Custom functions that really only will apply to the ECE system.
+  Other stuff can go in the default for any page to use.
+
+  This is going to need some cleanup as it was copied from the event functions
 */
 
 
