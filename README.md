@@ -18,9 +18,9 @@ Welcome to Vigilare, an open-source fault management system designed to provide 
 
 
 ## Getting Started
-- [ ] At this time I consider this to be Alpha level code.  Functional but buggy (02-11-24)
+- [ ] At this time I consider this to be Beta level code.  Functional with a few annoyances (05-13-24)
 - [ ] All testing done on Ubuntu / Debian systems
-- [ ] Latest testing Ubuntu 20.04.6 LTS
+- [ ] Testing on Ubuntu 20.04.6 LTS
 - [ ] If the GUI is running on the same host as the API server and that is already installed, no additional packages are needed specifically for the GUI.
 
 ### Prerequisites
@@ -43,12 +43,12 @@ $apiHttp='https://';                                  // valid to make http as w
 $apiHostname="FQDN of the API server";                // Caution, DNS failures will make this choke, duh!
 $apiUrl= $apiHttp . $apiHostname;                     // Complete URL minus port number
 $apiPort=8002;                                        // Port API is listening on.  Do not use less than 1024 due to scanners easily finding this port
+$apiKey ='82f758fa-fdf8-4f22-a1a8-276c95b4570a';      // Created with uuidgen :)  Should match api key in api if same host, added to api_auth_keys in settings.php otherwise
 
 /*
 // These should not be needed for V1.  V2 may leverage these to "bless" the UI in even talking to the API server.
-$apiKey ='82f758fa-fdf8-4f22-a1a8-276c95b4570a';      // Created with uuidgen :)  Should match api key in api if same host
-$apiUser="apiUser";                                   // Alternate auth if key is borked or redis oos (maybe?)
-$apiPass="apiPass";                                   // alternate auth if key is borked or redis oos (maybe?)
+$apiUser="apiUser";                                   // Alternate auth if key is borked or redis oos (maybe? unused currently)
+$apiPass="apiPass";                                   // alternate auth if key is borked or redis oos (maybe? unused currently)
 */
 
 
@@ -89,7 +89,10 @@ Chris Hubbard – <chubbard@iwillfearnoevil.com>
 - [ ] Project Link: https://github.com/Guyverix/Vigilare-NMS-POLLER
 
 # Acknowledgements
-This project has been built using the following frameworks and libraries
+This project has been built using the following frameworks and libraries.  There are others used in testing, as well as some aplpha features that may
+or may not end up in the finished product.  Depends on if anyone wants them.  I am trying very hard to make sure that the licensing is kept as open
+as possible so there are no suprises with these libraries.  Additionally, I am attempting to use libraries that dont "phone home" or call other JS
+and leak information whenever possible.
 
 - [ ] Bootstrap 5.X
 - [ ] Simple datatables
