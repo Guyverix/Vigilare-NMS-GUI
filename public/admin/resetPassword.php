@@ -41,9 +41,15 @@
       $quitEarly = 1;
     }
     else {
-      // After a successful update, wait and then reload the page
+      // After a successful update, wait and then reload search page
       echo "<br><br><br>";
       successMessage('User password change is successful.');
+      echo '<script>
+              window.setTimeout(function() {
+                window.location = "/admin/index.php?&page=searchUser.php";
+              }, 3000);
+            </script>';
+      exit(); // Do not let the remainder of the page render
     }
   }
   // Success or failure, continue loading the page
