@@ -35,8 +35,8 @@
       <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
           <?php echo "<li>&nbsp&nbsp UserId ". $userId . "</li>"; ?>
-          <li><a class="dropdown-item" href="/user/settings.php">Settings</a></li>
-          <li><a class="dropdown-item" href="/user/lockAccount.php">Lock Access</a></li>
+          <li><a class="dropdown-item" href="/user/index.php?&page=settings.php">Settings</a></li>
+          <li><a class="dropdown-item" href="/user/index.php?&page=lockAccount.php">Lock Station -not active- </a></li>
           <li><hr class="dropdown-divider" /></li>
           <li>
             <div class="form-check form-switch">
