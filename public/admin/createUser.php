@@ -26,19 +26,25 @@ $post = array();  // We are using post, so give it an empty array to post with
 $quitEarly = 0;
 echo "<br><br><br>";
 // This is from an INTERNAL POST ONLY when we have changed a monitor
-//debugger($_POST);
-//exit();
 if (isset($_POST['password'])) {
   $post = $_POST;
   $changeMyUser = callApiPost("/admin/create", $post, $headers);
   $rawResponse = json_decode($changeMyUser['response'], true);
-  $responseCode = $rawResponse['statusCode'];
+  if ( $changeMyUser['code'] == 418 ) {
+    $responseCode = 418;
+  }
+  else {
+    $responseCode = $rawResponse['statusCode'];
+  }
   $post = array();
-  if ($responseCode !== 200 && $responseCode !== 403) {    // Anything other than a 200 OK is an issue
+  if ($responseCode !== 200 && $responseCode !== 403 && $responseCode !== 418) {    // Anything other than a 200 OK is an issue
     echo "<br><br><br>";
     $responseString = $rawResponse['error']['description'];
     decideResponse($responseCode, $responseString);
     $quitEarly = 1;
+  } elseif ($responseCode == 418) {
+    load418("Additional access required.  Please contact admin.");
+    $quitEarly = 2;
   } elseif ($responseCode == 403) {
     load403Warn("Expired access credentials");
     $quitEarly = 1;
@@ -51,13 +57,21 @@ if (isset($_POST['password'])) {
   $post = $_POST;
   $changeMyUser = callApiPost("/admin/adminRegister", $post, $headers);
   $rawResponse = json_decode($changeMyUser['response'], true);
-  $responseCode = $rawResponse['statusCode'];
+  if ( $changeMyUser['code'] == 418 ) {
+    $responseCode = 418;
+  }
+  else {
+    $responseCode = $rawResponse['statusCode'];
+  }
   $post = array();
-  if ($responseCode !== 200 && $responseCode !== 403) {    // Anything other than a 200 OK is an issue
+  if ($responseCode !== 200 && $responseCode !== 403 && $responseCode !== 418) {    // Anything other than a 200 OK is an issue
     echo "<br><br><br>";
     $responseString = $rawResponse['error']['description'];
     decideResponse($responseCode, $responseString);
     $quitEarly = 1;
+  } elseif ($responseCode == 418) {
+    load418("Additional access required.  Please contact admin.");
+    $quitEarly = 2;
   } elseif ($responseCode == 403) {
     load403Warn("Expired access credentials");
     $quitEarly = 1;
@@ -192,7 +206,8 @@ if ($quitEarly == 0) {
 
 
     <?php
-} else {
+} elseif ( $quitEarly == 2) {}
+else {
   // Our API did not give us usable information.  May be transient, or API server is borked.
   loadUnknown("API calls failed in an unexpected way.  Please reload");
 }

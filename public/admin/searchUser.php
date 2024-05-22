@@ -70,13 +70,26 @@
     $rawUsersList = json_decode($rawUsersList['response'], true);
   }
   $usersList = json_decode($rawUsersList['response'], true);
-  $responseCode = $usersList['statusCode'];
+  if ( empty($usersList)) {
+    $responseCode = 418;
+  }
+  else {
+    $responseCode = $usersList['statusCode'];
+  }
+  if ( isset($usersList[0]['code'])) {
+    $resposneCode = $usersList[0]['code'];
+  }
+
   $users = $usersList['data'];
   $quitEarly = 0;
 
-
   // Sanity check your results
   switch ($responseCode) {
+   case 418:
+     echo "<br><br><br>";
+     load418("Additional access required.  Contact an admin");
+     $quitEarly = 2;
+     break;
    case 403:
      echo "<br><br><br>";
      load4XX();
@@ -196,6 +209,9 @@
   <?php
 
 
+  }
+  elseif ( $quitEarly == 2) {
+    echo "<br>";
   }
   else {
     // Something went very wrong with the API call, but keep the layout clean...

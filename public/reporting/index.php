@@ -66,6 +66,13 @@
     as they are needed
   */
 
+  // Left side vertical menu must be defined before the main pages.  This is not nav
+  if ( file_exists(__DIR__ . '/includes/leftVerticalMenu.html')) {
+    readfile(__DIR__ . '/includes/leftVerticalMenu.html');
+    $extraDiv='true';
+  }
+
+
   echo '<!-- Any <nav> goes here including user options -->';
   echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
 
