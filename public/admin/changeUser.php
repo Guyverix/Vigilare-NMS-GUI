@@ -18,7 +18,7 @@
   $post = array();  // We are using post, so give it an empty array to post with
   $quitEarly = 0;
 
-  // This is from an INTERNAL POST ONLY when we have changed a monitor
+  // This is from an INTERNAL POST ONLY when we have changed a user value
   if ( isset($_POST['changeMyUser'])) {
     $post = $_POST;
     $changeMyUser = callApiPost("/admin/update", $post, $headers);
