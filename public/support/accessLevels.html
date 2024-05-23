@@ -1,0 +1,52 @@
+<br>
+<center><b>Access Levels</b></center>
+<br>
+<br>
+<pre>
+<b>Use:</b>
+
+The Access Levels defined for use when using the built in database (V1) are set as a string currently.
+They are defined as "user,tech,operator,admin".  These are all well and good, however they do not have
+a concept of this level and below.  As of 05-25-2024 the transition to integer values AND these values
+will happen.  This will allow for granular access levels with the ability to set very specific ones
+as well.
+
+The integer levels will begin at zero and go to 100.  While I am sure some smartass will dial it up to 1000
+for some strange reason, the expectation will be as stated.
+
+https://wiki.iwillfearnoevil.com/mediawiki/index.php/Nms-definitions
+https://wiki.iwillfearnoevil.com/mediawiki/index.php/Nms-authentication
+
+While the wiki contains some of the reasons or logic they dont have hard set values.
+This is an attempt to flesh out some basics.
+
+0    Lowest level of access that can be achieved. (user)
+     Likely something like a Kiosk mode
+
+25   Manager or Director access. (tech)
+     This is not a slight against managers.  This is to define
+     that they are likely not going to care as much about blood and guts
+     as they are about getting data from the system to manage teams.
+     In general stuff like reporting that you may not want to be available
+     in a Kiosk mode, or application level status work.
+
+50   Think day to day operations (operator)
+     Full access to the event system including the ability to transform
+     via the replay system events that happen.  They however will have minimal
+     access into things such as admin functions when working with users.
+
+100  Full access with no restrictions to any API calls. (admin)
+     Just what it says on the label.  No restrictions
+
+The logic on the API side is simple.  Your number must be >= what the access level
+is to get data from the API call.
+
+HOWEVER, there will be times that a user will have to have access to something that
+they normally would not.  This goes back to the string option.  If you dont have the
+access level needed BUT you do have a string match for an option, this will allow access
+to the API.
+
+This can be a security issue, so the bypass should be configured only while the additional access
+is needed, and then removed after the work is completed.
+
+</pre>
