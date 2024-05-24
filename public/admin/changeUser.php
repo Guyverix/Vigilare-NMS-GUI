@@ -38,6 +38,13 @@
       // After a successful update, wait and then reload the page
       echo "<br><br><br>";
       successMessage('User update is successful.');
+      echo '<script>
+              window.setTimeout(function() {
+                window.location = "/admin/index.php?&page=searchUser.php";
+              }, 3000);
+            </script>';
+      exit(); // Do not let the remainder of the page render
+
     }
   }
   // Success or failure, continue loading the page
@@ -106,7 +113,7 @@
         <div class="row"><center>
           <div class="col-3">
             <div class="form-group">
-              <label for="form_accessList">accessList *</label>
+              <label for="form_accessList">Access List (CSV) *</label>
               <?php echo '<input id="form_accessList" type="text" name="accessList" class="form-control" value="' . $accessList . '" required="required" data-error="CSV of access names, or a single integer with an absolute access value.">';  ?>
             </div> <!-- form-group -->
           </div>  <!-- col -->
