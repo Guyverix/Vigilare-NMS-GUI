@@ -13,7 +13,7 @@
   $post = array();  // We are using post, so give it an empty array to post with
   $quitEarly = 0;
   if (empty($_POST)) {
-    $quitEarly = 1;
+    $quitEarly = 3;
   }
 
   if ( isset($_POST['submitReport'])) {
@@ -100,8 +100,16 @@
   }
   elseif ($quitEarly == 1) {
     // Show our generic error page
+    echo "<br><br><br>";
     loadUnknown("API calls failed in an unexpected way.  Please go back to parent page and try again.");
   }
+  elseif ($quitEarly == 3) {
+    // Show our generic error page
+    echo "<br><br><br>";
+    loadUnknown("This page was not expected to be called this way.  This should be a destination of a parent page POST to this page.");
+  }
   else {
-    // catchall....
+    // catchall and fall through when page is called
+      echo "<br><br><br>";
+    // loadUnknown("we got here, but why?!");
   }

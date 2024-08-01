@@ -84,7 +84,7 @@ $eceList = json_decode($rawEceList['response'], true);
       }
       echo "<td><input class='form-control' type='text' name='categoryName' value='" . $eceElement['categoryName'] . "'></td>\n";
       echo "<td><input class='form-control' type='text' name='associatedHost' value='" . $eceElement['associatedHost'] . "'></td>\n";
-      echo "<td><input class='form-control' type='text' name='associatedCheck' value='" . $eceElement['associatedCheck'] . "'></td>\n";
+      echo "<td><input class='form-control' type='textarea' cols='10' rows='20' name='associatedCheck' value='" . $eceElement['associatedCheck'] . "'></td>\n";
       echo "<td><button form='changeEce" . $eceElement['categoryId'] . "' type='submit' class='btn btn-default btn-info btn-sm'><span class='glyphicon glyphicon-off' value='foo'></span>Change Monitor</button></td></form></table></tr>\n";
     }
     echo "</table>\n";
