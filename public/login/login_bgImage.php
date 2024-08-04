@@ -1,4 +1,5 @@
 <!-- Why the hell is this the only way to get a client timezone!??  -->
+<!DOCTYPE html>
 <META Http-Equiv="Cache-Control" Content="no-cache"/>
 <META Http-Equiv="Pragma" Content="no-cache"/>
 <META Http-Equiv="Expires" Content="0"/>
@@ -157,7 +158,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         <style>
           body {
             background-image: url("../../images/background/background.jpg");
-            background-repeat: repeat-n;
+            background-repeat: no-repeat;
             background-size: cover;
           }
        </style>
