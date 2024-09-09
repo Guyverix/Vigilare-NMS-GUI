@@ -280,6 +280,44 @@ function callApiGet($remotePath, $headers = null) {
   return $result;
 }
 
+function callUrlGet($remoteUrl, $headers = null) {
+  $result = array();
+  $ch = curl_init($remoteUrl);
+  if ( ! is_null($headers)) {
+    curl_setopt($ch, CURLOPT_HTTPHEADER,$headers);
+  }
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $result['response'] = curl_exec($ch);
+  $result['code'] = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+  $result['info'] = curl_getinfo($ch);                                           // Mainly useful for debugging
+  $result['debug']['remoteUrl'] = $remoteUrl;
+  $result['debug']['headers'] = $headers;
+  curl_close($ch);
+  return $result;
+}
+
+function callUrlPost( string $remoteUrl, array $postData, array $headers = null) {
+  $ch = curl_init($remoteUrl);
+  if ( ! is_null($headers)) {
+    curl_setopt($ch, CURLOPT_HTTPHEADER,$headers);
+  }
+  curl_setopt($ch, CURLOPT_POST, true);
+  //curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $result['response'] = curl_exec($ch);
+  $result['code'] = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+  $result['info'] = curl_getinfo($ch);                                           // Mainly useful for debugging
+  $result['debug']['remoteUrl'] = $remoteUrl;
+  $result['debug']['headers'] = $headers;
+  $result['debug']['postData'] = $postData;
+  //$result['debug']['buildQuery'] = http_build_query($postData);
+  curl_close($ch);
+  return $result;
+}
+
+
+
 
 // https://stackoverflow.com/questions/4315271/how-to-pass-arguments-to-an-included-file
 function includeHead($title) {
