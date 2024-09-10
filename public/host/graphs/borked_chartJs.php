@@ -4,8 +4,10 @@
     This is going to render via ChartJS that
     match a given checkName name.
   */
+  echo '<link rel="stylesheet" href="graphs/gah/styles.css">';
   echo '<script src="/js/charts/chartjs/4.3.2/chart.umd.js" crossorigin="anonymous"> </script>';
-  echo '<script src="/host/graphs/script.js"></script>';
+  echo '<script> src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-moment/1.0.1/chartjs-adapter-moment.min.js"</script>';
+  echo '<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>';  // get a local copy!
 
   echo '<br><br><br>'; // only needed if we have a horozontal bar
 
@@ -145,16 +147,6 @@
     foreach ( $renderGraphsResult['data'][0] as $checkNameList) {
       // echo "checkNameList " . $checkNameList . "<br>";
       if ( ! is_array($checkNameList)) {
-
-?>
-
-
-
-
-
-
-<?php
-///        echo '<tr><td><center><img class="NO-CACHE" src="' .  $checkNameList . '" width="900" height="200"></img></center></td></tr>';
       }
       else {
         foreach ($checkNameList as $k => $v) {
@@ -174,11 +166,9 @@
       }
     }
   }
+  echo '<script src="/host/graphs/script.js"></script>';
 
   echo '</tbody>';
   echo '</table>';
 
-//    $titleName = key($checkNameList);
-//    $finalUrl = $chekNameList[0];
-//    echo "title " . $titleName . " url " . $finalurl  . "<br>";
 ?>

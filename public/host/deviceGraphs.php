@@ -225,19 +225,19 @@
    ?>
      </tbody>
    </table>
-    <table class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;"><b>Available ChartJS Graphs From Graphite</b>
+    <table class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;"><b>Available CanvasJS Graphs From Graphite</b>
       <tbody>
   <?php
       foreach ($graphiteList as $graphitePollerName => $graphitePoller) {
         foreach ($graphitePoller as $grapiteKey => $graphiteValue) {
         echo '<tr><td>';
-          echo '<form id="chartjs_' . $graphiteKey . $graphiteValue . '" method="POST" action="/host/index.php?&page=/graphs/chartJs.php">';
+          echo '<form id="canvasjs_' . $graphiteKey . $graphiteValue . '" method="POST" action="/host/index.php?&page=/graphs/canvasJs.php">';
           echo '<input type="hidden" name="task" value="findGraphs">';
           echo '<input type="hidden" name="hostname" value="' . $hostname . '">';
           echo '<input type="hidden" name="checkType" value="' . $graphitePollerName . '">';
           echo '<input type="hidden" name="checkName" value="' . $graphiteValue . '">';
           echo '<input type="hidden" name="id" value="' . $id . '">';
-          echo strtoupper($graphitePollerName) . ' <button type="submit" form="chartjs_' . $graphiteKey . $graphiteValue . '" class="btn btn-link">' . $graphiteValue . '</button>';
+          echo strtoupper($graphitePollerName) . ' <button type="submit" form="canvasjs_' . $graphiteKey . $graphiteValue . '" class="btn btn-link">' . $graphiteValue . '</button>';
           echo '</form>';
         echo '</td></tr>';
       }
