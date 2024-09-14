@@ -65,7 +65,6 @@
     $endTime = '-1m';
   }
 
-//debugger($post);
 //debugger($_POST);
   $post = ['task' => $task ];
   $post += ['hostname' => $hostname ];
@@ -73,6 +72,7 @@
   $post += ['checkType' => $checkType ];
   $post += ['from' => $startTime ];
   $post += ['to' => $endTime ];
+//debugger($post);
 
   $rawRenderGraphs = callApiPost("/graphite/test", $post, $headers);
   $renderGraphsResult = json_decode($rawRenderGraphs['response'],true);

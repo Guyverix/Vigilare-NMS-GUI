@@ -149,8 +149,8 @@
       }
     }
 // debugger($rawListOfChecks);
-// exit();
 //  debugger($graphiteList); // list['nrpe'][0] = blah
+// exit();
   }
 
   /*

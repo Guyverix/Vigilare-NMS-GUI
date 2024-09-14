@@ -131,19 +131,88 @@
     $graphNumber=0;
     foreach ( $renderGraphsResult['data'][0] as $checkNameList) {
       // echo "checkNameList " . $checkNameList . "<br>";
+      // debugger($checkNameList);
       if ( ! is_array($checkNameList)) {
-        // No array, no graphs...
+        $graphNumber++;
+        // No nested Array, single URLs to work on one at a time
+        $dataReturn = callUrlGet($checkNameList . '&format=json');
+        $graphiteJsonConvert=json_decode($dataReturn['response'], true);
+
+         //debugger($graphiteJsonConvert);
+         // Set defaults for values here:
+         $dataPointsG=array();
+         $dataPointApexYFinal='[';
+         $dataPointApexXFinal='[';
+
+         // convert your array into something that javascript can consume (json)
+         foreach ($graphiteJsonConvert as $graphiteJsonFiltered) {
+           $graphiteTarget = $graphiteJsonFiltered['target'];
+           foreach ($graphiteJsonFiltered['datapoints'] as $k => $v) {
+             // line needs x/y values and JAVA precision on dates!
+             $tim=$v[1].'000';
+             $dataPointG = array("x" => $tim, "y" =>$v[0]);
+             $dataPointApexY = ",$v[0]";
+             //    $dataPointApexX = "," . date("m-d-Y H:i:s", $v[1]) ."";
+             $dataPointApexX = "," . $v[1] ."000";
+             array_push($dataPointsG, $dataPointG);
+
+             // Spline needs different format
+             $dataPointApexYFinal .= $dataPointApexY;
+             $dataPointApexXFinal .= $dataPointApexX;
+           }
+         }
+         // Close out the strings to make proper json
+         $dataPointApexYFinal .= ']';
+         $dataPointApexXFinal .= ']';
+         // Clean out empty points
+         $dataPointApexYFinal = preg_replace('/\[,/','[', $dataPointApexYFinal);
+         $dataPointApexXFinal = preg_replace('/\[,/','[', $dataPointApexXFinal);
+
+         ?>
+         <tr><td align="center">
+         <div id="graphiteContainer_<?php echo $graphNumber; ?>" style="height: 250px; width:1000px;"></div>
+         <script type="text/javascript">
+         $(function () {
+           var chart = new CanvasJS.Chart("graphiteContainer_<?php echo $graphNumber; ?>", {
+             theme: "theme2",
+             zoomEnabled: true,
+             animationEnabled: true,
+             title: {
+               text: "<?php echo $graphiteTarget; ?>"
+             },
+             axisY: {
+               reversed: false
+             },
+             data: [
+             {
+               type: "splineArea",
+               markerSize:5 ,
+               toolTipContent: "{y}",
+               xValueType: "dateTime",
+               color: "rgba(54,158,173,.7)",
+               dataPoints: <?php echo json_encode($dataPointsG, JSON_NUMERIC_CHECK); ?>
+             }
+             ]
+           });
+           chart.render();
+         });
+         </script>
+         </td></tr>
+         <?php
+         echo "<br>";
       }
       else {
         foreach ($checkNameList as $k => $v) {
-      $graphNumber++;
-          // echo "<br>" . $k . "<br>";
-          // echo "<br>" . $v . "<br>";
+          $graphNumber++;
+           echo "<br>" . $checkNameList . "<br>";
+           echo "<br>" . $k . "<br>";
+           echo "<br>" . $v . "<br>";
           if ( ! is_array($v)) {
             // callUrlGet for adhoc URL's
             $dataReturn = callUrlGet($v . '&format=json');
             $graphiteJsonConvert=json_decode($dataReturn['response'], true);
 
+            //debugger($graphiteJsonConvert);
             // Set defaults for values here:
             $dataPointsG=array();
             $dataPointApexYFinal='[';
@@ -193,7 +262,7 @@
                 {
                   type: "splineArea",
                   markerSize:5 ,
-                  toolTipContent: "rta {y}ms",
+                  toolTipContent: "{y}",
                   xValueType: "dateTime",
                   color: "rgba(54,158,173,.7)",
                   dataPoints: <?php echo json_encode($dataPointsG, JSON_NUMERIC_CHECK); ?>
