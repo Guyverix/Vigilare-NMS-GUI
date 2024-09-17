@@ -204,9 +204,9 @@
       else {
         foreach ($checkNameList as $k => $v) {
           $graphNumber++;
-           echo "<br>" . $checkNameList . "<br>";
-           echo "<br>" . $k . "<br>";
-           echo "<br>" . $v . "<br>";
+ //          echo "<br>" . $checkNameList . "<br>";
+ //          echo "<br>" . $k . "<br>";
+ //          echo "<br>" . $v . "<br>";
           if ( ! is_array($v)) {
             // callUrlGet for adhoc URL's
             $dataReturn = callUrlGet($v . '&format=json');
