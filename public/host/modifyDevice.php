@@ -27,8 +27,12 @@
     $hostname = $_POST['hostname'];
     $address = $_POST['address'];
     $firstSeen = $_POST['firstSeen'];
+    if ($_POST['productionState'] == 0 ) { $_POST['productionState'] = "available"; }
+    if ($_POST['productionState'] == 1 ) { $_POST['productionState'] = "disabled"; }
     $productionState = $_POST['productionState'];
     $isAlive = $_POST['isAlive'];
+//debugger($_POST);
+//exit();
 
     // If we are actually changing membership of a group
     if (isset($_POST['changeDeviceGroup'])) {
@@ -72,8 +76,9 @@
     $post  = [ 'id' => $_POST['id'] ];
     $post += [ 'hostname' => $_POST['hostname'] ];
     $post += [ 'address' => $_POST['address'] ];
+    if ( $_POST['productionState'] == "available" ) { $_POST['productionState'] = 0; } 
+    if ( $_POST['productionState'] == "disabled" ) { $_POST['productionState'] = 1; } 
     $post += [ 'productionState' => $_POST['productionState'] ];
-
     $updateMyDevice = callApiPost("/device/update", $post, $headers);
     $rawResponse = json_decode($updateMyDevice['response'], true);
     $responseCode = $rawResponse['statusCode'];
@@ -173,7 +178,7 @@
               <th>Hostname</th>
               <th>IP Address</th>
               <th>First Seen</th>
-              <th>Can be active monitored</th>
+              <th>Can monitor: available or disabled</th>
               <th>Is Alive</th>
             </tr>
           </thead>
@@ -185,7 +190,24 @@
                 echo '<td><input type="text" name="hostname" value="' . $hostname . '" style="width: 300px"></td>';
                 echo '<td><input type="text" name="address" value="' . $address . '"></td>';
                 echo '<td><input type="text" name="firstSeen" class="form-control" value="' . $firstSeen . '" readonly></td>';
-                echo '<td><input type="text" name="productionState" value="' . $productionState . '" style="width: 40px"></td>';
+/*
+                // 0 monitored, 1 not able to be monitored
+//                echo '<td><input type="text" name="productionState" list="monitor1" style="width: 40px"><datalist id="monitor1">';
+//                echo '<td><input type="select" name="productionState" style="width: 40px">';
+                echo '<td><input list="monitor1" name="productionState" style="width: 40px">';
+//                echo '<datalist id="monitor1">';
+                if ( $productionState == 0 ) {
+                  echo '<datalist id="monitor1"><option value="0">Enabled</option>';
+                  echo '<option value="1">Disabled</option></datalist>';
+                  echo "</td>";
+                }
+                else {
+                  echo '<datalist id="monitor1"><option value="0">Enabled</option>';
+                  echo '<option value="1">Disabled</option></datalist>';
+                  echo "</td>";
+                }
+*/
+                echo '<td><input type="text" name="productionState" value="' . $productionState . '" style="width: 80px"></td>';
                 echo '<td><input type="text" name="isAlive" class="form-control" value="' . $isAlive . '" readonly>';
               ?>
             </td>
