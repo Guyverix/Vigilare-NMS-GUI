@@ -5,6 +5,15 @@
     This will require some oddball filtering I expect.
   */
 
+
+  /* Testing only
+  $id=10;
+  $hostname="guyver-office.iwillfearnoevil.com";
+  $templateName="snmp_lm-sensors_volt";
+  $fileArray= ["/opt/Vigilare-NMS-API/rrd/guyver-office.iwillfearnoevil.com/snmp/lm-sensors/volt.3VSB_32.rrd"];
+  unset($_POST['files']);
+  */
+
   echo '<br><br><br>'; // only needed if we have a horozontal bar
 
   // Only needed for debugging and bypassing security, etc
@@ -16,7 +25,6 @@
 
   // Hosts and Devices have A LOT of variables in play.  We need functions specific to this group
   require_once __DIR__ . "/../functions/hostFunctions.php";
-
   if ( isset($_POST['hostname'])) {
     $hostname = $_POST['hostname'];
   }
@@ -54,8 +62,6 @@
     $endTime = 'now';
   }
 
-  // debugger($_POST);
-  // debugger($fileArray);
   echo '<div class="container">';
   echo '<div class=" text-center mt-5 ">';
   echo '<h1>Available RRD Graphs for <a href="/host/index.php?&page=deviceDetails.php&id=' . $id . '">' . $hostname . '</a></h1><br>';
@@ -88,8 +94,8 @@
   echo '<center><button type="submit" form="changeTimes" class="btn btn-primary">Change Timeframe</button> <p></p> <input type="button" type="submit" class="btn btn-primary" value="back one page" onclick="history.back()"/></center>';
   echo '</form>';
 
-  echo '<div class="container">';
-  echo '<table class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;"><center><b>RRD Graphs for template ' . $templateName . '</b></center>';
+  echo '<div class="container">' . "\n";
+  echo '<table class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;"><center><b>RRD Graphs for template ' . $templateName . '</b></center>' . "\n";
   // Inside our table we are going to make one call per file to render the RRD back to us
   foreach($fileArray as $fileName) {
     $post =  [ 'hostname' => $hostname ];
@@ -98,26 +104,41 @@
     $post += [ 'filter' => $templateName ];
     $post += [ 'start' => $startTime ];
     $post += [ 'IgnoreMatch' => ["/run"] ];
-    // debugger($post);
     $rawRenderRrd = callApiPost("/render/render", $post, $headers);
     $renderRrd = json_decode($rawRenderRrd['response'], true);
-    // debugger($renderRrd);
     if ( $renderRrd['statusCode'] !== 200 ) {
       // echo '<tr><td>' . loadUnknown("API calls failed in an unexpected way.") . '</td></tr>';
       echo '<tr><td>' . loadUnknown($renderRrd['data']) . '</td></tr>';
     }
     else {
+      /*
+         Use base64 encoding so we can render images that we do not have locally.
+         This will be useful when host is behind a proxy.
+      */
       if (array_key_exists(0, $renderRrd['data'])) {
         foreach ($renderRrd['data'] as $renderRrdArray) {
+          $urlImg = $apiHttp . $apiHostname . ':' . $apiPort . $renderRrdArray['image'] ;
+          $fileData = exif_read_data($urlImg);
+          $fileEncode = base64_encode(file_get_contents($urlImg));
+          echo "<tr><td><center><img src=\"data:${fileData["MimeType"]};base64,${fileEncode}\" width=\"900\" height=\"200\"></img></center></td></tr>\n";
+          /* old, direct rendering causes issues with vhosts and not being proxied
+          echo '<tr><td><center><img class="NO-CACHE" src="'data:${fileData["MimeType"]};base64,${fileEncode}  . '" width="900" height="200"></img></center></td></tr>';
           echo '<tr><td><center><img class="NO-CACHE" src="' .  $apiHttp . $apiHostname . ':' . $apiPort . $renderRrdArray['image'] . '" width="900" height="200"></img></center></td></tr>';
+          */
         }
       }
       else {
+        $urlImg = $apiHttp . $apiHostname . ':' . $apiPort . $renderRrd['data']['image'] ;
+        $fileData = exif_read_data($urlImg);
+        $fileEncode = base64_encode(file_get_contents($urlImg));
+        echo "<tr><td><center><img src=\"data:${fileData["MimeType"]};base64,${fileEncode}\" width=\"900\" height=\"200\"></img></center></td></tr>\n";
+        /* old, direct rendering causes issues with vhosts and not being proxied
         echo '<tr><td><center><img class="NO-CACHE" src="' .  $apiHttp . $apiHostname . ':' . $apiPort . $renderRrd['data']['image'] . '" width="900" height="200"></img></center></td></tr>';
-        // echo '<tr><td><center><img class="NO-CACHE" src="' .  $apiHttp . $apiHostname . ':' . $apiPort . $renderRrd['data']['image'] . '"></img></center></td></tr>';  // DEFAULT sizing..
+        echo '<tr><td><center><img class="NO-CACHE" src="' .  $apiHttp . $apiHostname . ':' . $apiPort . $renderRrd['data']['image'] . '"></img></center></td></tr>';  // DEFAULT sizing..
+        */
       }
     }
   }
-  echo '</tbody>';
-  echo '</table>';
+  echo '</tbody>'. "\n";
+  echo '</table>' . "\n";
 ?>
