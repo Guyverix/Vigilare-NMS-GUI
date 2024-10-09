@@ -116,7 +116,10 @@
   // Need to calculate these.  Placeholders right now...
   $alarmTime = $eventTime . " minutes";
   $historyTime = $historyTime . " minutes";
-  $availability = calcPercentage($availableTime , $timeBand) . "%";
+  $availabilityRaw = calcPercentage($availableTime , $timeBand);
+  // debugger($availabilityRaw);
+  if ( $availabilityRaw <= 0 ) { $availabilityRaw = 0; }
+  $availability = $availabilityRaw . "%";
 
   // Get our database information cleaned up from hrSystem SNMP storage
   $deviceInformation = hrSystem($rawDevicePerformance);
