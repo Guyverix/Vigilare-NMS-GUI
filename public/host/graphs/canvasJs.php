@@ -7,7 +7,8 @@
   echo '<script src="/js/jquery/jquery-1.7.1.min.js"></script>';
   // This is just for testing.  Get the damn license when you can afford it
 
-  echo '<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>';
+  // Paid version 10-15-2024
+  echo '<script src="/js/charts/canvasjs/canvasjs.min.js"></script>';
 
   echo '<br><br><br>'; // only needed if we have a horozontal bar
 
