@@ -11,6 +11,12 @@
   require_once __DIR__ . "/../../config/api.php";
 
   $reportName = $_GET['template'];
+  if ( isset($_GET['reportDate'])) {
+    $reportDate = $_GET['reportDate'];
+  }
+  else {
+    $reportDate = 'unknown';
+  }
 
   $headers = array();
   $headers[] = 'Authorization: Bearer ' . $_COOKIE['token'];
@@ -22,6 +28,7 @@
     $rawReportingList = json_decode($rawReportingList, true);
   }
   $reportingList = json_decode($rawReportingList['response'], true);
+  // debugger($reportingList);
   $reporting = $reportingList['data']['reportResult'];
   $filterValues = $reportingList['data']['filterValues'];
   $quitEarly = 0;
@@ -71,6 +78,7 @@
     // show our filter values if known
     echo '<div class="col-sm-2">';
     echo '<table id="filters" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;"><b><center>Filters if known</center></b>';
+    echo '<tr><td><b> Report Run  </b></td><td>' . $reportDate . "</td></tr>";
     foreach ($filterValues as $key => $value) {
      echo "<tr><td><b>" . $key . "</b></td><td>" . $value . "</td></tr>";
     }

@@ -121,6 +121,22 @@
   if ( $availabilityRaw <= 0 ) { $availabilityRaw = 0; }
   $availability = $availabilityRaw . "%";
 
+  // New servers should not show availability when they have been active less than 30 days
+  $seenDate = $rawDeviceProperties['data'][0]['firstSeen'];
+  $epochSeen = strtotime("$seenDate");
+  $dateNow = time() - (30 * 24 * 60 * 60);;
+
+  if ( $dateNow < $epochSeen ) {
+    $bypass = 'new' ;
+  }
+  else {
+    $bypass = 'live';
+  }
+  if ( $bypass == 'new' ) {
+    $availability = "New Server Bypass";
+  }
+
+
   // Get our database information cleaned up from hrSystem SNMP storage
   $deviceInformation = hrSystem($rawDevicePerformance);
   $hrSystemUpdate = hrSystemDate($rawDevicePerformance);
@@ -166,7 +182,6 @@
 
   // Not existing yet, but have the bubble in place for when code exists
   $maintenanceState = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> No Active Maintenance </img>' . "\n";
-
 
 //  echo "<br><br><br>";
 //  debugger($rawDevicePerformance);

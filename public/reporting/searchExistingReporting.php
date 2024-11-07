@@ -64,7 +64,7 @@
       echo '<td>' . $report['status'] . '</td>';
       echo '<td>';
 
-      echo '<form id="runTemplate_' . $report['id'] . '" method="POST" action="/reporting/index.php?&page=viewReport.php&template=' . $report['reportName'] . '">';
+      echo '<form id="runTemplate_' . $report['id'] . '" method="POST" action="/reporting/index.php?&page=viewReport.php&template=' . $report['reportName'] . '&reportDate=' . $report['reportDate'] . '">';
       echo '<input type="hidden" name="id" value="' . $report['id'] . '">';
       echo '<button type="submit" class="btn btn-sm btn-outline-primary" name="runTemplate" form="runTemplate_' . $report['id'] . '">View <i class="fas fa-play"></i></button> </form></td><td>';
 
