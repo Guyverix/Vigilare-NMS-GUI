@@ -107,8 +107,12 @@
     $rawRenderRrd = callApiPost("/render/render", $post, $headers);
     $renderRrd = json_decode($rawRenderRrd['response'], true);
     if ( $renderRrd['statusCode'] !== 200 ) {
-      // echo '<tr><td>' . loadUnknown("API calls failed in an unexpected way.") . '</td></tr>';
-      echo '<tr><td>' . loadUnknown($renderRrd['data']) . '</td></tr>';
+      echo "<!-- DEBUGGING: This is not a good idea, this WILL leak sensitive info!\n";
+      debugger($rawRenderRrd);
+      debugger($renderRrd);
+      echo "\n-->";
+      // Back to UX response information
+      echo '<tr><td>' . loadUnknown('Error loading file' . $rawRenderRrd['debug']['postData']['file']) . '</td></tr>';
     }
     else {
       /*
