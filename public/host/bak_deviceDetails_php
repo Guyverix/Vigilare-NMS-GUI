@@ -4,19 +4,8 @@
     Allow for simple alteration of monitors
     Reflect active events, and allow for historical
     searches to be done at the host level.
-
-
-   <link href="/css/zenoss/base-min.css" rel="stylesheet">
-<link href="/css/zenoss/zenoss_base.css" rel="stylesheet">
-<link href="/css/zenoss/zen_event_styles.css" rel="stylesheet">
-<link href="/css/zenoss/zenoss_console_styles.css" rel="stylesheet">
-
-
   */
-?>
-<link href="/css/vigilare/test_styles.css" rel="stylesheet">
 
-<?php
   echo "<br><br><br>";
   echo "<!-- Start of page DATE " . time() . "-->";
   // Only needed for debugging and bypassing security, etc

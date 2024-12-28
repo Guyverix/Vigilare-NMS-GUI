@@ -1,4 +1,13 @@
 <?php
+
+/* For this to be a template include, then we have to define our defaults to use */
+$title="Unfiltered Active Events";
+$link = "/event/index.php?&page=event.php";
+$linkName = "Event Details";
+
+echo '            <center><h5 class="card-title">' . $title . '</h5></center>';
+
+
 // Load our JS to make pretty pictures
 echo '<script src="/js/charts/chartjs/4.3.2/chart.umd.js" crossorigin="anonymous"> </script>';
 

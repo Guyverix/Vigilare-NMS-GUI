@@ -10,7 +10,8 @@
   <meta name="author" content="Chris Hubbard" />
   <title><?php echo $title; ?></title>
   <link href="/js/bootstrap-5/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/css/styles.css" rel="stylesheet">
+<!--  <link href="/css/styles.css" rel="stylesheet">    -->
+  <link href="/css/gradient_styles.css" rel="stylesheet">
   <script src="/js/bootstrap-5/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="/js/cookie/checkCookie.js"></script>
 </head>

@@ -1,4 +1,11 @@
 <?php
+/* For this to be a template include, then we have to define our defaults to use */
+$title="Customer Visible Events";
+$link = "/reporting/index.php?&page=searchExistingReporting.php";
+$linkName = "Fake ECE (fake, needs ECE)";
+
+echo '            <center><h5 class="card-title">' . $title . '</h5></center>';
+
 
 echo '<script src="/js/charts/chartjs/4.3.2/chart.umd.js" crossorigin="anonymous"> </script>';
 

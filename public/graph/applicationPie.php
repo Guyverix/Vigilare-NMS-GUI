@@ -1,5 +1,12 @@
 <?php
 
+/* For this to be a template include, then we have to define our defaults to use */
+$title = "Application Events";
+$link = "#";
+$linkName = "View ECE (fake, needs ECE)";
+
+echo '            <center><h5 class="card-title">' . $title . '</h5></center>';
+
 echo '<script src="/js/charts/chartjs/4.3.2/chart.umd.js" crossorigin="anonymous"> </script>';
 // https://www.chartjs.org/docs/master/charts/doughnut.html
 // https://www.chartjs.org/docs/latest/charts/doughnut.html

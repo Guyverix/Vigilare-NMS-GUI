@@ -1,5 +1,13 @@
 <?php
 
+/* For this to be a template include, then we have to define our defaults to use */
+$title="Report Generation Health";
+$link = "/reporting/index.php";
+$linkName = "Reports";
+
+echo '            <center><h5 class="card-title">' . $title . '</h5></center>';
+
+
 echo '<script src="/js/charts/chartjs/4.3.2/chart.umd.js" crossorigin="anonymous"> </script>';
 
 include_once __DIR__ . ("/../../functions/generalFunctions.php"); // DEBUG ONLY
