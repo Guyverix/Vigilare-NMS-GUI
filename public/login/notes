@@ -5,3 +5,6 @@ Remember just because an account was created, does NOT mean that they will be ab
 
 
 the account must be enabled by an admin.  A real human has to say "yes, they are allowed to see stuff"
+
+
+css is doing strange things when using a symlink to test different login pages.  Current login page is the login_animated.php as a real file not symlink.

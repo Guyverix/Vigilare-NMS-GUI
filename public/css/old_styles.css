@@ -1,103 +1,17 @@
+
 @charset "UTF-8";
 /*!
- * Start Bootstrap - SB Admin v7.0.4 (https://startbootstrap.com/template/sb-admin)
- * Copyright 2013-2022 Start Bootstrap
- * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
- */
-
+* Start Bootstrap - SB Admin v7.0.4 (https://startbootstrap.com/template/sb-admin)
+* Copyright 2013-2022 Start Bootstrap
+* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
+*/
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-
-/*!
- * Vigilare NMS GUI (https://github.com:Guyverix/Vigilare-NMS-GUI.git)
- * Built off of the SB Admin v7.0.4 template and modified
- * for Vigilare from that point forward
- * Copyright 2023-2024 iwillfearnoevil.com
- * Licensed under MIT (https://github.com:Guyverix/Vigilare-NMS-GUI/blob/main/LICENSE)
- */
-
-/*! Vigilare Should be what everything starts building off of */
 :root {
-/*! Vigilare event table background values */
-  --vi-table-critical-acknowledged: background-color: #cd7474;
-  --vi-table-error-acknowledged: background-color: #d69f87; 
-  --vi-table-warning-acknowledged: background-color: #e0dc95; 
-  --vi-table-info-acknowledged: background-color: #95a5c2; 
-  --vi-table-debug-acknowledged: background-color: #c8c8c8;
-  --vi-table-clear-acknowledged: background-color: #82a77e;
-  --vi-table-critical-unacknowledged: background-color: #d53a3a;
-  --vi-table-error-unacknowledged: background-color: #e5763a;
-  --vi-table-warning-unacknowledged: background-color: #e9e458;
-  --vi-table-info-unacknowledged: background-color: #5277c6;
-  --vi-table-debug-unacknowledged: background-color: #afafaf;
-  --vi-table-clear-unacknowledged: background-color: #488d43;
-
-/*! Vigilare Solid color definitions, strong */
-  --vi-critical: #d53a3a;
-  --vi-major: #e5763a;
-  --vi-minor: #5277c6;
-  --vi-info: #5277c6;
-  --vi-debug: #afafaf;
-  --vi-clear: #488D42;
-  --vi-ok: var(--vi-clear);
-
-/*! Vigilare Font definitions */
-  --vi-font-sans-serif: Verdana, Arial, Helvetica, sans-serif;
-  --vi-font-family: var(--vi-font-sans-serif);
-
-/*! Vigilare Icon Candy */
-.severity-icon {
-    height: 50px;
-    margin: 0 8px;
-    width: 35px;
-    background: transparent 
-        url(/images/misc/severity-sprite-large.png) 
-        100px 100px no-repeat;
-}
-
-.severity-icon.critical { background-position: 0px 0px; }
-.severity-icon.error { background-position: -44px 0px; }
-.severity-icon.info { background-position: -88px 0px; }
-.severity-icon.debug { background-position: -132px 0px; }
-.severity-icon.clear { background-position: -176px 0px; }
-.severity-icon.warning { background-position: -220px 0px; }
-
-.severity-icon-small.critical,
-.severity-icon-small.error,
-.severity-icon-small.warning,
-.severity-icon-small.info,
-.severity-icon-small.debug,
-.severity-icon-small.clear {
-    width: 16px;
-    height: 14px;
-    background: transparent url(/images/misc/severity-sprite.png) no-repeat;
-    margin: 0 auto;
-}
-
-.severity-icon-small.critical { background-position: 0px  0px   }
-.severity-icon-small.error    { background-position: 0px -20px  }
-.severity-icon-small.warning  { background-position: 0px -40px  }
-.severity-icon-small.info     { background-position: 0px -60px  }
-.severity-icon-small.debug    { background-position: 0px -80px  }
-.severity-icon-small.clear    { background-position: 0px -100px }
-
-.status-icon-small {
-    width: 16px;
-    height: 14px;
-    background: transparent url() no-repeat;
-    margin: 0 auto;
-}
-
-.status-icon-small.acknowledged { background-image: url(/images/misc/acknowledge-small.png)}
-.status-icon-small.suppressed { background-image: url(/images/misc/suppress-small.png)}
-
-
-
-/*! Default Bootstrap and SB admin values */
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
@@ -120,16 +34,14 @@
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
-
   --bs-primary: #0d6efd;
   --bs-secondary: #6c757d;
   --bs-success: #198754;
-  --bs-info: #0dcaf0;  
+  --bs-info: #0dcaf0;
   --bs-warning: #ffc107;
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-
   --bs-primary-rgb: 13, 110, 253;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-success-rgb: 25, 135, 84;
@@ -138,13 +50,11 @@
   --bs-danger-rgb: 220, 53, 69;
   --bs-light-rgb: 248, 249, 250;
   --bs-dark-rgb: 33, 37, 41;
-
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 33, 37, 41;
   --bs-body-bg-rgb: 255, 255, 255;
-  /*! Vigilare  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";  */
-  --bs-font-sans-serif: Verdana, Arial, Helvetica, sans-serif;
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
@@ -167,9 +77,7 @@
   }
 }
 
-/*
-* Origional SB background settings
-sb-body {
+body {
   margin: 0;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
@@ -181,26 +89,6 @@ sb-body {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-*/
-
-/*! Vigilare Default Background as changing gradient */
-sb-body {
-  margin: 0;
-  font-family: var(--bs-body-font-family);
-  font-size: var(--bs-body-font-size);
-  font-weight: var(--bs-body-font-weight);
-  line-height: var(--bs-body-line-height);
-
-  background: rgba(115,115,115,1);
-  background: -moz-linear-gradient(top, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-  background: -webkit-gradient(left top, left bottom, color-stop(15%, rgba(115,115,115,1)), color-stop(34%, rgba(110,110,110,1)), color-stop(42%, rgba(109,109,109,1)), color-stop(61%, rgba(105,105,105,0.79)), color-stop(79%, rgba(128,128,128,0.58)), color-stop(83%, rgba(128,128,128,0.54)));
-  background: -webkit-linear-gradient(top, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-  background: -o-linear-gradient(top, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-  background: -ms-linear-gradient(top, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-  background: linear-gradient(to bottom, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#737373", endColorstr="#808080", GradientType=0 );
-}
-
 
 hr {
   margin: 1rem 0;
@@ -2084,7 +1972,6 @@ progress {
   vertical-align: top;
   border-color: #dee2e6;
 }
-
 .table > :not(caption) > * > *, .dataTable-table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
   background-color: var(--bs-table-bg);
@@ -2215,7 +2102,7 @@ progress {
   border-color: #dfc2c4;
 }
 
-.table-light, .dataTable-light, {
+.table-light, dataTable-light {
   --bs-table-bg: #f8f9fa;
   --bs-table-striped-bg: #ecedee;
   --bs-table-striped-color: #000;
@@ -2227,7 +2114,7 @@ progress {
   border-color: #dfe0e1;
 }
 
-.table-dark, .dataTable-dark {
+.table-dark, dataTable-dark {
   --bs-table-bg: #212529;
   --bs-table-striped-bg: #2c3034;
   --bs-table-striped-color: #fff;
@@ -2238,6 +2125,15 @@ progress {
   color: #fff;
   border-color: #373b3e;
 }
+
+# CSH added for wip_event.php
+.table-dataTable tbody tr.selected {
+   color: white;
+   background-color: #99ccff;
+   a:link{ color: black; }
+   a:visited { color: black; }
+}
+
 
 .table-responsive, .dataTable-wrapper .dataTable-container {
   overflow-x: auto;
@@ -3316,7 +3212,6 @@ textarea.form-control-lg {
 .btn-check:checked + .btn-warning:focus, .btn-check:active + .btn-warning:focus, .btn-warning:active:focus, .btn-warning.active:focus, .show > .btn-warning.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.25rem rgba(217, 164, 6, 0.5);
 }
-
 .btn-warning:disabled, .btn-warning.disabled {
   color: #000;
   background-color: #ffc107;
@@ -4865,40 +4760,6 @@ textarea.form-control-lg {
   }
 }
 
-.accordion-button-light {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  font-size: 1rem;
-  --bs-text-opacity: 1;
-  color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
-  text-align: left;
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
-  border: 0;
-  border-radius: 0;
-  overflow-anchor: none;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
-}
-.accordion-button-dark {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  font-size: 1rem;
-  --bs-text-opacity: 1;
-  color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
-  text-align: left;
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
-  border: 0;
-  border-radius: 0;
-  overflow-anchor: none;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
-}
 .accordion-button {
   position: relative;
   display: flex;
@@ -4906,12 +4767,9 @@ textarea.form-control-lg {
   width: 100%;
   padding: 1rem 1.25rem;
   font-size: 1rem;
-  color: #0c63e4;
-#CSH  color: #212529;
+  color: #212529;
   text-align: left;
-#  background-color: #fff;
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #fff;
   border: 0;
   border-radius: 0;
   overflow-anchor: none;

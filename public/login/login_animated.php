@@ -107,6 +107,9 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
 }
 ?>
 <!DOCTYPE html>
+<META Http-Equiv="Cache-Control" Content="no-cache"/>
+<META Http-Equiv="Pragma" Content="no-cache"/>
+<META Http-Equiv="Expires" Content="0"/>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -115,9 +118,9 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Vigilare Authentication</title>
-        <link href="../css/styles.css" rel="stylesheet" />
+        <link href="../../css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <link href="./login_animated.css" rel="stylesheet" />
+        <link href="/login/login_animated.css" rel="stylesheet" />
     </head>
     <body>
         <div id="layoutAuthentication">
