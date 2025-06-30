@@ -120,7 +120,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         <title>Vigilare Authentication</title>
         <link href="../../css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <link href="/login/login_animated.css" rel="stylesheet" />
+        <link href="/login/login_animated.css" rel="stylesheet" /> 
     </head>
     <body>
         <div id="layoutAuthentication">
@@ -142,13 +142,13 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
                                                 <label for="password">Password</label>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="password.html">Forgot Password? Too bad</a>
+                                                <a class="small" href="password.html">Forgot Password?</a>
                                                 <button type="submit" class="btn btn-primary">Login</button>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="register.html">Need an account? Sign up!  Good Luck!</a></div>
+                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
                                     </div>
                                 </div>
                             </div>

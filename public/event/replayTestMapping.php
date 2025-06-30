@@ -66,7 +66,7 @@
     /* Get all our POST values now */
     $currentExistingEvent=json_decode($_POST['existingEvent'], true);
     $currentTrapMapping=json_decode($_POST['trapMapping'], true);  // might not even be needed at all TBH, but keep it JIC
-
+    // debugger($_POST);
     /* Set variable names identical to what the PDO trap reciever uses */
     $event_summary  = $currentExistingEvent['eventSummary'];
     $details        = $currentExistingEvent['eventRaw'];
