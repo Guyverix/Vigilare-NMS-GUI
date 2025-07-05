@@ -5,11 +5,15 @@
     Reflect active events, and allow for historical
     searches to be done at the host level.
 
+   // End result should be fall through logic from login stating which CSS
+   // set to use.  Hard code for now though..
 
    <link href="/css/zenoss/base-min.css" rel="stylesheet">
    <link href="/css/zenoss/zenoss_base.css" rel="stylesheet">
    <link href="/css/zenoss/zen_event_styles.css" rel="stylesheet">
    <link href="/css/zenoss/zenoss_console_styles.css" rel="stylesheet">
+
+
   */
 ?>
    <link href="/css/vigilare/test_styles.css" rel="stylesheet">
@@ -31,7 +35,6 @@
   $headers[] = 'Authorization: Bearer ' . $_COOKIE['token'];
   $post = array();  // We are using post, so give it an empty array to post with
   $quitEarly = 0;
-
 
   // This is from an INTERNAL POST ONLY when we have changed something specific
   if ( isset($_POST['findProperties'])) {
@@ -70,68 +73,86 @@
 
   $rawDevicePerformance = callApiPost("/device/performance", $post, $headers);
   $rawDevicePerformance = json_decode($rawDevicePerformance['response'], true);
+  $sharedDevice['performance'] = $rawDevicePerformance;
 
   $rawDeviceProperties = callApiPost("/device/properties", $post, $headers);
   $rawDeviceProperties = json_decode($rawDeviceProperties['response'], true);
+  $specialHostname = preg_replace('/\./','_', $rawDeviceProperties['data'][0]['hostname']);
+  $sharedDevice['properties'] = $rawDeviceProperties;
+  $sharedDevice['properties']['data'][0]['graphiteHostname'] = $specialHostname;
 
   $rawActiveMonitors = callApiPost("/monitoringPoller/checkName", $post, $headers);
   $rawActiveMonitors = json_decode($rawActiveMonitors['response'], true);
+  $sharedDevice['monitors'] = $rawActiveMonitors;
 
   $rawActiveEvents = callApiGet("/events/findActiveEventByDeviceId/$id", $headers);
   $rawActiveEvents = json_decode($rawActiveEvents['response'], true);
+  $sharedDevice['activeEvents'] = $rawActiveEvents;
 
   $rawHistoryEvents = callApiGet("/events/findHistoryEventByDeviceId/$id", $headers);
   $rawHistoryEvents = json_decode($rawHistoryEvents['response'], true);
+  $sharedDevice['historyEvents'] = $rawHistoryEvents;
 
   $rawAvail = callApiPost("/events/findAliveTime", $post, $headers); // looks 30 days back
   $rawAvail = json_decode($rawAvail['response'], true);
-  $availableTime = $rawAvail['data'][0]['totalDowntime'];
+  $sharedDevice['availibilityRaw'] = $rawAvail;
+
+  $sharedDevice['availibility'] = $rawAvail;
 
   $rawHistoryTime = callApiPost("/events/findHistoryTime", $post, $headers);
   $rawHistoryTime = json_decode($rawHistoryTime['response'], true);
-  $historyTime = $rawHistoryTime['data'][0]['totalDowntime'];
+  $sharedDevice['historyTime'] = $historyTime;
+
 
   $rawEventTime = callApiPost("/events/findEventTime", $post, $headers);
   $rawEventTime = json_decode($rawEventTime['response'], true);
-  $eventTime = $rawEventTime['data'][0]['totalDowntime'];
+  $sharedDevice['eventTime'] = $eventTime ;
 
   $now = new DateTime();
   $now->sub(new DateInterval('P30D'));
   $timeBand = $now->format('Y-m-d H:i:s');
 
-  // Begin data munging so we can display stuff now that we have retrieved our data
-
-  // This is needed because periods cause heartburn at times, esp with Graphite
-  $specialHostname = preg_replace('/\./','_', $rawDeviceProperties['data'][0]['hostname']);
+//  debugger($sharedDevice);
+//  exit();
+  /*
+     Begin data munging so we can display stuff now that we have retrieved our data
+     This should be all the maths and server side work that needs to be done before
+     sending to the client
+  */
 
   // Get a list of our storage types in monitors
-  if ( ! empty($rawActiveMonitors['data'])) {
-    foreach ($rawActiveMonitors['data'] as $activeMonitors) {
+  if ( ! empty($sharedDevice['monitors'])) {
+    foreach ($sharedDevice['monitors'] as $activeMonitors) {
       $storage[] = $activeMonitors['storage'];
     }
   }
   else {
     $storage = array();
   }
-
+  // We only want an array of each type used.  We could try to get from the main array later
   $storage = array_unique($storage);
 
   // Find our alarm counts for display
-  $sev = alarmCount($rawActiveEvents);
+  $sev = alarmCount($sharedDevice['activeEvents']);
 
   // Is this something we can drop monitors on?
-  $monitorable = isMonitorable($rawDeviceProperties['data'][0]['productionState']);
+  $monitorable = isMonitorable($sharedDevice['properties']['data'][0]['productionState']);
 
-  // Need to calculate these.  Placeholders right now...
-  $alarmTime = $eventTime . " minutes";
-  $historyTime = $historyTime . " minutes";
+  // Different time metrics and values
+  $alarmTime = $sharedDevice['eventTime'] . " minutes";
+  $historyTime = $sharedDevice['historyTime'] . " minutes";
+  $availableTime = $sharedDevice['availibility']['data'][0]['totalDowntime'];
   $availabilityRaw = calcPercentage($availableTime , $timeBand);
-  // debugger($availabilityRaw);
+
+  $eventTime = $sharedDevice['eventTime']['data'][0]['totalDowntime'];
+  $historyTime = $sharedDevice['historyTime']['data'][0]['totalDowntime'];
+
+  // Make sure zero is as low as we go
   if ( $availabilityRaw <= 0 ) { $availabilityRaw = 0; }
   $availability = $availabilityRaw . "%";
 
   // New servers should not show availability when they have been active less than 30 days
-  $seenDate = $rawDeviceProperties['data'][0]['firstSeen'];
+  $seenDate = $sharedDevice['properties']['data'][0]['firstSeen'];
   $epochSeen = strtotime("$seenDate");
   $dateNow = time() - (30 * 24 * 60 * 60);;
 
@@ -145,15 +166,13 @@
     $availability = "New Server Bypass";
   }
 
-
   // Get our database information cleaned up from hrSystem SNMP storage
-  $deviceInformation = hrSystem($rawDevicePerformance);
-  $hrSystemUpdate = hrSystemDate($rawDevicePerformance);
+  $deviceInformation = hrSystem($sharedDevice['performance']);
+  $hrSystemUpdate = hrSystemDate($sharedDevice['performance']);
 
   // Figure out our host OS if possible
-  $hostOs = hostOs($rawDevicePerformance);
+  $hostOs = hostOs($sharedDevice['performance']);
   $osImg = osImages($hostOs);
-
   /*
      Use the alive type to see if the device is
      actively monitored.  we CAN have monitors against
@@ -161,10 +180,11 @@
      IE snmptrap, or even from local checks.
   */
 
+  // Catchall.  Override later if no longer true
   $isMonitored = '<img src="/images/generic/orange_dot.png" style="width:20px;height:20px;"> Inctive </img>' . "\n";
 
-  if ( is_array($rawDeviceProperties['data'])) {
-    foreach ($rawDeviceProperties['data'] as $findAlive) {
+  if ( is_array($sharedDevice['properties']['data'])) {
+    foreach ($sharedDevice['properties']['data'] as $findAlive) {
       if ( $findAlive['isAlive'] == 'alive' ) {
         $isMonitored = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> Alive </img>' . "\n";
       }
@@ -176,14 +196,14 @@
 
   // Show if we CAN ( not do ) have active checks
   $activeMonitors = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> Active Monitors Disabled </img>' . "\n";
-  if ( isset($rawDeviceProperties['data'][0]['productionState']) && $rawDeviceProperties['data'][0]['productionState'] == 0 ) {
+  if ( isset($sharedDevice['properties']['data'][0]['productionState']) && $sharedDevice['properties']['data'][0]['productionState'] == 0 ) {
     $activeMonitors = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> Active Monitors Enabled </img>' . "\n";
   }
 
   // Show if SNMP is configured and available
   $snmpState = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> SNMP Inactive </img>' . "\n";
-  if (isset($rawDeviceProperties['data'][0]['properties'])) {
-    $findSnmpState = json_decode($rawDeviceProperties['data'][0]['properties'], true);
+  if (isset($sharedDevice['properties']['data'][0]['properties'])) {
+    $findSnmpState = json_decode($sharedDevice['properties']['data'][0]['properties'], true);
     if ($findSnmpState['snmpEnable'] == 'true') {
      $snmpState = '<img src="/images/generic/green_dot.png" style="width:20px;height:20px;"> SNMP Enabled </img>' . "\n";
     }
@@ -192,25 +212,9 @@
   // Not existing yet, but have the bubble in place for when code exists
   $maintenanceState = '<img src="/images/generic/grey_dot.png" style="width:20px;height:20px;"> No Active Maintenance </img>' . "\n";
 
-//  echo "<br><br><br>";
-//  debugger($rawDevicePerformance);
-//  exit();
-
-/*
-  debugger($rawDeviceProperties);
-  exit();
-  echo "<br><br><br>";
-  debugger($rawDeviceProperties);
-  debugger($rawActiveMonitors);
-  debugger ($deviceInformation);
-  debugger($sev);
-  debugger($rawActiveEvents);
-  debugger($rawHistoryEvents);
-  debugger($rawActiveMonitors);
-  debugger($storage);
-  exit();
-*/
-
+  /*
+    After all this, now is the time to start the display
+  */
 
   if ( $quitEarly == 0 ) {
   ?>
@@ -223,91 +227,17 @@
     <!-- begin tabbed interface -->
     <div class="row">
       <div class="col">
-      <?php
-      echo "<center>"; // Donno why css is not working correctly on this
-      // Only findPropterties needs to talk to the API at this point
-      echo '<form id="findProperties" action="" method="POST"><input type="hidden" name="id" value="' . $id . '"></form>' . "\n";
+  <?php
+      // This should span across the top of the container
+      require (__DIR__ . '/displayComponents/deviceTopTabs.php');
 
-      // Add additional hidden inputs with the data we have already pulled.  Dont call the API unless needed for something else
-      echo '<form id="hostProperties" method="POST" action="/host/index.php?&page=hostPropertiesEdit.php">' . "\n";
-        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="deviceProperties" value="' . htmlspecialchars($rawDeviceProperties['data'][0]['properties']) . '">' . "\n";
-      echo '</form>' . "\n";
-
-      echo '<form id="hostModify"     action="/host/index.php?&page=modifyDevice.php"          method="POST">' . "\n";
-        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="address" value="' . $rawDeviceProperties['data'][0]['address'] . '">' . "\n";
-        echo '<input type="hidden" name="firstSeen" value="' . $rawDeviceProperties['data'][0]['firstSeen'] . '">' . "\n";
-        echo '<input type="hidden" name="productionState" value="' . $rawDeviceProperties['data'][0]['productionState'] . '">' . "\n";
-        echo '<input type="hidden" name="isAlive" value="' . $rawDeviceProperties['data'][0]['isAlive'] . '">' . "\n";
-      echo '</form>' . "\n";
-
-      echo '<form id="hostDelete"     action="/host/index.php?&page=deviceDelete.php" method="POST">' . "\n";
-        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="address" value="' . $rawDeviceProperties['data'][0]['address'] . '">' . "\n";
-        echo '<input type="hidden" name="firstSeen" value="' . $rawDeviceProperties['data'][0]['firstSeen'] . '">' . "\n";
-        echo '<input type="hidden" name="productionState" value="' . $rawDeviceProperties['data'][0]['productionState'] . '">' . "\n";
-        echo '<input type="hidden" name="isAlive" value="' . $rawDeviceProperties['data'][0]['isAlive'] . '">' . "\n";
-      echo '</form>' . "\n";
-
-      echo '<form id="hostMonitors" method="POST" action="/host/index.php?&page=deviceMonitors.php">' . "\n";
-        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">' . "\n";
-      echo '</form>' . "\n";
-
-      echo '<form id="addMonitors"    action="/host/addMonitors.php"         method="POST"><input type="hidden" name="id" value="' . $id . '"></form>' . "\n";
-
-      echo '<form id="hostGraphs"     action="/host/index.php?&page=deviceGraphs.php"          method="POST">' . "\n";
-        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">' . "\n";
-      echo '</form>' . "\n";
-
-      echo '<form id="performance"    action="/host/index.php?&page=devicePerformance2.php"   method="POST">' . "\n";
-        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="performanceData" value="' . htmlspecialchars(json_encode($rawDevicePerformance['data'], 1)) . '">' . "\n";
-      echo '</form>' . "\n";
-
-      // Decide if we have run discovery against host before or not
-      if ( ! isset($rawDeviceProperties['data'][0]['properties'])) {
-        echo '<button form="findProperties" name="findProperties" type="submit" class="btn btn-success">Discover Properties</button> ' . "\n";
-      }
-      else {
-        echo '<button form="hostProperties" type="submit" class="btn btn-primary">Change Properties</button> ' . "\n";
-      }
-      echo '<button form="hostModify" type="submit" class="btn btn-warning">Modify Device</button> ' . "\n";
-
-      // Decide if we have monitors to show or not
-      if ( isset($rawActiveMonitors['data'][0])) {
-        echo '<button form="hostMonitors" type="submit" class="btn btn-primary">Change Monitors</button> ' . "\n";
-      }
-      else {
-        echo '<button form="hostMonitors" type="submit" class="btn btn-success">Add Monitors</button> ' . "\n";
-      }
-
-      // Decide if we have Host or Device components we are aware of for display ( from database not graphs? )
-      if ( isset($rawDevicePerformance['data'][0])) {
-        echo '<button form="performance" type="submit" class="btn btn-primary">Device Performance</button> ' . "\n";
-      }
-
-      // Decide if we have any RRD or Graphite graphs to display (influx will come with V2?)
-      if ( in_array("rrd", $storage) || in_array("graphite", $storage)) {
-        echo '<button form="hostGraphs" type="submit" class="btn btn-primary">Graphs</button> ' . "\n";
-      }
-
-      echo '<button class="btn btn-primary"> &nbsp </button> ' . "\n";  // Just a simple spacer that does nothing
-      echo '<button form="hostDelete" type="submit" class="btn btn-danger">Delete Device</button> ' . "\n";
-      echo "</center>";
       echo "</div>";
       echo "</div>";
       echo "</div>";
       echo "</div>";
   echo "<!-- End page DATE " . time() . "-->";
+  require (__DIR__ . '/displayComponents/deviceGeneral.php');
+//  require (__DIR__ . '/displayComponents/leftGeneralHost.php');
   }
   else {
     // Something went very wrong with the API call, but keep the layout clean...
