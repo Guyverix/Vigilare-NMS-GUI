@@ -1,3 +1,4 @@
+<!-- Load the shared table functionality -->
 <?php $historyEvents = $sharedDevice['historyEvents']['data']; ?>
 
 <div class="card mb-3">
@@ -8,7 +9,6 @@
   <table id="historyTable" class="table table-bordered">
     <thead>
       <tr>
-        <th>Check Name</th>
         <th class="sortable">Severity</th>
         <th class="sortable">Summary</th>
         <th class="sortable">End Time</th>
@@ -27,16 +27,8 @@
           0 => 'bg-success text-white',
           default => 'bg-dark text-white',
         };
-      // Suspect API bug clobbered the summary when it went to history
-      // pull from raw so there is something at least
-      if (empty($event['eventSummary'])) {
-        $tmp=json_decode($event["eventRaw"], true);
-        $event['eventSummary'] = $tmp['eventSummary'];
-      }
-      echo "<!-- Severity " . $severity . " evid " . $event['evid'] . " endEvent " . $event['endEvent'] . "-->";
       ?>
-        <tr class="clickable-row <?= $badgeClass ?>" data-index="<?= $index ?>" data-detail='<?= htmlspecialchars($event["eventRaw"] ?? '{}', ENT_QUOTES, "UTF-8") ?>'>
-          <td><?= htmlspecialchars($event["eventName"]) ?></td>
+        <tr class="clickable-row <?= $badgeClass ?>" data-index="<?= $index ?>" data-detail='<?= htmlspecialchars($event["eventRaw"], ENT_QUOTES, "UTF-8") ?>'>
           <td><?= htmlspecialchars($event["eventSeverity"]) ?></td>
           <td><?= htmlspecialchars($event["eventSummary"]) ?></td>
           <td><?= htmlspecialchars($event["endEvent"]) ?></td>
@@ -46,6 +38,9 @@
   </table>
   <ul id="pagination-historyTable" class="pagination justify-content-center"></ul>
 </div>
+
+<ul class="pagination justify-content-center" id="pagination-historyTable"></ul>
+  </div>
 </div>
 
 <!-- Modal -->

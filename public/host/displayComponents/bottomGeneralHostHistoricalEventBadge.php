@@ -35,9 +35,26 @@
       }
       echo "<!-- Severity " . $severity . " evid " . $event['evid'] . " endEvent " . $event['endEvent'] . "-->";
       ?>
-        <tr class="clickable-row <?= $badgeClass ?>" data-index="<?= $index ?>" data-detail='<?= htmlspecialchars($event["eventRaw"] ?? '{}', ENT_QUOTES, "UTF-8") ?>'>
+        <tr class="clickable-row" data-index="<?= $index ?>" data-detail='<?= htmlspecialchars($event["eventRaw"], ENT_QUOTES, "UTF-8") ?>'>
           <td><?= htmlspecialchars($event["eventName"]) ?></td>
-          <td><?= htmlspecialchars($event["eventSeverity"]) ?></td>
+<?php
+  $severityLabel = "Unknown";
+  $badgeClass = "bg-dark";
+  switch ($severity) {
+    case 5: $severityLabel = "Critical"; $badgeClass = "bg-danger"; break;
+    case 4: $severityLabel = "Major";    $badgeClass = "bg-orange"; break;
+    case 3: $severityLabel = "Warning";  $badgeClass = "bg-warning text-dark"; break;
+    case 2: $severityLabel = "Info";     $badgeClass = "bg-info text-dark"; break;
+    case 1: $severityLabel = "Minor";    $badgeClass = "bg-secondary"; break;
+    case 0: $severityLabel = "OK";       $badgeClass = "bg-success"; break;
+  }
+?>
+<td data-severity="<?= $severity ?>">
+  <span class="badge <?= $badgeClass ?>">
+    <?= $severity ?>
+  </span>
+</td>
+
           <td><?= htmlspecialchars($event["eventSummary"]) ?></td>
           <td><?= htmlspecialchars($event["endEvent"]) ?></td>
         </tr>
