@@ -1,5 +1,5 @@
 <?php
-//debugger($sharedDevice);
+//debugger($sharedDevice['properties']['data'][0]['properties']);
 //exit;
 ?>
 
@@ -29,6 +29,19 @@
           }
         ?>
     </dd>
+    <dt class="col-5">SNMP</dt>
+    <dd class="col-7">
+        <?php
+          $rawProperties=json_decode($sharedDevice['properties']['data'][0]['properties'], true);
+          $snmpEnabled = $rawProperties['snmpEnable'] ?? "false";
+          if ($snmpEnabled == 'true') {
+            echo '<span class="badge bg-success">Enabled</span>';
+          } else {
+            echo '<span class="badge bg-secondary">Not Enabled</span>';
+          }
+        ?>
+    </dd>
+
     </dl>
   </div>
 </div>

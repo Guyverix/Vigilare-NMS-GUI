@@ -1,21 +1,21 @@
-<?php $historyEvents = $sharedDevice['historyEvents']['data']; ?>
+<?php $activeEvents = $sharedDevice['activeEvents']['data']; ?>
 
 <div class="card mb-3">
-  <div class="card-header bg-secondary text-white">
-    Historical Events
+  <div class="card-header bg-primary text-white">
+    Active Events
   </div>
 <div class="container mt-4">
-  <table id="historyTable" class="table table-bordered">
+  <table id="activeTable" class="table table-bordered">
     <thead>
       <tr>
         <th>Check Name</th>
         <th class="sortable">Severity</th>
         <th class="sortable">Summary</th>
-        <th class="sortable">End Time</th>
+        <th class="sortable">Start Time</th>
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($historyEvents as $index => $event): ?>
+      <?php foreach ($activeEvents as $index => $event): ?>
         <?php
         $severity = (int) $event['eventSeverity'];
         $badgeClass = match ($severity) {
@@ -27,24 +27,41 @@
           0 => 'bg-success text-white',
           default => 'bg-dark text-white',
         };
-      // Suspect API bug clobbered the summary when it went to history
+      // Suspect API bug clobbered the summary when it went to active
       // pull from raw so there is something at least
       if (empty($event['eventSummary'])) {
         $tmp=json_decode($event["eventRaw"], true);
         $event['eventSummary'] = $tmp['eventSummary'];
       }
-      echo "<!-- Severity " . $severity . " evid " . $event['evid'] . " endEvent " . $event['endEvent'] . "-->";
+      echo "<!-- Severity " . $severity . " evid " . $event['evid'] . " startEvent " . $event['startEvent'] . "-->";
       ?>
-        <tr class="clickable-row <?= $badgeClass ?>" data-index="<?= $index ?>" data-detail='<?= htmlspecialchars($event["eventRaw"] ?? '{}', ENT_QUOTES, "UTF-8") ?>'>
+        <tr class="clickable-row" data-index="<?= $index ?>" data-detail='<?= htmlspecialchars($event["eventRaw"], ENT_QUOTES, "UTF-8") ?>'>
           <td><?= htmlspecialchars($event["eventName"]) ?></td>
-          <td><?= htmlspecialchars($event["eventSeverity"]) ?></td>
+<?php
+  $severityLabel = "Unknown";
+  $badgeClass = "bg-dark";
+  switch ($severity) {
+    case 5: $severityLabel = "Critical"; $badgeClass = "bg-danger"; break;
+    case 4: $severityLabel = "Major";    $badgeClass = "bg-orange"; break;
+    case 3: $severityLabel = "Warning";  $badgeClass = "bg-warning text-dark"; break;
+    case 2: $severityLabel = "Info";     $badgeClass = "bg-info text-dark"; break;
+    case 1: $severityLabel = "Minor";    $badgeClass = "bg-secondary"; break;
+    case 0: $severityLabel = "OK";       $badgeClass = "bg-success"; break;
+  }
+?>
+<td data-severity="<?= $severity ?>">
+  <span class="badge <?= $badgeClass ?>">
+    <?= $severity ?>
+  </span>
+</td>
+
           <td><?= htmlspecialchars($event["eventSummary"]) ?></td>
-          <td><?= htmlspecialchars($event["endEvent"]) ?></td>
+          <td><?= htmlspecialchars($event["startEvent"]) ?></td>
         </tr>
       <?php endforeach; ?>
     </tbody>
   </table>
-  <ul id="pagination-historyTable" class="pagination justify-content-center"></ul>
+  <ul id="pagination-activeTable" class="pagination justify-content-center"></ul>
 </div>
 </div>
 
@@ -70,6 +87,6 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    enableTableEnhancements("historyTable", 10);
+    enableTableEnhancements("activeTable", 10);
   });
 </script>

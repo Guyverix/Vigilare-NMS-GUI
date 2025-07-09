@@ -230,14 +230,13 @@
   <?php
       // This should span across the top of the container
       require (__DIR__ . '/displayComponents/deviceTopTabs.php');
-
       echo "</div>";
-      echo "</div>";
-      echo "</div>";
-      echo "</div>";
+    echo "</div>";
+//      echo "</div>";
+//      echo "</div>";
   echo "<!-- End page DATE " . time() . "-->";
+  // This will build out our general information page
   require (__DIR__ . '/displayComponents/deviceGeneral.php');
-//  require (__DIR__ . '/displayComponents/leftGeneralHost.php');
   }
   else {
     // Something went very wrong with the API call, but keep the layout clean...
