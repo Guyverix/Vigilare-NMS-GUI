@@ -32,8 +32,8 @@ echo "<div class='container'>";
       require (__DIR__ . '/leftGeneralHost.php');
     echo "</div>";
     echo "<div class='col-sm'>";
-//      require (__DIR__ . '/rightGeneralHostMonitors.php');
       require (__DIR__ . '/rightGeneralHostMonitorsAccordion.php');
+      require (__DIR__ . '/rightGeneralHostPortsUsedAccordion.php');
     echo "</div>";
   echo "</div>";
 echo "</div>";
@@ -46,7 +46,6 @@ echo "</div>";
 
 //echo "<div class='container-fluid'>";
 echo "<div class='container-lg'>";
-//  require (__DIR__ . '/bottomGeneralHostActiveEvent1.php');
   require (__DIR__ . '/bottomGeneralHostActiveEventBadge.php');
   require (__DIR__ . '/bottomGeneralHostHistoricalEventBadge.php');
 echo "</div>";
@@ -58,23 +57,6 @@ echo "</div>";
 */
 
 //require (__DIR__ . '/right2GeneralHost.php');
-
-//require (__DIR__ . '/bottomGeneralHostActiveEvent.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent.php');
-
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent3.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent4.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent5.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent6.php');
-
-
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent7.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent8.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent9.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent11.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent13.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent13a.php');
-//require (__DIR__ . '/bottomGeneralHostHistoricalEvent10.php');
 
 /*
   After this point the requires are done, and we go back to
