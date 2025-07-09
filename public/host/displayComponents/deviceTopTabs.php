@@ -1,36 +1,44 @@
 <?php
+  /*
+    This tabbed definition is clunky, but a decent start.
+    It should be easy enough to add or remove to it
+    without clobbering other stuff.
+
+  */
+      // debugger($sharedDevice);
+
       echo "<center>"; // Donno why css is not working correctly on this
-      // Only findPropterties needs to talk to the API at this point
+      // Only ropterties needs to talk to the API at this point
       echo '<form id="findProperties" action="" method="POST"><input type="hidden" name="id" value="' . $id . '"></form>' . "\n";
 
       // Add additional hidden inputs with the data we have already pulled.  Dont call the API unless needed for something else
       echo '<form id="hostProperties" method="POST" action="/host/index.php?&page=hostPropertiesEdit.php">' . "\n";
         echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="deviceProperties" value="' . htmlspecialchars($rawDeviceProperties['data'][0]['properties']) . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="deviceProperties" value="' . htmlspecialchars($sharedDevice['properties']['data'][0]['properties']) . '">' . "\n";
       echo '</form>' . "\n";
 
       echo '<form id="hostModify"     action="/host/index.php?&page=modifyDevice.php"          method="POST">' . "\n";
         echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="address" value="' . $rawDeviceProperties['data'][0]['address'] . '">' . "\n";
-        echo '<input type="hidden" name="firstSeen" value="' . $rawDeviceProperties['data'][0]['firstSeen'] . '">' . "\n";
-        echo '<input type="hidden" name="productionState" value="' . $rawDeviceProperties['data'][0]['productionState'] . '">' . "\n";
-        echo '<input type="hidden" name="isAlive" value="' . $rawDeviceProperties['data'][0]['isAlive'] . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="address" value="' . $sharedDevice['properties']['data'][0]['address'] . '">' . "\n";
+        echo '<input type="hidden" name="firstSeen" value="' . $sharedDevice['properties']['data'][0]['firstSeen'] . '">' . "\n";
+        echo '<input type="hidden" name="productionState" value="' . $sharedDevice['properties']['data'][0]['productionState'] . '">' . "\n";
+        echo '<input type="hidden" name="isAlive" value="' . $sharedDevice['properties']['data'][0]['isAlive'] . '">' . "\n";
       echo '</form>' . "\n";
 
       echo '<form id="hostDelete"     action="/host/index.php?&page=deviceDelete.php" method="POST">' . "\n";
         echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="address" value="' . $rawDeviceProperties['data'][0]['address'] . '">' . "\n";
-        echo '<input type="hidden" name="firstSeen" value="' . $rawDeviceProperties['data'][0]['firstSeen'] . '">' . "\n";
-        echo '<input type="hidden" name="productionState" value="' . $rawDeviceProperties['data'][0]['productionState'] . '">' . "\n";
-        echo '<input type="hidden" name="isAlive" value="' . $rawDeviceProperties['data'][0]['isAlive'] . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="address" value="' . $sharedDevice['properties']['data'][0]['address'] . '">' . "\n";
+        echo '<input type="hidden" name="firstSeen" value="' . $sharedDevice['properties']['data'][0]['firstSeen'] . '">' . "\n";
+        echo '<input type="hidden" name="productionState" value="' . $sharedDevice['properties']['data'][0]['productionState'] . '">' . "\n";
+        echo '<input type="hidden" name="isAlive" value="' . $sharedDevice['properties']['data'][0]['isAlive'] . '">' . "\n";
       echo '</form>' . "\n";
 
       echo '<form id="hostMonitors" method="POST" action="/host/index.php?&page=deviceMonitors.php">' . "\n";
         echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
         echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">' . "\n";
       echo '</form>' . "\n";
 
@@ -38,18 +46,18 @@
 
       echo '<form id="hostGraphs"     action="/host/index.php?&page=deviceGraphs.php"          method="POST">' . "\n";
         echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
         echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">' . "\n";
       echo '</form>' . "\n";
 
       echo '<form id="performance"    action="/host/index.php?&page=devicePerformance2.php"   method="POST">' . "\n";
         echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $rawDeviceProperties['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
         echo '<input type="hidden" name="performanceData" value="' . htmlspecialchars(json_encode($rawDevicePerformance['data'], 1)) . '">' . "\n";
       echo '</form>' . "\n";
 
       // Decide if we have run discovery against host before or not
-      if ( ! isset($rawDeviceProperties['data'][0]['properties'])) {
+      if ( ! isset($sharedDevice['properties']['data'][0]['properties'])) {
         echo '<button form="findProperties" name="findProperties" type="submit" class="btn btn-success">Discover Properties</button> ' . "\n";
       }
       else {
@@ -82,4 +90,5 @@
       echo '<button form="hostDelete" type="submit" class="btn btn-danger">Delete Device</button> ' . "\n";
       echo "</center>";
       echo "<!-- End device Top Tabs DATE " . time() . "-->";
+
 ?>

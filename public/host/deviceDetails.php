@@ -173,6 +173,10 @@
   // Figure out our host OS if possible
   $hostOs = hostOs($sharedDevice['performance']);
   $osImg = osImages($hostOs);
+
+  $sharedDevice['properties']['data'][0]['hostOs'] = $hostOs ?? 'unknown';
+  $sharedDevice['properties']['data'][0]['osImg'] = $osImg ?? '/images/unsorted/question_mark.png';
+
   /*
      Use the alive type to see if the device is
      actively monitored.  we CAN have monitors against
