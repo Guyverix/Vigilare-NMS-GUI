@@ -2,6 +2,8 @@
 // Look for the 'ipRoute' entry
 $ipRouteData = null;
 
+
+// debugger($sharedDevice['performance']['data']);
 for ($i = 0; $i < count($sharedDevice['performance']['data']); $i++) {
     if (!empty($sharedDevice['performance']['data'][$i]['checkName']) &&
         strtolower($sharedDevice['performance']['data'][$i]['checkName']) === 'iproute') {
@@ -11,6 +13,8 @@ for ($i = 0; $i < count($sharedDevice['performance']['data']); $i++) {
         break;
     }
 }
+
+// debugger($ipRouteData);
 ?>
 
 <?php if (!empty($ipRouteData) && is_array($ipRouteData)): ?>
@@ -44,4 +48,4 @@ for ($i = 0; $i < count($sharedDevice['performance']['data']); $i++) {
       </div>
     </div>
   </div>
-<?php else: ?>
+<?php endif; ?>

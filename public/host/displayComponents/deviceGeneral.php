@@ -23,7 +23,7 @@
 
 /*
   This is top row, by default 2 containers
-  host information, and monitors for the host
+  host information, and some details for the host
 */
 
 echo "<div class='container'>";
@@ -34,6 +34,7 @@ echo "<div class='container'>";
     echo "<div class='col-sm'>";
       require (__DIR__ . '/rightGeneralHostMonitorsAccordion.php');
       require (__DIR__ . '/rightGeneralHostPortsUsedAccordion.php');
+      require (__DIR__ . '/rightGeneralHostIpRouteAccordion.php');
     echo "</div>";
   echo "</div>";
 echo "</div>";
