@@ -26,7 +26,6 @@
   $post = array();  // We are using post, so give it an empty array to post with
   $quitEarly = 0;
 
-
   // Set default data for the page
   if (isset($_POST['id'])) {
     $id = $_POST['id'];
@@ -85,9 +84,12 @@
     ?>
     <center><h1><?php echo 'Details for <a href="/host/index.php?&page=deviceDetails.php&id=' . $id . '">' . $hostname . '</a>' ; ?></h1></center><br>
 
+
     <div class="container-fluid">
       <div class="row justsify-content-center">
     <?php
+$performanceData = json_decode($performanceData, true);
+debugger($performanceData);
     if ( !empty($performanceData)) {
       foreach ($performanceData as $deviceData) {
         /*

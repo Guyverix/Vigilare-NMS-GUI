@@ -26,6 +26,9 @@
   host information, and some details for the host
 */
 
+//  debugger($sharedDevice['performance']);
+
+
 echo "<div class='container'>";
   echo "<div class='row'>";
     echo "<div class='col-lg'>";
@@ -35,6 +38,7 @@ echo "<div class='container'>";
       require (__DIR__ . '/rightGeneralHostMonitorsAccordion.php');
       require (__DIR__ . '/rightGeneralHostPortsUsedAccordion.php');
       require (__DIR__ . '/rightGeneralHostIpRouteAccordion.php');
+      require (__DIR__ . '/rightGeneralHostSsIndexAccordion.php');
     echo "</div>";
   echo "</div>";
 echo "</div>";
