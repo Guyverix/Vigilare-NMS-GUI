@@ -18,13 +18,16 @@
         echo '<input type="hidden" name="deviceProperties" value="' . htmlspecialchars($sharedDevice['properties']['data'][0]['properties']) . '">' . "\n";
       echo '</form>' . "\n";
 
-      echo '<form id="hostModify"     action="/host/index.php?&page=modifyDevice.php"          method="POST">' . "\n";
+//      echo '<form id="hostModify"     action="/host/index.php?&page=modifyDevice.php"          method="POST">' . "\n";
+//      echo '<form id="hostModify"     action="/host/index.php?&page=deviceModify.php"          method="POST">' . "\n";
+      echo '<form id="hostModify"     action="/host/index.php?&page=deviceEdit.php"          method="POST">' . "\n";
         echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
         echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
         echo '<input type="hidden" name="address" value="' . $sharedDevice['properties']['data'][0]['address'] . '">' . "\n";
         echo '<input type="hidden" name="firstSeen" value="' . $sharedDevice['properties']['data'][0]['firstSeen'] . '">' . "\n";
         echo '<input type="hidden" name="productionState" value="' . $sharedDevice['properties']['data'][0]['productionState'] . '">' . "\n";
         echo '<input type="hidden" name="isAlive" value="' . $sharedDevice['properties']['data'][0]['isAlive'] . '">' . "\n";
+        echo '<input type="hidden" name="sharedDevice" value="' . htmlspecialchars(json_encode($sharedDevice), ENT_QUOTES, "UTF-8") . '">' . "\n";
       echo '</form>' . "\n";
 
 //      echo '<form id="hostDelete"     action="/host/index.php?&page=deviceDelete.php" method="POST">' . "\n";
