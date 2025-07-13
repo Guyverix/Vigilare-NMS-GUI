@@ -112,7 +112,7 @@
   $now->sub(new DateInterval('P30D'));
   $timeBand = $now->format('Y-m-d H:i:s');
 
-//  debugger($sharedDevice);
+// debugger($sharedDevice);
 //  exit();
   /*
      Begin data munging so we can display stuff now that we have retrieved our data
@@ -121,8 +121,8 @@
   */
 
   // Get a list of our storage types in monitors
-  if ( ! empty($sharedDevice['monitors'])) {
-    foreach ($sharedDevice['monitors'] as $activeMonitors) {
+  if ( ! empty($sharedDevice['monitors']['data'])) {
+    foreach ($sharedDevice['monitors']['data'] as $activeMonitors) {
       $storage[] = $activeMonitors['storage'];
     }
   }
@@ -131,6 +131,7 @@
   }
   // We only want an array of each type used.  We could try to get from the main array later
   $storage = array_unique($storage);
+  // debugger($storage);
 
   // Find our alarm counts for display
   $sev = alarmCount($sharedDevice['activeEvents']);

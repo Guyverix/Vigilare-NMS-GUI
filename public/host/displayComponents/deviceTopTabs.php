@@ -47,19 +47,20 @@
         echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">' . "\n";
       echo '</form>' . "\n";
 
-      echo '<form id="addMonitors"    action="/host/addMonitors.php"         method="POST"><input type="hidden" name="id" value="' . $id . '"></form>' . "\n";
+//      echo '<form id="addMonitors"    action="/host/addMonitors.php"         method="POST"><input type="hidden" name="id" value="' . $id . '"></form>' . "\n";
 
       echo '<form id="hostGraphs"     action="/host/index.php?&page=deviceGraphs.php"          method="POST">' . "\n";
         echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
         echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
+        echo '<input type="hidden" name="specialHostname" value="' . $sharedDevice['properties']['data'][0]['graphiteHostname'] . '">' . "\n";
         echo '<input type="hidden" name="activeMonitors" value="' . htmlspecialchars(json_encode($rawActiveMonitors['data'], 1)) . '">' . "\n";
       echo '</form>' . "\n";
 
-      echo '<form id="performance"    action="/host/index.php?&page=devicePerformance2.php"   method="POST">' . "\n";
-        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
-        echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
-        echo '<input type="hidden" name="performanceData" value="' . htmlspecialchars(json_encode($rawDevicePerformance['data'], 1)) . '">' . "\n";
-      echo '</form>' . "\n";
+//      echo '<form id="performance"    action="/host/index.php?&page=devicePerformance2.php"   method="POST">' . "\n";
+//        echo '<input type="hidden" name="id" value="' . $id . '">' . "\n";
+//        echo '<input type="hidden" name="hostname" value="' . $sharedDevice['properties']['data'][0]['hostname'] . '">' . "\n";
+//        echo '<input type="hidden" name="performanceData" value="' . htmlspecialchars(json_encode($rawDevicePerformance['data'], 1)) . '">' . "\n";
+//      echo '</form>' . "\n";
 
       // Decide if we have run discovery against host before or not
       if ( ! isset($sharedDevice['properties']['data'][0]['properties'])) {
