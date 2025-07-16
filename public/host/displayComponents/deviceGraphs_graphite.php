@@ -38,6 +38,7 @@ $graphiteList = array_filter($graphiteList, function ($entry) {
                   <form method="POST" action="/host/index.php?page=/graphs/graphite.php" class="mb-0">
                     <input type="hidden" name="task" value="findGraphs">
                     <input type="hidden" name="hostname" value="<?= htmlspecialchars($hostname) ?>">
+                    <input type="hidden" name="specialHostname" value="<?= htmlspecialchars($specialHostname) ?>">
                     <input type="hidden" name="checkType" value="<?= htmlspecialchars($checkType) ?>">
                     <input type="hidden" name="checkName" value="<?= htmlspecialchars($checkName) ?>">
                     <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">

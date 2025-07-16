@@ -11,6 +11,7 @@ $headers = ['Authorization: Bearer ' . $_COOKIE['token']];
 $quitEarly = 0;
 
 // Collect POST vars
+$specialHostname     = $_POST['specialHostname'] ?? null;
 $hostname     = $_POST['hostname'] ?? null;
 $id           = $_POST['id'] ?? null;
 $checkType    = $_POST['checkType'] ?? null;
@@ -22,7 +23,7 @@ $endNumber    = $_POST['endNumber'] ?? 'now';
 $endRange     = $_POST['endRange'] ?? 'h';
 $endTime      = ($endNumber === 'now') ? 'now' : '-' . $endNumber . $endRange;
 
-//debugger($_POST);
+debugger($_POST);
 //exit();
 
 
@@ -34,7 +35,7 @@ if (!$hostname || !$checkType || !$checkName) {
 // Make Graphite API call
 $post = [
   'task' => 'findGraphs',
-  'hostname' => $hostname,
+  'hostname' => $specialHostname,
   'checkName' => $checkName,
   'checkType' => $checkType,
   'from' => $startTime,
@@ -42,7 +43,9 @@ $post = [
 ];
 
 $rawRenderGraphs = callApiPost("/graphite/test", $post, $headers);
+debugger($rawRenderGraphs);
 $renderGraphsResult = json_decode($rawRenderGraphs['response'], true);
+//debugger($renderGraphResult);
 
 // Begin page
 echo '<div class="container">';
