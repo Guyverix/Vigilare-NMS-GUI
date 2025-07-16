@@ -23,7 +23,7 @@ $endNumber    = $_POST['endNumber'] ?? 'now';
 $endRange     = $_POST['endRange'] ?? 'h';
 $endTime      = ($endNumber === 'now') ? 'now' : '-' . $endNumber . $endRange;
 
-debugger($_POST);
+// debugger($_POST);
 //exit();
 
 
@@ -31,6 +31,8 @@ if (!$hostname || !$checkType || !$checkName) {
   loadUnknown("Missing required POST values.");
   exit;
 }
+
+if ( $checkName = 'laEntry') { $checkName = 'load'; }
 
 // Make Graphite API call
 $post = [
@@ -42,8 +44,10 @@ $post = [
   'to' => $endTime
 ];
 
+// debugger($post);
+
 $rawRenderGraphs = callApiPost("/graphite/test", $post, $headers);
-debugger($rawRenderGraphs);
+//debugger($rawRenderGraphs);
 $renderGraphsResult = json_decode($rawRenderGraphs['response'], true);
 //debugger($renderGraphResult);
 
@@ -75,6 +79,7 @@ foreach (['d' => 'days', 'h' => 'hours', 'w' => 'weeks', 'm' => 'months'] as $va
 echo '</select>';
 echo '<input type="hidden" name="checkName" value="' . htmlspecialchars($checkName) . '">';
 echo '<input type="hidden" name="hostname" value="' . htmlspecialchars($hostname) . '">';
+echo '<input type="hidden" name="specialHostname" value="' . htmlspecialchars($specialHostname) . '">';
 echo '<input type="hidden" name="checkType" value="' . htmlspecialchars($checkType) . '">';
 echo '<input type="hidden" name="id" value="' . htmlspecialchars($id) . '">';
 echo '</td></tr></tbody>';
@@ -96,12 +101,12 @@ if ($renderGraphsResult['statusCode'] !== 200) {
 } else {
   foreach ($renderGraphsResult['data'][0] as $graphGroup) {
     if (!is_array($graphGroup)) {
-      echo "URL " . $graphGroup . "<br>";
+      // echo "URL " . $graphGroup . "<br>";
       echo '<tr><td><center><img class="NO-CACHE" src="' . htmlspecialchars($graphGroup) . '" width="900" height="200" /></center></td></tr>';
     } else {
       foreach ($graphGroup as $subGraph) {
         $img = is_array($subGraph) ? $subGraph[0] : $subGraph;
-        echo "URL " . $img . "<br>";
+        // echo "URL " . $img . "<br>";
         echo '<tr><td><center><img class="NO-CACHE" src="' . htmlspecialchars($img) . '" width="900" height="200" /></center></td></tr>';
       }
     }

@@ -89,6 +89,9 @@ $headers = [ 'Authorization: Bearer ' . $_COOKIE['token'] ];
       ];
       $rawRenderRrd = callApiPost("/render/render", $post, $headers);
       $renderRrd = json_decode($rawRenderRrd['response'], true);
+//      echo "\n<!--\n debugger for rawRenderRrd \n";
+//      debugger($rawRenderRrd);
+//      echo "\n-->\n";
 
       if ($renderRrd['statusCode'] !== 200) {
         echo '<tr><td class="text-warning">Error loading graph for ' . htmlspecialchars($file) . '</td></tr>';
