@@ -32,7 +32,7 @@ if (!$hostname || !$checkType || !$checkName) {
   exit;
 }
 
-if ( $checkName = 'laEntry') { $checkName = 'load'; }
+if ( $checkName == 'laEntry') { $checkName = 'load'; }
 
 // Make Graphite API call
 $post = [
