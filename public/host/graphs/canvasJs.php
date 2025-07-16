@@ -28,6 +28,9 @@ if (!empty($_POST['endNumber']) && $_POST['endNumber'] !== 'now') {
     $endTime = '-1m';
 }
 
+// Stupid this needs to be changed in the templates and standardized
+if ( $checkName == 'laEntry' ) { $checkName = "load"; }
+
 $post = [
   'task' => $task,
   'hostname' => $specialHostname,
@@ -37,8 +40,12 @@ $post = [
   'to'   => $endTime
 ];
 
+// debugger($post);
+
 $rawRenderGraphs = callApiPost("/graphite/test", $post, $headers);
 $renderGraphsResult = json_decode($rawRenderGraphs['response'], true);
+
+// debugger($renderGraphsResult);
 
 $graphNumber = 0;
 echo '<script src="/js/jquery/jquery-1.7.1.min.js"></script>';
@@ -84,8 +91,18 @@ if ($renderGraphsResult['statusCode'] !== 200) {
 }
 
 $graphData = $renderGraphsResult['data'][0] ?? [];
-foreach ($graphData as $checkNameKey => $checkMetrics) {
-  foreach ($checkMetrics as $metricName => $urls) {
+// debugger($graphData);
+if (array_keys($graphData) === range(0, count($graphData) -1 )) {
+  $indexedGraphs = "indexed";
+}
+else {
+  $indexedGraphs = "not indexed";
+}
+// debugger($indexedGraphs);
+
+// Cannot find a decent mix between the two possible returns, so break them apart
+if ( $indexedGraphs == "indexed" ) {
+  foreach ($graphData as $metricName => $urls) {
     $metricTitle = is_numeric($metricName) ? $checkNameKey : $metricName;
     $urlList = is_array($urls) ? $urls : [$urls];
 
@@ -93,10 +110,9 @@ foreach ($graphData as $checkNameKey => $checkMetrics) {
       $graphNumber++;
       $dataReturn = callUrlGet($graphUrl . '&format=json');
       $graphiteJson = json_decode($dataReturn['response'], true);
-
       if (!is_array($graphiteJson)) continue;
-
       $dataSeries = [];
+
       foreach ($graphiteJson as $series) {
         $points = [];
         foreach ($series['datapoints'] as $pt) {
@@ -141,4 +157,68 @@ foreach ($graphData as $checkNameKey => $checkMetrics) {
   }
 }
 
+// These have the string defined for $graphData so it is mixed-key....
+else {
+  // debugger($graphData);
+  foreach ($graphData as $checkNameKey => $checkMetrics) {
+    // debugger($checkNameKey); // can be 0-9 or a string... sigh...
+  
+    foreach ($checkMetrics as $metricName => $urls) {
+      // debugger($metricName);
+      $metricTitle = is_numeric($metricName) ? $checkNameKey : $metricName;
+      $urlList = is_array($urls) ? $urls : [$urls];
+
+      foreach ($urlList as $graphUrl) {
+        $graphNumber++;
+        $dataReturn = callUrlGet($graphUrl . '&format=json');
+        $graphiteJson = json_decode($dataReturn['response'], true);
+        if (!is_array($graphiteJson)) continue;
+
+        $dataSeries = [];
+        foreach ($graphiteJson as $series) {
+          $points = [];
+          foreach ($series['datapoints'] as $pt) {
+            if ($pt[0] !== null) {
+              $points[] = ['x' => $pt[1] * 1000, 'y' => $pt[0]];
+            }
+          }
+          $dataSeries[] = [
+            'type' => 'splineArea',
+            'markerSize' => 5,
+            'toolTipContent' => '{y}',
+            'xValueType' => 'dateTime',
+            'showInLegend' => true,
+            'name' => $series['target'],
+            'dataPoints' => $points
+          ];
+        }
+
+        echo '<div class="my-4">';
+        echo '<h5 class="text-center">' . htmlspecialchars($metricTitle) . '</h5>';
+        echo '<div id="graphiteContainer_' . $graphNumber . '" style="height: 250px; width: 100%;"></div>';
+        echo '<script type="text/javascript">
+          $(function() {
+            var chart = new CanvasJS.Chart("graphiteContainer_' . $graphNumber . '", {
+              theme: "light2",
+              zoomEnabled: true,
+              animationEnabled: true,
+              legend: {
+                verticalAlign: "bottom",
+                horizontalAlign: "center"
+              },
+              axisY: {
+                reversed: false
+              },
+              data: ' . json_encode($dataSeries, JSON_NUMERIC_CHECK) . '
+            });
+            chart.render();
+          });
+        </script>';
+        echo '</div>';
+      }
+    }
+  }
+}
+
+// We are now at the end of that mess... Phew
 echo '</div>';
