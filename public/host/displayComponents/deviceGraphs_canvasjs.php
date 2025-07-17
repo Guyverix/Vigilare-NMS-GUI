@@ -55,7 +55,7 @@ if (empty($canvasChecks)) {
               <td><?php echo htmlspecialchars($check['type']); ?></td>
               <td><?php echo htmlspecialchars($check['checkName']); ?></td>
               <td>
-                <form method="POST" action="/host/graphs/canvasJs.php">
+                <form method="POST" action="/host/index.php?page=graphs/canvasJs.php">
                   <input type="hidden" name="checkType" value="<?php echo htmlspecialchars($checkType); ?>">
                   <input type="hidden" name="checkName" value="<?php echo htmlspecialchars($checkName); ?>">
                   <input type="hidden" name="hostname" value="<?php echo htmlspecialchars($hostname); ?>">

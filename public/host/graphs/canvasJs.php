@@ -51,7 +51,7 @@ $graphNumber = 0;
 echo '<script src="/js/jquery/jquery-1.7.1.min.js"></script>';
 echo '<script src="/js/charts/canvasjs/canvasjs.min.js"></script>';
 
-echo '<div class="container mt-5">';
+echo '<div class="container">';
 echo '<div class="text-center mb-4">';
 echo '<h1>Available CanvasJS Graphs for <a href="/host/index.php?&page=deviceDetails.php&id=' . $id . '">' . htmlspecialchars($hostname) . '</a></h1>';
 echo '</div>';
@@ -99,6 +99,7 @@ else {
   $indexedGraphs = "not indexed";
 }
 // debugger($indexedGraphs);
+echo '<div class="container mt-5">';
 
 // Cannot find a decent mix between the two possible returns, so break them apart
 if ( $indexedGraphs == "indexed" ) {
@@ -219,6 +220,7 @@ else {
     }
   }
 }
+echo '</div>';
 
 // We are now at the end of that mess... Phew
 echo '</div>';
