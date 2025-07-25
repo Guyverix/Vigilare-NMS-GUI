@@ -54,6 +54,7 @@ if ($quitEarly === 0) {
   echo '<div class="card-header bg-primary text-white"><h5 class="mb-0">RRD Graph Templates</h5></div>' . "\n";
   echo '<div class="card-body">' . "\n";
   echo '<table class="table table-striped table-hover">' . "\n";
+  echo '<thead><tr><th>Name</th><th>Action</th></tr></thead><tbody>' . "\n";
 
   foreach ($rrdTemplateMap as $templateName => $fileList) {
     $prettyName = ucwords(str_replace('_', ' ', preg_replace('/snmp/i', 'SNMP', $templateName)));
@@ -61,17 +62,19 @@ if ($quitEarly === 0) {
       $prettyName = basename(reset($fileList), '.rrd');
     }
 
-    echo '<tr><td>' . "\n";
+    echo '<tr><td>' . $prettyName . "</td><td>\n";
     echo '<form method="POST" action="/host/index.php?page=/graphs/rrd.php">' . "\n";
     echo '<input type="hidden" name="templateName" value="' . htmlspecialchars($templateName) . '">' . "\n";
     echo '<input type="hidden" name="hostname" value="' . htmlspecialchars($hostname) . '">' . "\n";
     echo '<input type="hidden" name="id" value="' . htmlspecialchars($id) . '">' . "\n";
     echo '<input type="hidden" name="files" value=' . htmlspecialchars(json_encode($fileList)) . '>' . "\n";
-    echo '<button type="submit" class="btn btn-link">' . $prettyName . '</button>' . "\n";
+    echo '<button type="submit" class="btn btn-sm btn-primary" value="View">View' . '</button>' . "\n";
+//    echo '<button type="submit" class="btn btn-link">' . $prettyName . '</button>' . "\n";
     echo '</form>' . "\n";
     echo '</td></tr>' . "\n";
   }
 
+  echo '</tbody>' . "\n";
   echo '</table>' . "\n";
   echo '</div>' . "\n"; // card-body
   echo '</div>' . "\n"; // card

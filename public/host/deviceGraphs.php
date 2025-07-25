@@ -28,9 +28,8 @@ foreach ($activeMonitors as $monitor) {
 
 
 // Include RRD logic if applicable
-if (in_array('rrd', $storage)) {
-  include __DIR__ . '/displayComponents/deviceGraphs_rrd.php';
-}
+//if (in_array('rrd', $storage)) {
+//jj}
 
 /*
   currently canvasJs can parse the results returned from Graphite raw data and display them
@@ -41,10 +40,6 @@ if (in_array('rrd', $storage)) {
 
 //debugger($storage);
 // Include Graphite logic if applicable
-if (in_array('graphite', $storage)) {
-  include __DIR__ . '/displayComponents/deviceGraphs_graphite.php';
-  include __DIR__ . '/displayComponents/deviceGraphs_canvasjs.php';
-}
 
 if ($quitEarly === 0): ?>
 
@@ -55,12 +50,12 @@ if ($quitEarly === 0): ?>
   </div>
   <div class="accordion mt-4" id="graphAccordion">
     <?php if (in_array('rrd', $storage)): ?>
-      <?php renderRrdGraphCards($id, $hostname, $headers); ?>
+      <?php  include __DIR__ . '/displayComponents/deviceGraphs_rrd.php'; ?>
     <?php endif; ?>
 
     <?php if (in_array('graphite', $storage)): ?>
-      <?php renderGraphiteGraphCards($id, $hostname, $headers); ?>
-      <?php renderCanvasJsGraphCards($id, $hostname, $headers); ?>
+      <?php // include __DIR__ . '/displayComponents/deviceGraphs_graphite.php'; ?>
+      <?php include __DIR__ . '/displayComponents/deviceGraphs_canvasjs.php'; ?>
     <?php endif; ?>
   </div>
 </div>
