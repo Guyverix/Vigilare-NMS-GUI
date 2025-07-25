@@ -11,8 +11,6 @@
 */
 echo '<!-- Remove the <br> values when not debugging -->';
 //echo "<br><br><br>";
-
-
 echo '
   <!-- bottomFooter.php -->
   <footer class="py-4 bg-light mt-auto">
@@ -42,8 +40,4 @@ echo '
 </body>
 </html>
 ';
-//  <script src="/js/bootstrap-5/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-//  <script src="/js/scripts.js"></script>
-
-
 ?>

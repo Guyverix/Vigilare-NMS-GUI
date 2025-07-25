@@ -1,20 +1,43 @@
-This is going to be one of the more complex page sets.
 
-Overall we are going to show a lot of details as well as many different options
-related to the given host.
+Primary files:
 
-Breakdown of Components, as well as Monitor changes or status will be done here.
+index.php
+Initial landing page..
+defines basic global layout
+Controls basic security.
+If nothing is defined use main.html (catchall)
 
-This has to look good dammit!  
 
+++++++++++++++++++++++++++++++++++++++++++
+Child files:
 
-Use the templates that you have been writing.  Keep support for adhoc ones
-as well.  If a user adds a template in there, lets leverage it shall we?
+deviceDetails:
+Pull in the main information and use as one big array.  Seems smarter than having discrete arrays.
+Define the basic UI, however all of the main display parts are defined in displayComponents so we can make
+modular parts of the dispaly.  What I use others may hate.
 
-How will we know if we need a display template?  Lets go off of our monitors
-since those are likely going to be the oddballs that can have additonal info.
+hostPropertiesEdit:
+define specific details for the host.  Vars can be used for monitoring or custom "things"
+defines if SNMP is available for monitoring.
+Discovery builds the initial values from a global template in the database
 
-All builtin stuff will be available IF stuff exists to pull for them.
+modifyDevice:
+Change FQDN, IP address, and if it can be monitored.
+Add device to specific monitoring "groups"
 
-Use cheap and fast API calls to see what we have available, and THEN begin
-the more expensive queries for data at that point.
+deviceDelete:
+Just what it says on the label.  Kill something in fire...
+
+++++++++++++++++++++++++++++++++++++++++++
+Subdirectories:
+
+functions:
+any special functions that deal specifcally with hosts..  Making OS image links, etc.
+
+includes:
+This is any custom headers or footers that change from the defaults that the main site usees.
+
+displayComponents:
+Make the deviceDetails look decent.  Define the different parts so they can be removed if a user
+does not want them.  Also make sure they display nothing if there is no information.
+

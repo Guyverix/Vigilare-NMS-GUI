@@ -26,7 +26,7 @@
   //debugger($rawGetEvent);
 
   $output = json_decode($rawGetEvent['response'], true);
-  //debugger($output);
+  debugger($output);
   //exit();
 
   // Make pretty variables since this is going to get somewhat complex

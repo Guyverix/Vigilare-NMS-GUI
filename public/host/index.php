@@ -57,7 +57,8 @@
     and possibly interact with some portions of the site when they
     should not be able to.
   */
-  echo '<!-- Check login cookie every 15 seconds --><body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
+  //  echo '<!-- Check login cookie every 15 seconds --><body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';  // Was not allowing footer to stay at bottom
+  echo '<!-- Check login cookie every 15 seconds --><body class="d-flex flex-column h-100" onload="setInterval(checkCookieExpiration, 15000)" >';
 
   /*
     All navigation needs to be defined before we begin our main page

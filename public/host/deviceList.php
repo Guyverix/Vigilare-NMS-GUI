@@ -53,7 +53,14 @@
   <br><br><br> <!--- Drop below the menu banner --->
   <style> td { text-align: center; } </style>
   <center><h1>All Hosts and Devices</h1></center>
-    <div class="container-lg">
+    <div class="container-fluid">
+<?php
+  $cardRadius = '.5%';
+  $cardSize = 'w-75';
+  echo '      <div class="col d-flex justify-content-center">' . "\n";
+  echo '        <div class="card ' . $cardSize .'" style="border-radius: ' . $cardRadius . '">';
+  echo '          <div class="card-body">';
+?>
       <table id="dt-deviceList" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;">
         <thead>
           <tr>
@@ -69,7 +76,7 @@
   foreach($devices as $device) {
     echo '<tr>';
     echo '<td>' . $device['id'] . '</td>';
-//    echo '<td><a href="./index.php?&page=deviceDetails.php&id=' . $device['id']. '" target="_blank">' . $device['hostname'] . '</a></td>';  <!-- opens in new page -->
+    //    echo '<td><a href="./index.php?&page=deviceDetails.php&id=' . $device['id']. '" target="_blank">' . $device['hostname'] . '</a></td>';  <!-- opens in new page -->
     echo '<td><a href="./index.php?&page=deviceDetails.php&id=' . $device['id']. '">' . $device['hostname'] . '</a></td>';
     echo '<td>' . $device['address'] . '</td>';
     echo '<td>' . $device['productionState'] . '</td>';
@@ -109,6 +116,9 @@
       <script src="/js/simple-datatables/simple-datatables.js"></script>
 
   <?php
+  echo '          </div>' . "\n";
+  echo '        </div>' . "\n";
+  echo '      </div>' . "\n";
 
   }
   else {

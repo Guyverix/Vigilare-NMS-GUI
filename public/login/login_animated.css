@@ -1,0 +1,37 @@
+/*! https://www.gradient-animator.com/ */
+body {
+    background: linear-gradient(53deg, #000000, #ffffff, #000000, #ffffff);
+    background-size: 800% 800%;
+    -webkit-animation: loginPage 23s ease infinite;
+    -moz-animation: loginPage 23s ease infinite;
+    -o-animation: loginPage 23s ease infinite;
+    animation: loginPage 23s ease infinite;
+}
+.css-selector {
+    background: linear-gradient(53deg, #000000, #ffffff, #000000, #ffffff);
+    background-size: 800% 800%;
+    -webkit-animation: loginPage 23s ease infinite;
+    -moz-animation: loginPage 23s ease infinite;
+    -o-animation: loginPage 23s ease infinite;
+    animation: loginPage 23s ease infinite;
+}
+@-webkit-keyframes loginPage {
+    0%{background-position:17% 0%}
+    50%{background-position:84% 100%}
+    100%{background-position:17% 0%}
+}
+@-moz-keyframes loginPage {
+    0%{background-position:17% 0%}
+    50%{background-position:84% 100%}
+    100%{background-position:17% 0%}
+}
+@-o-keyframes loginPage {
+    0%{background-position:17% 0%}
+    50%{background-position:84% 100%}
+    100%{background-position:17% 0%}
+}
+@keyframes loginPage {
+    0%{background-position:17% 0%}
+    50%{background-position:84% 100%}
+    100%{background-position:17% 0%}
+}

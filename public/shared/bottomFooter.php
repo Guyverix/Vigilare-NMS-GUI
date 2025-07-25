@@ -10,7 +10,7 @@
   is visible and not behind any other display output
 */
 echo '<!-- Remove the <br> values when not debugging -->';
-echo "<br><br><br>";
+//echo "<br><br><br>";
 
 
 echo '
@@ -19,7 +19,7 @@ echo '
     <div class="container-flex px-4">
       <div class="d-flex align-items-center justify-content-between small">
 ';?>
-        <?php echo '<div class="text-muted">&copy; Vigilare NMS Monitoring ' . date("Y") . ' </div>'; ?>
+        <?php echo '<div class="text-muted">&copy; Vigilare ' . date("Y") . '&nbsp </div>'; ?>
 
 <?php
 echo '
@@ -43,7 +43,4 @@ echo '
 </body>
 </html>
 ';
-//  <script src="/js/bootstrap-5/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-//   <script src="/js/scripts.js"></script>
-
 ?>
