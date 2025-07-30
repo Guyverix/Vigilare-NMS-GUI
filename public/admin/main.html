@@ -1,101 +1,94 @@
-<br><br> <!-- More stupid spacing down so display does not get clipped -->
+<br><br>
 <div class="container-fluid px-4">
-  <h1 class="mt-4"></h1>
-  <div class="row justify-content-center">
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-success text-white mb-3">
+  <h1 class="mt-4 mb-4 text-center">Admin Dashboard</h1>
+
+  <div class="row gy-4 justify-content-center">
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-success text-white h-100">
         <div class="card-body">
-          <i class="fas fa-plus-circle fa-lg"></i>
+          <i class="fas fa-user-plus fa-lg mb-2"></i>
           <h5 class="card-title">New User</h5>
-          <p class="card-text">Create a new user and set access permissions.  Since you are an admin, this also includes setting the initial password for the user.</p>
-           <a href="/admin/index.php?&page=createUser.php" class="stretched-link"></a>
-           <!--          <a href="#" class="btn btn-primary">New</a>   -->
+          <p class="card-text">Create a user and set initial access and password. Full admin capabilities apply.</p>
+          <a href="/admin/index.php?page=createUser.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-warning text-dark mb-3">
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-warning text-dark h-100">
         <div class="card-body">
-          <i class="fas fa-cog fa-spin fa-lg"></i>
+          <i class="fas fa-users-cog fa-lg mb-2"></i>
           <h5 class="card-title">Change User</h5>
-          <p class="card-text">Search all users that exist.  Both enabled and disabled users can be found here and manipulated from this point.</p>
-          <a href="/admin/index.php?&page=searchUser.php" class="stretched-link"></a>
+          <p class="card-text">Search and manage all users, including disabled accounts.</p>
+          <a href="/admin/index.php?page=searchUser.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-danger text-white mb-3">
-        <div class="card-body">
-          <i class="fas fa-exclamation-circle fa-lg"></i>
-          <h5 class="card-title">Event Correlation Engine Parents</h5>
-          <p class="card-text">Create ECE parents</p>
-          <a href="/ece/index.php?&page=createParent.php" class="stretched-link"></a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- end of first row of cards -->
 
-  <div class="row justify-content-center">
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-success text-white mb-3">
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-danger text-white h-100">
         <div class="card-body">
-          <i class="fas fa-cog fa-lg"></i>
-          <h5 class="card-title">Create Maintenance Event</h5>
-          <p class="card-text">Set a new future maintenance event..</p>
+          <i class="fas fa-project-diagram fa-lg mb-2"></i>
+          <h5 class="card-title">ECE Parents</h5>
+          <p class="card-text">Create parent definitions for the Event Correlation Engine.</p>
+          <a href="/ece/index.php?page=createParent.php" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-success text-white h-100">
+        <div class="card-body">
+          <i class="fas fa-calendar-plus fa-lg mb-2"></i>
+          <h5 class="card-title">Create Maintenance</h5>
+          <p class="card-text">Schedule a new maintenance window for planned work.</p>
           <a href="#" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-warning text-dark">
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-warning text-dark h-100">
         <div class="card-body">
-          <i class="fas fa-exclamation-triangle fa-spin fa-lg"></i>
-          <h5 class="card-title">Change Maintenance Event</h5>
-          <p class="card-text">Alter or cancel an existing maintenence event</p>
+          <i class="fas fa-calendar-times fa-lg mb-2"></i>
+          <h5 class="card-title">Change Maintenance</h5>
+          <p class="card-text">Modify or cancel existing maintenance windows.</p>
           <a href="#" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-danger text-white mb-3">
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-danger text-white h-100">
         <div class="card-body">
-          <i class="fas fa-exclamation-circle fa-lg"></i>
-          <h5 class="card-title">Event Correlation Engine Children</h5>
-          <p class="card-text">Create ECE Children</p>
-          <a href="/ece/index.php?&page=createChild.php" class="stretched-link"></a>
+          <i class="fas fa-project-diagram fa-lg mb-2"></i>
+          <h5 class="card-title">ECE Children</h5>
+          <p class="card-text">Create child relationships in the Event Correlation Engine.</p>
+          <a href="/ece/index.php?page=createChild.php" class="stretched-link"></a>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- end of second row of cards -->
 
-  <div class="row justify-content-center">
-    <div class="col-xl-3 col-md-3">
-     <div class="card bg-success text-white mb-3">
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-success text-white h-100">
         <div class="card-body">
-          <i class="fas fa-cog fa-lg"></i>
+          <i class="fas fa-network-wired fa-lg mb-2"></i>
           <h5 class="card-title">Subnet Discovery</h5>
-          <p class="card-text">Run a scan of a given subnet to add hosts into the system.</p>
+          <p class="card-text">Scan a subnet to detect and register new hosts.</p>
           <a href="/discovery/index.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-warning text-dark mb-3">
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-warning text-dark h-100">
         <div class="card-body">
-          <i class="fas fa-exclamation-circle fa-spin fa-lg"></i>
+          <i class="fas fa-tools fa-lg mb-2"></i>
           <h5 class="card-title">Daemon Control</h5>
-          <p class="card-text">Start Stop Restart and status the running Daemons</p>
+          <p class="card-text">Start, stop, restart, or check status of system daemons.</p>
           <a href="/daemon/index.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
   </div>
-  <!-- end of third row of cards -->
-  <br> <!-- stupid, but need the gap to look right -->
 </div>
-
