@@ -1,134 +1,93 @@
-<br><br> <!-- More stupid spacing down so display does not get clipped -->
 <div class="container-fluid px-4">
-  <h1 class="mt-4"></h1>
-  <div class="row justify-content-center">
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-success text-white mb-3">
+  <h1 class="mt-4 mb-4 text-center">Report Management</h1>
+
+  <div class="row gy-4 justify-content-center">
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-success text-white h-100">
         <div class="card-body">
-          <i class="fas fa-plus-circle fa-lg"></i>
+          <i class="fas fa-plus-circle fa-lg mb-2"></i>
           <h5 class="card-title">New Report</h5>
-          <p class="card-text">Create a new report to be run on demand, or via housekeeping on a cycle.  This is specific for the creation of the template itself.  This will not run the template at creation time.  Use Search Report Templates to run a given template when needed.</p>
-           <a href="/reporting/index.php?&page=addReporting.php" class="stretched-link"></a>
+          <p class="card-text">Create a new report to be scheduled or executed on demand. This action defines the template, not the report run itself.</p>
+          <a href="/reporting/index.php?page=addReporting.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-warning text-dark mb-3">
+    
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-warning text-dark h-100">
         <div class="card-body">
-          <i class="fas fa-cog fa-spin fa-lg"></i>
+          <i class="fas fa-cog fa-spin fa-lg mb-2"></i>
           <h5 class="card-title">Change Report</h5>
-          <p class="card-text">Change a specific report which you know the ID of.  This will generally be unused.  Other pages will allow for this in a more consumable way.  However if you DO know the id number, this will allow for changes as well.</p>
-          <a href="/reporting/index.php?&page=changeReporting.php" class="stretched-link"></a>
+          <p class="card-text">Modify a report if you know the report ID. Typically used in advanced or direct-access workflows.</p>
+          <a href="/reporting/index.php?page=changeReporting.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-danger text-white mb-3">
+    
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-danger text-white h-100">
         <div class="card-body">
-          <i class="fas fa-exclamation-circle fa-lg"></i>
+          <i class="fas fa-exclamation-circle fa-lg mb-2"></i>
           <h5 class="card-title">Remove Report</h5>
-          <p class="card-text">Remove a specific report.  This is a complete removal not a disable for a given report when the ID is known.  If you make a mistake, this is not recoverable and you will have to create an enitre new report again.</p>
-          <a href="/reporting/index.php?&page=removeReporting.php" class="stretched-link"></a>
+          <p class="card-text">Permanently delete a report by ID. This action cannot be undone.</p>
+          <a href="/reporting/index.php?page=removeReporting.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-  </div>
-  <!-- end of first row of cards -->
 
-  <div class="row justify-content-center">
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-success text-white mb-3">
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-success text-white h-100">
         <div class="card-body">
-          <i class="fas fa-plus-circle fa-lg"></i>
-          <h5 class="card-title">Search or Run Report Templates</h5>
-          <p class="card-text">Search all defined templates.  In general this will be for editing or running on demand a given template.</p>
-          <a href="/reporting/index.php?&page=searchTemplateReporting.php" class="stretched-link"></a>
+          <i class="fas fa-search fa-lg mb-2"></i>
+          <h5 class="card-title">Search/Run Templates</h5>
+          <p class="card-text">Search all templates to run or edit a specific report template.</p>
+          <a href="/reporting/index.php?page=searchTemplateReporting.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-warning text-dark">
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-warning text-dark h-100">
         <div class="card-body">
-          <i class="fas fa-exclamation-triangle fa-lg"></i>
+          <i class="fas fa-ban fa-lg mb-2"></i>
           <h5 class="card-title">Disable Report</h5>
-          <p class="card-text">Disable a specific report when you know the specific reporting ID value.  This is only useful against automated report generation.  This will not stop a manual report run.</p>
-          <a href="/reporting/index.php?&page=disableReporting.php" class="stretched-link"></a>
+          <p class="card-text">Disable automated generation for a specific report ID. Manual runs are unaffected.</p>
+          <a href="/reporting/index.php?page=disableReporting.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-danger text-white">
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-danger text-white h-100">
         <div class="card-body">
-          <i class="fas fa-exclamation-circle fa-lg"></i>
-          <h5 class="card-title">Purge old Reports</h5>
-          <p class="card-text">Remove old reports that have been run in the past.</p>
-          <a href="/reporting/index.php?&page=purgeOldReporting.php" class="stretched-link"></a>
+          <i class="fas fa-trash-alt fa-lg mb-2"></i>
+          <h5 class="card-title">Purge Old Reports</h5>
+          <p class="card-text">Clean up historical reports that were generated in the past.</p>
+          <a href="/reporting/index.php?page=purgeOldReporting.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-  </div>
-  <!-- end of second row of cards -->
 
-  <div class="row justify-content-center">
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-success text-white">
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-success text-white h-100">
         <div class="card-body">
-          <i class="fas fa-plus-circle fa-lg"></i>
-          <h5 class="card-title">Search Existing Completed Reports</h5>
-          <p class="card-text">Return a list of all completed or pending reports.</p>
-          <a href="/reporting/index.php?&page=searchExistingReporting.php" class="stretched-link"></a>
+          <i class="fas fa-file-alt fa-lg mb-2"></i>
+          <h5 class="card-title">Search Completed Reports</h5>
+          <p class="card-text">Browse completed or pending report instances.</p>
+          <a href="/reporting/index.php?page=searchExistingReporting.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
-  </div>
-  <br> <!-- stupid, but need the gap to look right -->
-  <!-- end third row of cards -->
-  <div class="row justify-content-center">
-    <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
-  </div>
 
-  <!-- end fourth row of cards -->
-  <div class="row justify-content-center">
-    <div class="col-xl-3 col-md-3">
-      <div class="card bg-success text-white">
+    <div class="col-xl-3 col-md-6">
+      <div class="card bg-secondary text-white h-100">
         <div class="card-body">
-          <i class="fas fa-plus-circle fa-lg"></i>
-          <h5 class="card-title">Run a defined report (unused, testing)</h5>
-          <p class="card-text">Choose and run a given report.</p>
-          <a href="/reporting/index.php?&page=runReport.php" class="stretched-link"></a>
+          <i class="fas fa-vial fa-lg mb-2"></i>
+          <h5 class="card-title">Run Report (Test)</h5>
+          <p class="card-text">Select and run a defined report. Mostly for development or diagnostics.</p>
+          <a href="/reporting/index.php?page=runReport.php" class="stretched-link"></a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-3">
-      <div>
-      </div>
-    </div>
   </div>
-
-
-
 </div>
-
