@@ -1,0 +1,20 @@
+This is a universal catchall that is used to get a link fashoned to pull up a ticket for events..
+
+This will be the area that ties tickets to events.
+
+Currently and likely going forward, there will not be ticket auto-creation with this system unless it is requested.
+
+create, update, close will end up being the main options from here going to whatever ticketing system is in use.
+
+Hopefully, it is something that contains either bearer tokens or something simple like basic auth to do all the authentication..
+
+Jira is nasty for that sort of stuff.  
+
+If I do support Jira in the future, I will likely make it as a template so users can define what is "manditory" for tickets, etc.
+
+Likely it will be templates with no logic on the NMS side, but we shall see..  Might need some depending..
+
+Inital plan will be something like RT, or a simple ticketing system.
+
+Hopefully it will have an API that can be used to tie back to a given event or class of events..
+

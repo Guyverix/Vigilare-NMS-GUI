@@ -1,0 +1,20 @@
+Sigh, yes this was from chatGPT, but I kinda like how simple it is..
+
+HTML (put in your <head>)
+<!-- Default theme (dark) -->
+<link id="theme-css" rel="stylesheet" href="/css/dark/vigilare-dashboard.css">
+
+HTML (somewhere in your navbar/header)
+<button id="themeToggle" class="btn btn-sm btn-outline-secondary">
+  Switch Theme
+</button>
+
+One script that swaps /css/vigilare-dashboard.css ↔ /css/vigilare-dashboard-light.css and remembers the choice with localStorage.
+
+
+
+
+JS (after Bootstrap JS bundle)
+JS already in this directory... Call it.. :)
+
+

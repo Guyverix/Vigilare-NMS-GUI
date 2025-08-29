@@ -1,0 +1,79 @@
+/* Vigilare Dashboard Theme — Light-on-Dark, High-Contrast
+   Drop this file alongside your assets and reference it after Bootstrap CSS.
+   Example: <link rel="stylesheet" href="/css/dark/vigilare-dashboard.css"> */
+
+:root {
+  /* Surfaces */
+  --surface-0: #0f1115; /* page background */
+  --surface-1: #151923; /* card background */
+  --surface-2: #1b2030; /* header / table head */
+  --border-1:  #232838; /* borders */
+
+  /* Typography */
+  --text-strong:  #ffffff; /* key numbers, headings */
+  --text-default: #eef2f8; /* body text */
+  --text-muted:   #cbd3e1; /* secondary text */
+}
+
+/* Base layout */
+body {
+  background-color: var(--surface-0);
+  color: var(--text-default);
+}
+
+/* Cards */
+.card {
+  background-color: var(--surface-1);
+  border: 1px solid var(--border-1);
+}
+.card-header {
+  background: linear-gradient(180deg, var(--surface-2), #121622);
+  border-bottom: 1px solid var(--border-1);
+  color: var(--text-default);
+}
+
+/* Typography helpers */
+.stat-lg {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+.muted { color: var(--text-muted); }
+
+/* Links */
+a, a:hover { color: #a4d0ff; }
+
+/* Tables — force dark backgrounds & bright text */
+.table {
+  --bs-table-bg: var(--surface-1);
+  --bs-table-color: var(--text-default);
+  --bs-table-striped-bg: #1a1f2b;
+  --bs-table-hover-bg: #1b2130;
+  --bs-table-border-color: #2b3245;
+}
+.table thead th {
+  background-color: var(--surface-2);
+  color: #d8def0;
+}
+.table tbody td { color: var(--text-default); }
+
+/* List groups — no white background bleed */
+.list-group-item {
+  background-color: var(--surface-1);
+  color: var(--text-default);
+  border-color: var(--border-1);
+}
+
+/* Progress track — darker for contrast against bars */
+.progress { background-color: #21283a; }
+
+/* Badges — slightly bolder for readability */
+.badge { font-weight: 600; }
+
+/* Optional: slightly lighter borders on tables inside cards */
+.card .table { border-color: var(--border-1); }
+
+/* Optional: refine table header separator */
+.table > :not(caption) > * > th {
+  border-bottom: 1px solid var(--border-1);
+}
