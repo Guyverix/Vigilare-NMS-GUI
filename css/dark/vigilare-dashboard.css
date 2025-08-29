@@ -15,6 +15,29 @@
   --text-muted:   #cbd3e1; /* secondary text */
 }
 
+/* Dark mode: override .lead */
+body.dark-mode .lead {
+  color: #e0e0e0;   /* softer light gray text for readability */
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* lead class for dark theme file */
+.lead {
+  color: #e0e0e0;
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.card-body {
+  color: #e0e0e0;   /* softer light gray text for readability */
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
 /* Base layout */
 body {
   background-color: var(--surface-0);

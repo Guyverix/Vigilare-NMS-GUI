@@ -21,6 +21,14 @@ body {
   color: var(--text-default);
 }
 
+/* lead class for light theme */
+.lead {
+  color: #495057;       /* Bootstrap’s gray-700 */
+  font-size: 1.25rem;   /* slightly larger than body text */
+  font-weight: 300;     /* lighter weight for emphasis */
+  line-height: 1.6;     /* improve readability */
+}
+
 /* Cards */
 .card {
   background-color: var(--surface-1);
