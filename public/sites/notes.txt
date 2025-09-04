@@ -1,0 +1,8 @@
+This is going to likely be used more by managers looking at overall health.
+
+This will define the groups and display states of the groups in more
+of a red-light green-light way of display.
+
+This will allow for managers to make adhoc groups as well based on device ids.
+
+There MIGHT be an alternate style based on something else, but device is the basic unit of measure for "things" currently.
