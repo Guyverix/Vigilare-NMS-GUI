@@ -8,6 +8,70 @@
 require __DIR__ . ("/../config/api.php");
 
 
+/**
+ * ---- Helpers ----
+ */
+
+/**
+ * Accepts many possible shapes and returns a numerically indexed list of events.
+ * - $raw can be an array with 'response' (string or array) or a raw JSON string, etc.
+ * - Ensures the final return is an array of associative event arrays.
+ */
+function extractEventsList($raw): array {
+    // If the whole payload is a JSON string, decode it
+    if (is_string($raw)) {
+        $raw = json_decode($raw, true) ?? [];
+    }
+
+    // If there is a 'response' key, it might be a JSON string or an array
+    if (isset($raw['response'])) {
+        $resp = $raw['response'];
+        if (is_string($resp)) {
+            $resp = json_decode($resp, true) ?? [];
+        }
+        // Prefer fields from decoded response; keep originals as fallback
+        $raw = array_merge($raw, $resp);
+    }
+
+    // Some clients use 'body' instead of 'response'
+    if (isset($raw['body'])) {
+        $body = $raw['body'];
+        if (is_string($body)) {
+            $body = json_decode($body, true) ?? [];
+        }
+        $raw = array_merge($raw, $body);
+    }
+
+    // Now pull out 'data' if present, else assume $raw is the list/object
+    $data = $raw['data'] ?? $raw;
+
+    // If 'data' is still a JSON string, decode it
+    if (is_string($data)) {
+        $decoded = json_decode($data, true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $data = $decoded;
+        } else {
+            $data = [];
+        }
+    }
+
+    // Ensure we return a numerically indexed list
+    if (!is_array($data)) {
+        return [];
+    }
+    $isList = array_keys($data) === range(0, count($data) - 1);
+    return $isList ? $data : [$data];
+}
+
+// Format timestamp down to "YYYY-MM-DD HH:MM"
+function formatEventTime(?string $ts): string {
+    if (!$ts || $ts === '0000-00-00 00:00:00') {
+        return '';
+    }
+    $dt = DateTime::createFromFormat('Y-m-d H:i:s', $ts);
+    return $dt ? $dt->format('Y-m-d H:i') : $ts; // fallback to raw string
+}
+
 // See if we have a JWT token and if not send to login page
 function checkCookie($COOKIE) {
   if ( ! isset($COOKIE['token'])) { $COOKIE['token'] = ''; }
