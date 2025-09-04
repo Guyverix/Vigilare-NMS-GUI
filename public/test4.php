@@ -33,15 +33,16 @@
     $localTime = $_SESSION['time'];
   }
   else {
-   // default to UTC 0 as that SHOULD be the default
-   $localTime = "GMT 0";
+   if (empty($localTime)) {
+     // default to UTC 0 as that SHOULD be the default
+     $localTime = "GMT 0";
+   }
   }
-
   $raw = explode( ' ', $localTime);
   $offset = $raw[1];
   $localOffset = ($offset * 3600);
-  $localTime = (strtotime("now") + $localOffset);
-  $timeNow = date('Y-m-d H:i:s',$localTime);
+  $localTime2 = (strtotime("now") + $localOffset);
+  $timeNow = date('Y-m-d H:i:s',$localTime2);
 
 // Use device/view to get counts and states of the host
 $rawDeviceList = callApiPost("/device/view", $headers);
@@ -396,7 +397,7 @@ $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
               <div class="stat-lg"><?php echo safe($summary['mttr']); ?></div>
             </div>
           </div>
-          <div class="mt-2 small"><a href="/sla/index.php">View SLA reports →</a></div>
+          <div class="mt-2 small"><a href="/reporting/index.php">View SLA reports →</a></div>
         </div>
       </div>
     </div>
