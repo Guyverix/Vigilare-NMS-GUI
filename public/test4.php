@@ -218,8 +218,8 @@ $maintenance2 = [
 
 
 $tickets = [
-  ['id' => 'INC-12455', 'sev' => 'P2', 'title' => 'Edge switch errors in SJC', 'status' => 'In Progress'],
-  ['id' => 'INC-12441', 'sev' => 'P3', 'title' => 'Intermittent 5xx on web tier', 'status' => 'ACK'],
+  ['id' => 'INC-12455', 'sev' => 'P2', 'title' => 'Low drive space nas01', 'status' => 'In Progress'],
+  ['id' => 'INC-12441', 'sev' => 'P3', 'title' => 'Plex transcode error rate too high', 'status' => 'ACK'],
 ];
 
 // -----------------------------------------------------------------------------
