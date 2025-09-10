@@ -1,0 +1,32 @@
+  <!-- Navbar -->
+  <!-- includes/topNav.html Upper left to right across the top -->
+
+  <!-- Navbar Brand-->
+  <a class="navbar-brand ps-3" href="index.php"> Vigilare NMS </a>
+
+  <!-- Sidebar Toggle-->
+  <!-- This does nothing if we do not have the leftVerticalMenu.??? loaded  either via shared, or includes  -->
+  <!-- Current intention is custom per path we are on, so implies using includes/leftVerticalMenu.??? in each subdirectory so we can have unique help per path -->
+  <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+        id="sidebarToggle"
+        type="button"
+        aria-controls="layoutSidenav_nav"
+        aria-expanded="true">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Navbar Branding -->
+  <span class="navbar-brand ps-3"></span>   <!-- spacer -->
+  <!-- <a class="navbar-brand ps-3"></a> -->      
+  <a class="navbar-brand ps-3" href="/index.php">Dashboard</a>
+  <a class="navbar-brand ps-3" href="/reporting/index.php">Reporting</a>
+  <a class="navbar-brand ps-3" href="/event/index.php?&page=event.php">Events</a>
+  <a class="navbar-brand ps-3" href="/host/index.php?&page=deviceList.php">Devices</a>
+  <a class="navbar-brand ps-3" href="/monitor/index.php?&page=searchMonitor.php">Monitors</a>
+  <!-- <a class="navbar-brand ps-3" href="/maintenance/index.php">Maintenance</a>  -->
+  <a class="navbar-brand ps-3" href="/admin/index.php">Administration</a>
+  <!--  <a class="navbar-brand ps-3" href="/docs/index.php">Documentation</a>  -->
+
+  <!-- Recommend no more than 7 links above, or it can smoosh search and the pretty user name -->
+  <!-- End includes/topNav.html -->
+  <!-- Close <nav> when done with controls in main calling page -->
