@@ -11508,7 +11508,7 @@ body {
   z-index: 1039;
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
-  width: 225px;
+  width: 125px;
   height: 100vh;
   z-index: 1038;
 }
@@ -11570,6 +11570,7 @@ body {
 .sb-sidenav .sb-sidenav-menu {
   flex-grow: 1;
 }
+
 .sb-sidenav .sb-sidenav-menu .nav {
   flex-direction: column;
   flex-wrap: nowrap;

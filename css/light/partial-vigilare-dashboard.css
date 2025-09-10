@@ -1,0 +1,84 @@
+/* Vigilare Dashboard Theme — Light Mode Variant
+   Drop this file alongside your assets and reference it after Bootstrap CSS.
+   Example: <link rel="stylesheet" href="/css/vigilare-dashboard-light.css"> */
+
+:root {
+  /* Surfaces */
+  --surface-0: #f8f9fb; /* page background */
+  --surface-1: #ffffff; /* card background */
+  --surface-2: #f1f3f7; /* header / table head */
+  --border-1:  #d0d6e4; /* borders */
+
+  /* Typography */
+  --text-strong:  #000000; /* key numbers, headings */
+  --text-default: #1a1a1a; /* body text */
+  --text-muted:   #6c757d; /* secondary text */
+}
+
+/* Base layout */
+body {
+  background-color: var(--surface-0);
+  color: var(--text-default);
+}
+
+/* lead class for light theme */
+.lead {
+  color: #495057;       /* Bootstrap’s gray-700 */
+  font-size: 1.25rem;   /* slightly larger than body text */
+  font-weight: 300;     /* lighter weight for emphasis */
+  line-height: 1.6;     /* improve readability */
+}
+
+/* Cards */
+.card {
+  background-color: var(--surface-1);
+  border: 1px solid var(--border-1);
+}
+.card-header {
+  background: linear-gradient(180deg, var(--surface-2), #e9ecf3);
+  border-bottom: 1px solid var(--border-1);
+  color: var(--text-default)
+}
+
+/* Typography helpers */
+.stat-lg {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+.muted { color: var(--text-muted); }
+
+/* Links */
+a, a:hover { color: #0d6efd; }
+
+/* Tables — force light backgrounds & dark text */
+.table {
+  --bs-table-bg: var(--surface-1);
+  --bs-table-color: var(--text-default);
+  --bs-table-striped-bg: #f9fafe;
+  --bs-table-hover-bg: #f3f5f9;
+  --bs-table-border-color: #d0d6e4;
+}
+.table thead th {
+  background-color: var(--surface-2);
+  color: #212529;
+}
+.table tbody td { color: var(--text-default); }
+
+/* List groups */
+.list-group-item {
+  background-color: var(--surface-1);
+  color: var(--text-default);
+  border-color: var(--border-1);
+}
+
+/* Progress track */
+.progress { background-color: #e9ecef; }
+
+/* Badges */
+.badge { font-weight: 600; }
+
+/* Optional: refine table header separator */
+.table > :not(caption) > * > th {
+  border-bottom: 1px solid var(--border-1);
+}
