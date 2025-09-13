@@ -27,14 +27,19 @@
   */
   $title = 'Vigilare NMS - Main';
 
+  // Set our css colors to what is in the cookir and default to dark if null
+  $theme=$_COOKIE['theme'] ?? 'dark';
+
   // begin loading page since we have valid cookies
   echo '<!DOCTYPE html><META HTTP-EQUIV=Refresh CONTENT="30"> ';  // comment this out if index refresh gets annoying
 
+
+  // Dont forget readfile is text, include is what is needed for the interpeter to parse and change values inside the file
   if ( file_exists (__DIR__ . '/includes/head.html')) {
     readfile(__DIR__ . '/includes/head.html');
   }
   elseif ( file_exists (__DIR__ . '/includes/head.php')) {
-    readfile(__DIR__ . '/includes/head.php');
+    include(__DIR__ . '/includes/head.php');
   }
   else {
     if (isset($title)) {
@@ -146,7 +151,7 @@
     ?>
     </main>
   </div>
-</div> <!-- per chatGPT this is balanced -->
+</div> <!-- per chatGPT this is balanced, bugger off.  I can have it check for me :P -->
 <?php
   /*
     Load our Javascript and footers at this point.
