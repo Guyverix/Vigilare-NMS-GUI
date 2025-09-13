@@ -201,6 +201,30 @@ function loadUnknown($message) {
 
 }
 
+function loadCenteredSuccess($message){
+  if ( $message == '' ) { $message = "success"; }
+  echo '<div id="loginSuccess" class="alert alert-success text-center ribbon-alert" role="alert">';
+  echo '  Login ' . $message . ' — redirecting…';
+  echo '</div>';
+  echo '
+<style>
+.ribbon-alert {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);  /* center vertically */
+  z-index: 1055;               /* above card/backdrop */
+  border-radius: 0;             /* full-width strip */
+  background-color: var(--bs-success) !important;  /* sets as a transparent look, dont use for login ribbon */
+  color: var(--bs-white) !important;
+  background-color: #198754 !important; /* solid Bootstrap "success" green */
+  opacity: 1;
+}
+</style>';
+}
+
+
 function loadWarning($message) {
   echo '<div class="alert alert-primary" role="alert"><center>' . $message . '</center></div>';
 }
