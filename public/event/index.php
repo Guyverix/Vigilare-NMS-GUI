@@ -115,7 +115,8 @@
   */
 
   echo '<!-- Any <nav> goes here including user options -->';
-  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
+//  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
+  echo '<nav class="sb-topnav navbar navbar-expand">';
 
   /*
     Load any overrides we have now to the template

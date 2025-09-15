@@ -18,5 +18,6 @@
   <script src="/js/cookie/checkCookie.js"></script>
   <script src="/js/font-awesome/all.min.js" crossorigin="anonymous"></script>
   <script src="/js/css-mode-change/change-css.js" crossorigin="anonymous"></script>
+  <!--  <script src="/js/light-switch-bootstrap-main/switch.js"></script>  -->
 </body>
 </html>

@@ -46,13 +46,15 @@ if (isset($_POST['displayDetails'])) {
           $checked = in_array((string)$i, $displaySeverity) ? 'checked' : '';
           $labels = ["Debug", "Information", "Error", "Warning", "Critical"];
           $btnClass = ["secondary", "primary", "info", "warning", "danger"];
-          echo "<label class='btn btn-sm btn-outline-{$btnClass[$i-1]}'>";
+//          echo "<label class='btn btn-sm btn-outline-{$btnClass[$i-1]}'>";
+          echo "<label class='btn btn-sm btn-{$btnClass[$i-1]}'>";
           echo "<input type='checkbox' name='activeFilter[]' value='{$i}' {$checked}> {$labels[$i-1]}";
           echo "</label>\n";
         }
         ?>
-        <button type="submit" class="btn btn-sm btn-outline-primary" name="saveFilter">
-          <i class="fas fa-bookmark"></i> Save filter
+<!--        <button type="submit" class="btn btn-sm btn-outline-primary" name="saveFilter">    -->
+        <button type="submit" class="btn btn-sm btn-outline-success" name="saveFilter">
+          <i class="fas fa-bookmark"></i> Save filters
         </button>
       </form>
     </div>
@@ -77,6 +79,7 @@ if (isset($_POST['displayDetails'])) {
     <table id="dt-events" class="table table-striped table-hover bg-dark table-dark text-center text-nowrap">
       <thead>
         <tr>
+          <th>Severity</th>
           <th>Device</th>
           <th>Monitor</th>
           <th>Summary</th>

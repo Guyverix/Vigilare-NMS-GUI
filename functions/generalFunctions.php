@@ -441,8 +441,30 @@ echo '  </div>';
 echo '</div>';
 }
 
+function sevBadge(int $sev): string {
+  $cls = match(true) {
+    $sev >= 5 => 'bg-danger',
+    $sev === 4 => 'bg-warning text-dark',
+    $sev === 3 => 'bg-primary',
+    $sev === 2 => 'bg-info text-dark',
+    $sev === 1 => 'bg-secondary text-dark',
+    default   => 'bg-secondary',
+  };
+  return '<span class="badge '.$cls.'">S-'.$sev.'</span>';
+}
 
-
+// When we cant span for one reason or another..
+function sevBadgeNoSpan(int $sev): string {
+  $cls = match(true) {
+    $sev >= 5 => 'bg-danger',
+    $sev === 4 => 'bg-warning text-dark',
+    $sev === 3 => 'bg-primary',
+    $sev === 2 => 'bg-info text-dark',
+    $sev === 1 => 'bg-secondary text-dark',
+    default   => 'bg-secondary',
+  };
+  return '<div class="badge '.$cls.'">S-'.$sev.'</div>';
+}
 
 
 ?>

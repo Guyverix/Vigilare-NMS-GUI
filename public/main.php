@@ -242,6 +242,8 @@ function calcAvailability(array $summary, string $mode = 'inclusive'): ?float {
     return $total > 0 ? round(($up / $total) * 100, 3) : null;
 }
 
+/*
+// saved in the generalFunctions
 function sevBadge(int $sev): string {
   $cls = match(true) {
     $sev >= 5 => 'bg-danger',
@@ -253,6 +255,8 @@ function sevBadge(int $sev): string {
   };
   return '<span class="badge '.$cls.'">S-'.$sev.'</span>';
 }
+*/
+
 
 // below threshold sets color
 function pctBarReverse(int|float $value, string $label = ''): string {
