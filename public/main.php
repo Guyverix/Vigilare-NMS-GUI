@@ -113,6 +113,7 @@ $summary['checks']['error']   += $checkList['error'];
 $summary['checks']['warning'] += $checkList['warning'];
 $summary['checks']['critical']+= $checkList['critical'];
 $summary['checks']['info']    += $checkList['info'];
+$summary['checks']['total']   += $checkList['total_targets'];
 
 $summary['devices'] = $summaryDevice['devices'];
 $summary['mttr'] = $mttr .'m';
@@ -298,13 +299,14 @@ $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
 
     <div class="col-xl-3 col-md-6">
       <div class="card h-100">
-        <div class="card-header ">Checks</div>
+        <div class="card-header ">Checks <?php echo (int)$summary['checks']['total']; ?> total</div>
         <div class="card-body">
           <div class="row g-2 text-center">
             <div class="col-3"><div class="muted">OK</div><div class="stat-lg text-success"><?php echo (int)$summary['checks']['ok']; ?></div></div>
             <div class="col-3"><div class="muted">Warn</div><div class="stat-lg text-warning"><?php echo (int)$summary['checks']['warning']; ?></div></div>
-            <div class="col-3"><div class="muted">Crit</div><div class="stat-lg text-danger"><?php echo (int)$summary['checks']['critical']; ?></div></div>
             <div class="col-3"><div class="muted">Error</div><div class="stat-lg text-danger"><?php echo (int)$summary['checks']['error']; ?></div></div>
+            <div class="col-3"><div class="muted">Crit</div><div class="stat-lg text-danger"><?php echo (int)$summary['checks']['critical']; ?></div></div>
+<!-- Running out of good space.  Info is just that so suppress it                                                                                    -->
 <!--            <div class="col-3"><div class="muted">Info</div><div class="stat-lg"><?php echo (int)$summary['checks']['info']; ?></div></div>      -->
           </div>
           <div class="mt-3">
@@ -324,7 +326,7 @@ $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
               <div class="progress-bar bg-secondary" style="width: <?php echo $unkPct; ?>%"></div>
               <div class="progress-bar bg-success" style="width: <?php echo $okPct; ?>%"></div>
             </div>
-            <div class="small muted mt-2">Critical/Error/Warning/OK/Info mix</div>
+            <div class="small muted mt-2">Critical/Error/Warning/Info/OK mix</div>
           </div>
         </div>
       </div>
