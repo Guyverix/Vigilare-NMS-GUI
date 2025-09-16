@@ -96,19 +96,26 @@ $mttrValue = json_decode($rawMttr['response'], true);
 $mttr= $mttrValue['data'][0]['avg_active_minutes_in_window'];
 
 
-// -----------------------------------------------------------------------------
-// 1) SAMPLE DATA (replace with your real calls)
-// -----------------------------------------------------------------------------
 // sla defined by aliveness
 // mtta is for ack
 // mttr is how long alarm was active as an average
+$rawChecks = callApiPost("/monitors/findAlarmCount", $post, $headers);
+$checkListLong = json_decode($rawChecks['response'], true);
+$checkList = $checkListLong['data']['result'][0];
+
+// This is mock for now.. Donno if I want it TBH
 $summary = [
-  'checks'  => ['ok' => 1842, 'warning' => 37, 'critical' => 6, 'unknown' => 5],
   'mtta'    => '0m N/A',
 ];
+$summary['checks']['ok']      += $checkList['ok'];
+$summary['checks']['debug']   += $checkList['debug'];
+$summary['checks']['error']   += $checkList['error'];
+$summary['checks']['warning'] += $checkList['warning'];
+$summary['checks']['critical']+= $checkList['critical'];
+$summary['checks']['info']    += $checkList['info'];
+
 $summary['devices'] = $summaryDevice['devices'];
 $summary['mttr'] = $mttr .'m';
-
 
 // Calculate the availibility percentage based on devices up / down + unknown
 $avail_pct_inclusive = calcAvailability($summary);
@@ -135,8 +142,6 @@ $alerts = array_map(function ($e) {
     ];
 }, $eventList);
 
-//debugger($eventList);
-//exit();
 // hotspot data pull from API
 $window="-1 days";
 $post = ['window' => date('Y-m-d H:i:s', strtotime("$window")) ];
@@ -154,21 +159,6 @@ $topResources = array_map(function ($h) use ($window) {
   ];
 }, $filterHotSpots['data']);
 
-
-/*
-//debugger($topResources);
-//debugger($filterHotSpots);
-//exit();
-// MOCK DATA hotspot
-$topResources = [
-  ['device' => 'db-prod-01',  'metric' => 'CPU',         'value' => 92, 'unit' => '%'],
-  ['device' => 'web-02',      'metric' => 'Memory',      'value' => 87, 'unit' => '%'],
-  ['device' => 'edge-sw-03',  'metric' => 'Int Gi0/2',   'value' => 78, 'unit' => '% util'],
-  ['device' => 'nas-backup1', 'metric' => 'Disk /data',  'value' => 73, 'unit' => '%'],
-  ['device' => 'vpn-gw',      'metric' => 'Packet Loss', 'value' => 4.2, 'unit' => '%'],
-];
-*/
-
 // Application grouping showing up down on dashboard
 $rawAppGroupList = callApiGet("/events/findAppGroupDown", $headers);
 $appGroupList = json_decode($rawAppGroupList['response'], true);
@@ -182,15 +172,6 @@ $sites = array_map(function ($s) {
      'down' => ($s['down_devices'] ?? 0 ),
   ];
 }, $appGroupList['data']);
-/*
-// MOCK DATA
-$sitesMock = [
-  ['site' => 'PLEX', 'status' => 'ok',       'up' => 42, 'down' => 0],
-  ['site' => 'NAS', 'status' => 'warning',  'up' => 38, 'down' => 1],
-  ['site' => 'JELLYFIN', 'status' => 'ok',       'up' => 29, 'down' => 0],
-  ['site' => 'SONARR', 'status' => 'critical', 'up' => 19, 'down' => 2],
-];
-*/
 
 // Setting API calls for Maintenance
 $rawMaintenanceList = callApiGet("/maintenance/findAllMaintenance", $headers);
@@ -203,20 +184,7 @@ $maintenance = array_map(function ($m) {
   ];
 }, $maintenanceList['data']);
 
-/*
-// MOCK DATA MAINTENANCE
-$maintenance2 = [
-  ['when' => '2025-08-27 02:00–03:00', 'scope' => 'db-prod-01', 'note' => 'MariaDB patch window'],
-  ['when' => '2025-08-28 01:00–02:30', 'scope' => 'core-net',   'note' => 'Firmware upgrade (dist)'],
-];
-*/
-
-
-
-
-
-
-
+// MOCK data.  We do not have a ticket system to use right now
 $tickets = [
   ['id' => 'INC-12455', 'sev' => 'P2', 'title' => 'Low drive space nas01', 'status' => 'In Progress'],
   ['id' => 'INC-12441', 'sev' => 'P3', 'title' => 'Plex transcode error rate too high', 'status' => 'ACK'],
@@ -242,22 +210,6 @@ function calcAvailability(array $summary, string $mode = 'inclusive'): ?float {
     return $total > 0 ? round(($up / $total) * 100, 3) : null;
 }
 
-/*
-// saved in the generalFunctions
-function sevBadge(int $sev): string {
-  $cls = match(true) {
-    $sev >= 5 => 'bg-danger',
-    $sev === 4 => 'bg-warning text-dark',
-    $sev === 3 => 'bg-primary',
-    $sev === 2 => 'bg-info text-dark',
-    $sev === 1 => 'bg-secondary text-dark',
-    default   => 'bg-secondary',
-  };
-  return '<span class="badge '.$cls.'">S-'.$sev.'</span>';
-}
-*/
-
-
 // below threshold sets color
 function pctBarReverse(int|float $value, string $label = ''): string {
   $val = max(0, min(100, (float)$value));
@@ -278,6 +230,7 @@ function pctBar(int|float $value, string $label = ''): string {
        . '</div>';
 }
 
+// safely work with HTML string correctly
 function safe($s): string { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
 // Compute quick totals for severity bands
@@ -285,7 +238,9 @@ $sevTotals = [
   'critical' => $summary['checks']['critical'] ?? 0,
   'warning'  => $summary['checks']['warning']  ?? 0,
   'ok'       => $summary['checks']['ok']       ?? 0,
-  'unknown'  => $summary['checks']['unknown']  ?? 0,
+  'info'     => $summary['checks']['info']  ?? 0,
+  'error'     => $summary['checks']['error']  ?? 0,
+  'debug'     => $summary['checks']['debug']  ?? 0,
 ];
 $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
 
@@ -349,22 +304,27 @@ $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
             <div class="col-3"><div class="muted">OK</div><div class="stat-lg text-success"><?php echo (int)$summary['checks']['ok']; ?></div></div>
             <div class="col-3"><div class="muted">Warn</div><div class="stat-lg text-warning"><?php echo (int)$summary['checks']['warning']; ?></div></div>
             <div class="col-3"><div class="muted">Crit</div><div class="stat-lg text-danger"><?php echo (int)$summary['checks']['critical']; ?></div></div>
-            <div class="col-3"><div class="muted">Unk</div><div class="stat-lg"><?php echo (int)$summary['checks']['unknown']; ?></div></div>
+            <div class="col-3"><div class="muted">Error</div><div class="stat-lg text-danger"><?php echo (int)$summary['checks']['error']; ?></div></div>
+<!--            <div class="col-3"><div class="muted">Info</div><div class="stat-lg"><?php echo (int)$summary['checks']['info']; ?></div></div>      -->
           </div>
           <div class="mt-3">
             <?php
               $critPct = round(($sevTotals['critical']/$sevSum)*100);
+              $errPct = round(($sevTotals['error']/$sevSum)*100);
               $warnPct = round(($sevTotals['warning']/$sevSum)*100);
+              $infoPct   = round(($sevTotals['info']/$sevSum)*100);
               $okPct   = round(($sevTotals['ok']/$sevSum)*100);
-              $unkPct  = 100 - $critPct - $warnPct - $okPct;
+              $unkPct  = 100 - $critPct - $warnPct - $errPct - $infoPct - $okPct;
             ?>
             <div class="progress" style="height: 10px;">
               <div class="progress-bar bg-danger" style="width: <?php echo $critPct; ?>%"></div>
+              <div class="progress-bar bg-warning text-dark" style="width: <?php echo $errPct; ?>%"></div>
               <div class="progress-bar bg-warning text-dark" style="width: <?php echo $warnPct; ?>%"></div>
-              <div class="progress-bar bg-success" style="width: <?php echo $okPct; ?>%"></div>
+              <div class="progress-bar bg-secondary text-dark" style="width: <?php echo $infoPct; ?>%"></div>
               <div class="progress-bar bg-secondary" style="width: <?php echo $unkPct; ?>%"></div>
+              <div class="progress-bar bg-success" style="width: <?php echo $okPct; ?>%"></div>
             </div>
-            <div class="small muted mt-2">Critical/Warning/OK/Unknown mix</div>
+            <div class="small muted mt-2">Critical/Error/Warning/OK/Info mix</div>
           </div>
         </div>
       </div>
