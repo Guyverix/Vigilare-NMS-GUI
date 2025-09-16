@@ -65,7 +65,7 @@ foreach ($eventList as $events) {
   echo '<td>' . $startLocal . '</td>';
   echo '<td>' . $stateLocal . '</td>';
   echo '<td><center>' . $events['eventCounter'] . '</center></td>';
-  echo '<td><center>' . $events['eventSeverity'] . '</center></td>';
+//  echo '<td><center>' . $events['eventSeverity'] . '</center></td>';
 
   // Action buttons
   echo '<td><table><tr><td>';
