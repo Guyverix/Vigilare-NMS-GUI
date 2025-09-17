@@ -322,7 +322,7 @@ $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
               <div class="progress-bar bg-danger" style="width: <?php echo $critPct; ?>%"></div>
               <div class="progress-bar bg-warning text-dark" style="width: <?php echo $errPct; ?>%"></div>
               <div class="progress-bar bg-warning text-dark" style="width: <?php echo $warnPct; ?>%"></div>
-              <div class="progress-bar bg-secondary text-dark" style="width: <?php echo $infoPct; ?>%"></div>
+              <div class="progress-bar bg-peimary text-dark" style="width: <?php echo $infoPct; ?>%"></div>
               <div class="progress-bar bg-secondary" style="width: <?php echo $unkPct; ?>%"></div>
               <div class="progress-bar bg-success" style="width: <?php echo $okPct; ?>%"></div>
             </div>
