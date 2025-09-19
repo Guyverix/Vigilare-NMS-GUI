@@ -423,6 +423,16 @@ function debugger($values) {
   echo "</pre>";
 }
 
+// Dump whatever array we are given for debugging as HTML comment
+function debuggerComment($values) {
+  echo "<!-- ARRAY DEBUGGER OUTPUT COMMENT\n";
+  echo "print_r result\n " . print_r($values, true);
+  echo "\n";
+  echo "var_dump result\n ";
+  var_dump($values);
+  echo "\n END ARRAY DEBUGGER OUTPUT COMMENT-->\n";
+}
+
 function showModal($title, $body) {
 echo '<div class="modal" tabindex="-1" id="deviceGroupModal">';
 echo '  <div class="modal-dialog">';
