@@ -170,6 +170,7 @@ $sites = array_map(function ($s) {
      'site' => ($s['groupName'] ?? "unknown group"),
      'status' => ($labels[min(max($down, 0), 2)]),
      'up' => ($s['up_devices'] ?? 0 ),
+     'total_listed' => ($s['total_listed'] ?? 0 ),
      'down' => ($s['down_devices'] ?? 0 ),
   ];
 }, $appGroupList['data']);
@@ -439,7 +440,7 @@ $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
                     <div class="fw-semibold" style="color:var(--text-strong)"><?php echo safe($s['site']); ?></div>
                     <span class="badge <?php echo $stateCls; ?> text-uppercase"><?php echo safe($s['status']); ?></span>
                   </div>
-                  <div class="small muted">Up: <?php echo (int)$s['up']; ?> · Down: <span class="text-danger"><?php echo (int)$s['down']; ?></span></div>
+                  <div class="small muted">Total: <?php echo (int)$s['total_listed']; ?> · Up: <?php echo (int)$s['up']; ?> · Down: <span class="text-danger"><?php echo (int)$s['down']; ?></span></div>
                 </div>
               </div>
             <?php endforeach; ?>
