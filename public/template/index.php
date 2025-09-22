@@ -58,7 +58,7 @@
     and possibly interact with some portions of the site when they
     should not be able to.
   */
-  echo '<!-- Check login cookie every 15 seconds --><body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
+  echo '<!-- Check login cookie every 15 seconds --><body class="nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
 
   /*
     All navigation needs to be defined before we begin our main page
@@ -68,7 +68,7 @@
   */
 
   echo '<!-- Any <nav> goes here including user options -->';
-  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
+  echo '<nav class="topnav navbar navbar-expand navbar-dark bg-dark">';
 
   /*
     Load any overrides we have now to the template

@@ -26,7 +26,7 @@
     Optional if we want a different page "title"
     You must call the function with the $title var for this to work
   */
-  $title = 'Vigilare NMS - Template (changeme, duh)';
+  $title = 'Site Group Lists';
 
   if (isset($_GET['page'])) {
     $page = $_GET['page'];
@@ -38,6 +38,9 @@
   // begin loading page since we have valid cookies
   if ( file_exists (__DIR__ . '/includes/head.html')) {
     readfile(__DIR__ . '/includes/head.html');
+  }
+  elseif ( file_exists (__DIR__ . '/includes/head.php')) {
+    include(__DIR__ . '/includes/head.php');
   }
   else {
     if (isset($title)) {
@@ -58,7 +61,7 @@
     and possibly interact with some portions of the site when they
     should not be able to.
   */
-  echo '<!-- Check login cookie every 15 seconds --><body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
+  echo '<!-- Check login cookie every 15 seconds --><body class="nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
 
   /*
     All navigation needs to be defined before we begin our main page
@@ -68,7 +71,7 @@
   */
 
   echo '<!-- Any <nav> goes here including user options -->';
-  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
+  echo '<nav class="topnav navbar navbar-expand navbar-dark bg-dark">';
 
   /*
     Load any overrides we have now to the template
