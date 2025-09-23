@@ -425,7 +425,7 @@ $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
       <div class="card h-100">
         <div class="card-header  d-flex justify-content-between align-items-center">
           <span>Sites Status (compact)</span>
-          <a class="small" href="/sites/index.php">Sites view →</a>
+          <a class="small" href="/sites/index.php?&page=siteDisplay.php">Sites view →</a>
         </div>
         <div class="card-body">
           <div class="row g-2">

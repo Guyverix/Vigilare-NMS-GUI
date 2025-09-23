@@ -1,148 +1,178 @@
 <?php
- /**
- * Vigilare — main.php page for Site Group Display
- *
- */
+/* main.php
 
-  require_once(__DIR__ . '/../../functions/generalFunctions.php');
-  //checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
+   This is going to be a secondary page as most users will go to the view page.
+   This is used specifically to add new application groups
 
-  // Load local vars for use (urls, ports, etc)
-  require_once __DIR__ . "/../../config/api.php";
+*/
 
-  // Grab our POSSIBLE values so users can choose what they change
-  $headers = array();
-  $headers[] = 'Authorization: Bearer ' . $_COOKIE['token'];
-  $post = array();  // We are using post, so give it an empty array to post with
-  $quitEarly = 0;
+/*
+  The following is boilerplate that all pages should have
+  Not having this set will cause API calls to not work
+*/
 
-  // So much work to try to make the clock work anywhere...  sigh
-  if (isset($_COOKIE['clientTimezone'])) {
-    $localTime = $_COOKIE['clientTimezone'];
-  }
-  // Session should alredy be set.  This is for testing..
-  if (! isset($_SESSION)) {
-    session_start();
-  }
-  if (! isset($localTime) && isset($_SESSION['time'])) {
-    $localTime = $_SESSION['time'];
-  }
-  else {
-   if (empty($localTime)) {
-     // default to UTC 0 as that SHOULD be the default
-     $localTime = "GMT 0";
-   }
-  }
-  $raw = explode( ' ', $localTime);
-  $offset = $raw[1];
-  $localOffset = ($offset * 3600);
-  $localTime2 = (strtotime("now") + $localOffset);
-  $timeNow = date('Y-m-d H:i:s',$localTime2);
+require_once(__DIR__ . '/../../functions/generalFunctions.php');
+checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
+checkTimer($_COOKIE);
+$headers = ['Authorization: Bearer ' . $_COOKIE['token']];
+// Load local vars for use (urls, ports, etc)
+require_once __DIR__ . "/../../config/api.php";
 
-// --- Fetch data (single API call you already have) -------------------------
-//$resp = callApiGet('/applicationGroup/view'); // or your actual endpoint
-$rawResp = callApiGet("/site/getAllHostnamesJson", $headers); // or your actual endpoint
-$resp = json_decode($rawResp['response'], true);
-$groups = is_array($resp['data']['result'] ?? null) ? $resp['data']['result'] : [];
-//debugger($groups);
-//exit();
-// --- Handle add-to-group POST (IDs as CSV from a text input) ---------------
+/*
+  PHP specific to this page
+*/
+
+$rawGroupsResp = callApiGet('/site/getAllHostnames', $headers);
+$cleanGroupResp=json_decode($rawGroupsResp['response'], true);
+//$groupResp = $cleanGroupResp['data']['result'];
+$groupsResp = $cleanGroupResp['data'];
+//debugger($groupResp['data']['result']);
+$groups = is_array($groupsResp['result'] ?? null) ? $groupsResp['result'] : (is_array($groupsResp) ? $groupsResp : []);
+//debugger($groupResp['result']);
+// ---- handle POST actions ---------------------------------------------------
 $notice = null;
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'add-to-group') {
-    $_POST['action'] = "expired";  // Try for refreshes to not clobber stuff
-    $groupName = $_POST['groupName'] ?? '';
-    $csvIds    = $_POST['deviceIdsCsv'] ?? '';
-    $ids       = csv_to_array($csvIds); // normalize, de-dup next
-    $ids       = array_values(array_unique($ids));
-    $idsA      = $ids;
-    $ids       = implode(',', $ids);
+$error  = null;
 
-    if ($groupName !== '' && $ids) {
-        $post = ['group' => $groupName, 'id' => $ids];
-        $rawRes = callApiPost("/site/addHostname", $post, $headers);
-        $res = json_decode($rawRes['response'], true);
-        if (is_array($res) && !empty($res['error'])) {
-          $notice = 'Failed to add devices: ' . $res['error'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    if ($action === 'create') {
+        $groupName = trim((string)($_POST['groupName'] ?? ''));
+        if ($groupName === '') {
+            $error = 'Group name is required.';
+        } else {
+            $post = ['group' => $groupName];
+            $res = callApiPost('/site/addGroupName', $post, $headers);
+            if (is_array($res) && !empty($res['error'])) {
+                $error = 'Failed to create group: ' . $res['error'];
+            } else {
+                $notice = 'Group "' . h($groupName) . '" created.';
+                // refresh list
+                $rawGroupsResp = callApiGet('/site/getAllHostnames', $headers);
+                $cleanGroupResp=json_decode($rawGroupsResp['response'], true);
+                $groupsResp = $cleanGroupResp['data'];
+                $groups = is_array($groupsResp['result'] ?? null) ? $groupsResp['result'] : (is_array($groupsResp) ? $groupsResp : []);
+            }
         }
-        else {
-          $notice = 'Added '.count($idsA).' host(s) to '.$groupName;
+    } elseif ($action === 'delete') {
+        $groupName = trim((string)($_POST['groupName'] ?? ''));
+        if ($groupName === '') {
+            $error = 'Select a group to delete.';
+        } else {
+            $post = ['group' => $groupName];
+            // Adjust to your API name as needed
+            $res = callApiPost('/site/deleteGroupName', $post, $headers);
+            if (is_array($res) && !empty($res['error'])) {
+                $error = 'Failed to delete group: ' . $res['error'];
+            } else {
+                $notice = 'Group "' . h($groupName) . '" deleted.';
+                // refresh list
+                $rawGroupsResp = callApiGet('/site/getAllHostnames', $headers);
+                $cleanGroupResp=json_decode($rawGroupsResp['response'], true);
+                $groupsResp = $cleanGroupResp['data'];
+                $groups = is_array($groupsResp['result'] ?? null) ? $groupsResp['result'] : (is_array($groupsResp) ? $groupsResp : []);
+            }
         }
-// debugger($notice);
-        // refresh groups so UI reflects change
-        $rawResp = callApiGet("/site/getAllHostnamesJson", $headers);
-        $resp = json_decode($rawResp['response'], true);
-        $groups = is_array($resp['data']['result'] ?? null) ? $resp['data']['result'] : [];
     }
 }
+echo "<!-- End of PHP logic.  Going to display -->";
 ?>
+
 <div class="container-fluid px-4">
-  <h2 class="my-3">Application Groups</h2>
+  <h2 class="my-3">Site Groups</h2>
 
   <?php if ($notice): ?>
-    <div class="alert alert-info alert-dismissible fade show" role="alert"><?= h($notice) ?> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+    <div class="alert alert-success"><?= $notice ?></div>
+  <?php endif; ?>
+  <?php if ($error): ?>
+    <div class="alert alert-danger"><?= h($error) ?></div>
   <?php endif; ?>
 
   <div class="row g-3">
-    <?php foreach ($groups as $g): ?>
-      <?php
-        $groupName = $g['groupName'] ?? '(unnamed)';
-        $id_and_hostname = json_decode($g['id_to_hostname_json'], true);
-        $pairs = [];
-        foreach($id_and_hostname as $k => $v) {
-          $pairs[] = [
-            'id'       => $k       ?? null,
-            'hostname' => $v ?? '(unknown)',
-          ];
-        }
-      ?>
-      <div class="col-12 col-md-6 col-xl-3">
-        <div class="card shadow-sm h-100">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <span class="fw-semibold"><?= h($groupName) ?></span>
-            <span class="badge bg-secondary"><?= count($pairs) ?> hosts</span>
-          </div>
-
-          <div class="card-body">
-            <?php if ($pairs): ?>
-              <ul class="list-group list-group-flush">
-                <?php foreach ($pairs as $row): ?>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <?php if ($row['id'] !== null): ?>
-                      <a class="text-decoration-none" href="<?= h(device_details_url($row['id'])) ?>">
-                        <?= h($row['hostname']) ?>
-                      </a>
-                      <span class="text-muted small">#<?= h($row['id']) ?></span>
-                    <?php else: ?>
-                      <span><?= h($row['hostname']) ?></span>
-                    <?php endif; ?>
-                  </li>
-                <?php endforeach; ?>
-              </ul>
-            <?php else: ?>
-              <div class="text-decoration-none">No hosts in this group yet.</div>
-            <?php endif; ?>
-          </div>
-
-          <div class="card-footer">
-            <form method="post" class="row gy-2 gx-2 align-items-end">
-              <input type="hidden" name="action" value="add-to-group">
-              <input type="hidden" name="groupName" value="<?= h($groupName) ?>">
-              <div class="col-12">
-                <label class="form-label mb-1">Add host IDs to <?= h($groupName) ?></label>
-                <input type="text" name="deviceIdsCsv" class="form-control"
-                       placeholder="e.g. 13,40,88">
-                <div class="form-text">
-                  Enter one or more device IDs, comma-separated. Duplicates/spaces are handled.
-                </div>
-              </div>
-              <div class="col-auto">
-                <button type="submit" class="btn btn-primary btn-sm">Add</button>
-              </div>
-            </form>
-          </div>
-
+    <!-- Create Group -->
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">Add New Group</div>
+        <div class="card-body">
+          <form method="post" class="row gy-2">
+            <input type="hidden" name="action" value="create">
+            <div class="col-12">
+              <label class="form-label mb-1" for="groupNameCreate">Group name</label>
+              <input type="text" name="groupName" id="groupNameCreate" class="form-control" placeholder="e.g. web-tier" required>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary btn-sm">Create Group</button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-muted small">
+          Creates an empty application group. You can add hosts on the groups page.
         </div>
       </div>
-    <?php endforeach; ?>
+    </div>
+
+    <!-- Delete Group -->
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">Delete Group</div>
+        <div class="card-body">
+          <form method="post" class="row gy-2">
+            <input type="hidden" name="action" value="delete">
+            <div class="col-12">
+              <label class="form-label mb-1" for="groupNameDelete">Select group</label>
+              <select class="form-select" id="groupNameDelete" name="groupName" required>
+                <option value="">Choose…</option>
+                <?php foreach ($groups as $g): ?>
+                  <?php
+                    $name = $g['groupName'] ?? '';
+                    // show count if present
+                    $count = 0;
+                    if (isset($g['deviceId'])) {
+                        $csv = trim((string)$g['deviceId']);
+                        if ($csv !== '') {
+                            if (strlen($csv) >= 2 && $csv[0] === "'" && substr($csv, -1) === "'") {
+                                $csv = substr($csv, 1, -1);
+                            }
+                            $count = $csv === '' ? 0 : count(explode(',', str_replace(' ', '', $csv)));
+                        }
+                    } elseif (isset($g['devices']) && is_array($g['devices'])) {
+                        $count = count($g['devices']);
+                    }
+                  ?>
+                  <option value="<?= h($name) ?>"><?= h($name) ?><?= $count ? ' ('.$count.' hosts)' : '' ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-outline-danger btn-sm"
+                      onclick="return confirm('Delete this group? This cannot be undone.');">
+                Delete Group
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-muted small">
+          Deleting a group removes its membership mapping. Devices are not deleted.
+        </div>
+      </div>
+    </div>
+
+
+    <!-- View / Manage Existing Groups -->
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">Manage Existing Groups</div>
+        <div class="card-body d-flex flex-column justify-content-between">
+          <p class="mb-3">Go to the page that lists all application groups and lets you add hosts to them.</p>
+          <div>
+            <!-- Adjust href to your existing page -->
+            <a href="/sites/index.php?&page=siteDisplay.php" class="btn btn-secondary btn-sm">Open Groups Page</a>
+          </div>
+        </div>
+        <div class="card-footer text-muted small">
+          Shows each group with hostname links to device details.
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

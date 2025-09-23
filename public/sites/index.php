@@ -32,7 +32,7 @@
     $page = $_GET['page'];
   }
   else {
-    $page = 'main.html';
+    $page = '';
   }
 
   // begin loading page since we have valid cookies
@@ -113,15 +113,28 @@
 
   // Close off our NAV section now and begin to show our page
   echo '</nav>';
+  //    debugger($page);
+  //    exit();
 ?>
   <!-- Add Main panel content here -->
   <div id="layoutSidenav_content">
     <main>
       <!-- This is where you can add your page data easiest -->
-
-      <!-- Include somefile.php here :) -->
-      <?php include(__DIR__ . "/main.php"); ?>
-
+      <!-- Include somefile.php here :)  check for main.php and load main.html if not found -->
+      <?php
+        if (preg_match('/html/', $page) && is_readable(__DIR__ . "$page")) {
+          readfile(__DIR__ . "/$page");
+        }
+        elseif (!empty($page) && file_exists(__DIR__ . "/$page")) {
+          include(__DIR__ . "/$page");
+        }
+        elseif (file_exists(__DIR__ . "/main.php")) {
+          include(__DIR__ . "/main.php");
+        }
+        else {
+          readfile(__DIR__ . "/main.html");
+        }
+      ?>
     </main>
   </div>
 <?php
