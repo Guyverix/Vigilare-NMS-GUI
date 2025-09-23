@@ -5,12 +5,42 @@
   All of the generic or boilerplate functions should go here.
 */
 
+// This is likely a security problem.  Functions should already have this
+// active via the calling page.
 require __DIR__ . ("/../config/api.php");
 
 
 /**
  * ---- Helpers ----
  */
+
+// rename to something smarter
+function h($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
+
+function normalize_csv(?string $csv): string {
+    if ($csv === null) return '';
+    $s = trim($csv);
+    // strip a single pair of surrounding single quotes if present
+    if (strlen($s) >= 2 && $s[0] === "'" && substr($s, -1) === "'") {
+        $s = substr($s, 1, -1);
+    }
+    // remove spaces, collapse duplicate commas, trim commas
+    $s = str_replace(' ', '', $s);
+    $s = preg_replace('/,+/', ',', $s);
+    return trim($s, ',');
+}
+
+
+function csv_to_array(?string $csv): array {
+    $clean = normalize_csv($csv);
+    if ($clean === '') return [];
+    return array_values(array_filter(explode(',', $clean), 'strlen'));
+}
+
+// Adjust to your routing
+function device_details_url($deviceId): string {
+    return '/host/index.php?page=deviceDetails.php&id=' . urlencode((string)$deviceId);
+}
 
 /**
  * Accepts many possible shapes and returns a numerically indexed list of events.

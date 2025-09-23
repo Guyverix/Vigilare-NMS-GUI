@@ -71,7 +71,7 @@
   */
 
   echo '<!-- Any <nav> goes here including user options -->';
-  echo '<nav class="topnav navbar navbar-expand navbar-dark bg-dark">';
+  echo '<nav class="topnav navbar navbar-expand">';
 
   /*
     Load any overrides we have now to the template
@@ -118,19 +118,9 @@
   <div id="layoutSidenav_content">
     <main>
       <!-- This is where you can add your page data easiest -->
-      <!-- I am not fond of breadcrubs, but if you are, feel free to define like this -->
-      <?php if ( file_exists(__DIR__ . '/includes/breadcrumb.html')) { echo "<br><br><br>"; readfile( __DIR__ . '/includes/breadcrumb.html'); } ?>
 
       <!-- Include somefile.php here :) -->
-
-      <?php if ( preg_match('/html/', $page)) {
-              readfile( $page );
-            }
-            else {
-              include  __DIR__ . "/$page";
-            }
-      ?>
-
+      <?php include(__DIR__ . "/main.php"); ?>
 
     </main>
   </div>
