@@ -12,11 +12,11 @@
    <link href="/css/zenoss/zenoss_base.css" rel="stylesheet">
    <link href="/css/zenoss/zen_event_styles.css" rel="stylesheet">
    <link href="/css/zenoss/zenoss_console_styles.css" rel="stylesheet">
-   <link href="/css/vigilare/test_styles.css" rel="stylesheet">
 
 
   */
 ?>
+   <link href="/css/vigilare/test_styles.css" rel="stylesheet">
 
 <?php
   // echo "<br><br><br>";  // Drops the page too far for my liking

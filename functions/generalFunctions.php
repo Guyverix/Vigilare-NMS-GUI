@@ -5,17 +5,31 @@
   All of the generic or boilerplate functions should go here.
 */
 
-// This is likely a security problem.  Functions should already have this
-// active via the calling page.
-require __DIR__ . ("/../config/api.php");
+/*
+  This is likely a security problem.  Functions should already have this
+  active via the calling page.
+  This does mean that it is called before the generalFunctions.
 
+  Revist if this becomes a problem.
+*/
+require __DIR__ . ("/../config/api.php");
 
 /**
  * ---- Helpers ----
+ * chatgpt random things that seem somewhat useful
  */
 
-// rename to something smarter
+// rename to something smarter function h sucks, but cant think of anything better. SMH
 function h($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
+
+function include_first(array $paths): bool {
+    foreach ($paths as $p) {
+        if (is_readable($p)) {
+            return str_ends_with($p, '.php') ? (include $p) || true : (readfile($p) !== false);
+        }
+    }
+    return false;
+}
 
 function normalize_csv(?string $csv): string {
     if ($csv === null) return '';
@@ -173,6 +187,11 @@ function load401($message){
   echo '<div class="alert alert-danger" role="alert"><center>' . $message . '</center></div>';
 }
 
+function load404(?string $message = ''): void {
+  if ( $message == '' ) { $message = "Page not found"; }
+  echo '<div class="alert alert-danger" role="alert"><center>' . $message . '</center></div>';
+}
+
 function load405($message){
   if ( $message == '' ) { $message = "Method Not Allowed"; }
   echo '<div class="alert alert-danger" role="alert"><center>' . $message . '</center></div>';
@@ -195,8 +214,8 @@ function loadIncomplete($message) {
 
 // A special page related to API testing.  Regular users should not hit
 // this unless they are doing weird things
-function load418($message) {
-  if ( $message == '' ) { $message = "Call returned a 418 response from the API.  A call was done for something that the UI would not normally call."; }
+function load418(?string $message = ''): void {
+  if ( $message == '' ) { $message = "Call returned a 418 response from the API.<br>A call was done for something that the UI would not normally call.<br>Bad user!<br>Bad, bad, no!<br>Dont make me rub your nose in it!"; }
   echo '<div class="alert alert-warning" role="alert"><center>' . $message . '</center></div>';
 }
 

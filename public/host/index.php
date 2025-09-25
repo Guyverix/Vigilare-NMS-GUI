@@ -27,24 +27,63 @@
   */
   $title = 'Vigilare NMS - Hosts and Devices';
 
+  // Set our css colors to what is in the cookie and default to dark if null
+  $theme=$_COOKIE['theme'] ?? 'dark';
+
+
   if (isset($_GET['page'])) {
-    $page = $_GET['page'];
+    $base = __DIR__;
+    if (is_readable($_GET['page'])) {
+      $page = $_GET['page'];
+    }
+    else {
+      loadIncomplete("Missing called page " . $_GET['page']);
+      show404();
+    }
   }
   else {
-    $page = 'main.html';
+    $base = __DIR__;
+    // We are working only in the current directory
+    $candidates = [
+      "$base/main.php" ,
+      "$base/main.html" ,
+    ];
+    $loaded = false;
+    foreach ($candidates as $path) {
+      if (is_readable($path)) {
+        $page = $path;
+      }
+      $loaded = true;
+    }
+    if (!$loaded) {
+      loadIncomplete("main file is missing");
+    }
   }
 
   // begin loading page since we have valid cookies
-  if ( file_exists (__DIR__ . '/includes/head.html')) {
-    readfile(__DIR__ . '/includes/head.html');
+  $base = __DIR__;
+  $candidates = [
+    "$base/includes/head.php" ,
+    "$base/includes/head.html",
+    dirname($base) . "/../shared/head.html",
+  ];
+
+  $loaded = false;
+  foreach ($candidates as $path) {
+    if (is_readable($path)) {
+      // execute PHP files, stream HTML files
+      if (str_ends_with($path, '.php')) {
+        include $path;
+      }
+      else {
+        readfile($path);   // or: include $path;
+      }
+      $loaded = true;
+      break;
+    }
   }
-  else {
-    if (isset($title)) {
-      includeHead($title);
-    }
-    else {
-      readfile(__DIR__ . '/shared/head.html');
-    }
+  if (!$loaded) {
+    loadIncomplete("head file is missing");
   }
 
   /*
@@ -56,8 +95,9 @@
     who have expired credentials will still be able to see the page
     and possibly interact with some portions of the site when they
     should not be able to.
+
+    This is more of a sanity check than a true security feature.
   */
-  //  echo '<!-- Check login cookie every 15 seconds --><body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';  // Was not allowing footer to stay at bottom
   echo '<!-- Check login cookie every 15 seconds --><body class="d-flex flex-column h-100" onload="setInterval(checkCookieExpiration, 15000)" >';
 
   /*
@@ -68,7 +108,8 @@
   */
 
   echo '<!-- Any <nav> goes here including user options -->';
-  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
+  //  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';  // old style
+  echo '<nav class="topnav navbar navbar-expand">';
 
   /*
     Load any overrides we have now to the template
@@ -78,36 +119,87 @@
     can choose a color scheme.
   */
 
-  // Top bar horizontal
-  if ( file_exists(__DIR__ . '/includes/topNav.html')) {
-    readfile(__DIR__ . '/includes/topNav.html');
+  // Top navbar horizontal
+  $base = __DIR__;
+  $candidates = [
+    "$base/includes/topNav.php" ,
+    "$base/includes/topNav.html",
+    dirname($base) . "/shared/topNav.html",
+  ];
+
+  $loaded = false;
+  foreach ($candidates as $path) {
+    if (is_readable($path)) {
+      // execute PHP files, stream HTML files
+      if (str_ends_with($path, '.php')) {
+        include $path;
+      }
+      else {
+        readfile($path);   // or: include $path;
+      }
+      $loaded = true;
+      break;
+    }
   }
-  else {
-    readfile(__DIR__ . '/../shared/topNav.html');
+  if (!$loaded) {
+    loadIncomplete("topNav Include file is missing");
   }
 
-  // Top search option
-  if ( file_exists(__DIR__ . '/includes/search.html')) {
-    readfile(__DIR__ . '/includes/search.html');
+  // Top search controls
+  // Also right justifies the top bar
+  $base = __DIR__;
+  $candidates = [
+    "$base/includes/search.php" ,
+    "$base/includes/search.html",
+    dirname($base) . "/shared/search.php",
+    dirname($base) . "/shared/search.html",
+  ];
+
+  $loaded = false;
+  foreach ($candidates as $path) {
+    if (is_readable($path)) {
+      // execute PHP files, stream HTML files
+      if (str_ends_with($path, '.php')) {
+        include $path;
+      }
+      else {
+        readfile($path);   // or: include $path;
+      }
+      $loaded = true;
+      break;
+    }
   }
-  else {
-    readfile(__DIR__ . '/../shared/search.html');
+  if (!$loaded) {
+    loadIncomplete("search Include file is missing");
   }
 
-  // Top user controls
-  /*
-    Note this uses include instad of readfile.  Real
-    PHP pages should include, so we get their settings and results.
-    readfile will simply spew out whatever is in the file, and does
-    not actually interpet anything
-  */
-  if ( file_exists( __DIR__ . ("/includes/userControls.php"))) {
-    include __DIR__ . ("/includes/userControls.php");
-  }
-  else {
-    include __DIR__ . ('/../shared/userControls.php');
-  }
 
+  // Top right user controls
+  $base = __DIR__;
+  $candidates = [
+    "$base/includes/userControls.php" ,
+    "$base/includes/userControls.html",
+    dirname($base) . "/shared/userControls.php",
+    dirname($base) . "/shared/userControls.html",
+  ];
+
+  $loaded = false;
+  foreach ($candidates as $path) {
+    if (is_readable($path)) {
+      // execute PHP files, stream HTML files
+      if (str_ends_with($path, '.php')) {
+        include $path;
+      }
+      else {
+        readfile($path);   // or: include $path;
+      }
+      $loaded = true;
+      break;
+    }
+  }
+  if (!$loaded) {
+    loadIncomplete("userControls Include file is missing");
+  }
   // Close off our NAV section now and begin to show our page
   echo '</nav>';
 ?>
@@ -115,10 +207,28 @@
   <div id="layoutSidenav_content">
     <main>
       <!-- This is where you can add your page data easiest -->
-      <!-- I am not fond of breadcrubs, but if you are, feel free to define like this -->
-      <?php if ( file_exists(__DIR__ . '/includes/breadcrumb.html')) { echo "<br><br><br>"; readfile( __DIR__ . '/includes/breadcrumb.html'); } ?>
-
+      <!-- I am not fond of breadcrumbs, but if you are, feel free to define like this -->
+      <!-- If no breadcrumb exists, it will silently pass it by -->
+      <?php
+        $base = __DIR__;
+        $candidates = [
+          "$base/includes/breadcrumb.php" ,
+          "$base/includes/breadcrumb.html",
+        ];
+        foreach ($candidates as $path) {
+          if (is_readable($path)) {
+            // execute PHP files, stream HTML files
+            if (str_ends_with($path, '.php')) {
+              include $path;
+            }
+            else {
+              readfile($path);   // or: include $path;
+            }
+          }
+        }
+      ?>
       <!-- Include somefile.php here :) -->
+      <!-- Primary page display  -->
       <?php if ( preg_match('/html/', $page)) {
               readfile( $page );
             }
@@ -133,11 +243,31 @@
     Load our Javascript and footers at this point.
     Any JS changes require the bottomFooter to be loaded from the includes, instead of shared
   */
-  if ( file_exists( __DIR__ . ("/includes/bottomFooter.php"))) {
-    include __DIR__ . ('/includes/bottomFooter.php');
+
+  $base = __DIR__;
+  $candidates = [
+    "$base/includes/bottomFooter.php" ,
+    "$base/includes/bottomFooter.html",
+    dirname($base) . "/shared/bottomFooter.php",
+    dirname($base) . "/shared/bottomFooter.html",
+  ];
+
+  $loaded = false;
+  foreach ($candidates as $path) {
+    if (is_readable($path)) {
+      // execute PHP files, stream HTML files
+      if (str_ends_with($path, '.php')) {
+        include $path;
+      }
+      else {
+        readfile($path);   // or: include $path;
+      }
+      $loaded = true;
+      break;
+    }
   }
-  else {
-    include __DIR__ . ('/../shared/bottomFooter.php');
+  if (!$loaded) {
+    loadIncomplete("bottomFooter Include file is missing");
   }
 ?>
 </body>
