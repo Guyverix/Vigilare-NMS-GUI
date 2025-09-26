@@ -33,21 +33,30 @@
   // begin loading page since we have valid cookies
   echo '<!DOCTYPE html><META HTTP-EQUIV=Refresh CONTENT="30"> ';  // comment this out if index refresh gets annoying
 
+  // begin loading page since we have valid cookies
+  $base = __DIR__;
+  $candidates = [
+    "$base/includes/head.php" ,
+    "$base/includes/head.html",
+    "$base/shared/head.html",
+  ];
 
-  // Dont forget readfile is text, include is what is needed for the interpeter to parse and change values inside the file
-  if ( file_exists (__DIR__ . '/includes/head.html')) {
-    readfile(__DIR__ . '/includes/head.html');
-  }
-  elseif ( file_exists (__DIR__ . '/includes/head.php')) {
-    include(__DIR__ . '/includes/head.php');
-  }
-  else {
-    if (isset($title)) {
-      includeHead($title);  // calls head.php from the generalFunctions.php script
+  $loaded = false;
+  foreach ($candidates as $path) {
+    if (is_readable($path)) {
+      // execute PHP files, stream HTML files
+      if (str_ends_with($path, '.php')) {
+        include $path;
+      }
+      else {
+        readfile($path);   // or: include $path;
+      }
+      $loaded = true;
+      break;
     }
-    else {
-      readfile(__DIR__ . '/shared/head.html');  // generic with generic title
-    }
+  }
+  if (!$loaded) {
+    loadIncomplete("head file is missing");
   }
 
   if ( ! isset($_SESSION)) {

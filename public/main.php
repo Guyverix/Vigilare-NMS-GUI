@@ -89,7 +89,7 @@ foreach ($deviceList as $d) {
 // Default is now -1 days
 // Long term this should be run by housekeeping and stored
 // in the database for retrieval in 1, 7, 30, 90 day intervals?
-$mttrStart = date('Y-m-d H:i:s', strtotime('-1 days'));
+$mttrStart = date('Y-m-d H:i:s', strtotime('-7 days'));
 $post = ['startEvent' => "$mttrStart" ];
 $rawMttr = callApiPost("/reporting/mttr", $post, $headers);
 $mttrValue = json_decode($rawMttr['response'], true);
@@ -143,8 +143,13 @@ $alerts = array_map(function ($e) {
     ];
 }, $eventList);
 
-// hotspot data pull from API
-$window="-1 days";
+/*
+  hotspot data pull from API
+  set the intDays as the number of days to look back
+  this will also average over day the event counts
+*/
+$intDays=7;
+$window="-" . $intDays . " days";
 $post = ['window' => date('Y-m-d H:i:s', strtotime("$window")) ];
 $rawHotSpots = callApiPost('/events/findHotSpot', $post, $headers);
 $filterHotSpots = json_decode($rawHotSpots['response'], true);
@@ -156,7 +161,7 @@ $topResources = array_map(function ($h) use ($window) {
       'device' => (string)($h['device'] ?? "unknown device"),
       'metric' => (string)($h['eventName'] ?? "unknown metric"),
       'value'  => (int)($h['repeats_24h'] ?? "?"),
-      'unit'   => (string)(" in $window"),
+      'unit'   => (string)(" avg over: $window"),
   ];
 }, $filterHotSpots['data']);
 
@@ -195,7 +200,7 @@ $tickets = [
 // -----------------------------------------------------------------------------
 // 2) HELPERS
 // -----------------------------------------------------------------------------
-function calcAvailability(array $summary, string $mode = 'inclusive'): ?float {
+function calcAvailability2(array $summary, string $mode = 'inclusive'): ?float {
     $d = $summary['devices'] ?? [];
     $up       = (int)($d['up'] ?? 0);
     $down     = (int)($d['down'] ?? 0);
@@ -213,7 +218,7 @@ function calcAvailability(array $summary, string $mode = 'inclusive'): ?float {
 }
 
 // below threshold sets color
-function pctBarReverse(int|float $value, string $label = ''): string {
+function pctBarReverse2(int|float $value, string $label = ''): string {
   $val = max(0, min(100, (float)$value));
   $cls = $val <= 90 ? 'bg-danger' : ($val <= 75 ? 'bg-warning text-dark' : 'bg-success');
   $label = $label !== '' ? htmlspecialchars($label) : $val.'%';
@@ -223,7 +228,7 @@ function pctBarReverse(int|float $value, string $label = ''): string {
 }
 
 // above threshold sets color
-function pctBar(int|float $value, string $label = ''): string {
+function pctBar2(int|float $value, string $label = ''): string {
   $val = max(0, min(100, (float)$value));
   $cls = $val >= 90 ? 'bg-danger' : ($val >= 75 ? 'bg-warning text-dark' : 'bg-success');
   $label = $label !== '' ? htmlspecialchars($label) : $val.'%';
@@ -231,6 +236,8 @@ function pctBar(int|float $value, string $label = ''): string {
        .   '<div class="progress-bar '.$cls.'" style="width: '.$val.'%">'.$label.'</div>'
        . '</div>';
 }
+
+
 
 // safely work with HTML string correctly
 function safe($s): string { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
@@ -411,7 +418,7 @@ $sevSum = array_sum($sevTotals) ?: 1; // avoid divide-by-zero
                 <div><a href="host/index.php?page=deviceDetails.php&id=<?php echo urlencode($r['id']); ?>"><?php echo safe($r['device']); ?></a> · <?php echo safe($r['metric']); ?></div>
                 <div><?php echo safe($r['value'].' '.$r['unit']); ?></div>
               </div>
-              <?php echo pctBar((float)$r['value']); ?>
+              <?php echo pctBarDays((float)$r['value'],'', $intDays); ?>
             </div>
           <?php endforeach; endif; ?>
         </div>

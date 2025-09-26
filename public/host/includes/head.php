@@ -13,9 +13,11 @@ $bg = ($theme === 'dark') ? '#0b0d10' : '#f8f9fa'; // pick your exact page bg
   <meta name="description" content="Vigliare NMS" />
   <meta name="author" content="Chris Hubbard" />
   <title>Vigilare NMS Device</title>
-  <link id="bootstrap-css" rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+
   <!-- theme defined in index page and used here to set our colors -->
+  <link id="bootstrap-css" rel="stylesheet" href="/css/bootstrap/bootstrap.css">
   <link id="<?php echo $theme; ?>-theme-css" rel="stylesheet" href="/css/<?php echo $theme; ?>/vigilare-dashboard.css">
+
   <style>html,body{background: <?= $bg ?>}</style>
   <script src="/js/bootstrap-5/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="/js/cookie/checkCookie.js"></script>

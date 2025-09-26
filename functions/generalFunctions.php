@@ -56,6 +56,58 @@ function device_details_url($deviceId): string {
     return '/host/index.php?page=deviceDetails.php&id=' . urlencode((string)$deviceId);
 }
 
+// above threshold sets color
+function pctBarDays(int|float $value, string $label = '', int $days): string {
+  $valDays = intdiv($value, $days);
+  $val = max(0, min(100, (float)$valDays));
+  $cls = $val >= 30 ? 'bg-danger' : ($val >= 25 ? 'bg-warning text-dark' : 'bg-success');
+  $label = $label !== '' ? htmlspecialchars($label) : $val.'%';
+  return '<div class="progress" role="progressbar" aria-valuenow="'.$val.'" aria-valuemin="0" aria-valuemax="100">'
+       .   '<div class="progress-bar '.$cls.'" style="width: '.$val.'%">'.$label.'</div>'
+       . '</div>';
+}
+
+
+function calcAvailability(array $summary, string $mode = 'inclusive'): ?float {
+    $d = $summary['devices'] ?? [];
+    $up       = (int)($d['up'] ?? 0);
+    $down     = (int)($d['down'] ?? 0);
+    // accept either 'unknown' or 'unreachable'
+    $unknown  = (int)($d['unknown'] ?? ($d['unreachable'] ?? 0));
+
+    if ($mode === 'exclude_unknown') {
+        $den = $up + $down;
+        return $den > 0 ? round(($up / $den) * 100, 3) : null;
+    }
+
+    // inclusive (unknown treated as down)
+    $total = $up + $down + $unknown;
+    return $total > 0 ? round(($up / $total) * 100, 3) : null;
+}
+
+// below threshold sets color
+function pctBarReverse(int|float $value, string $label = ''): string {
+  $val = max(0, min(100, (float)$value));
+  $cls = $val <= 90 ? 'bg-danger' : ($val <= 75 ? 'bg-warning text-dark' : 'bg-success');
+  $label = $label !== '' ? htmlspecialchars($label) : $val.'%';
+  return '<div class="progress" role="progressbar" aria-valuenow="'.$val.'" aria-valuemin="0" aria-valuemax="100">'
+       .   '<div class="progress-bar '.$cls.'" style="width: '.$val.'%">'.$label.'</div>'
+       . '</div>';
+}
+
+// above threshold sets color
+function pctBar(int|float $value, string $label = ''): string {
+  $val = max(0, min(100, (float)$value));
+  $cls = $val >= 90 ? 'bg-danger' : ($val >= 75 ? 'bg-warning text-dark' : 'bg-success');
+  $label = $label !== '' ? htmlspecialchars($label) : $val.'%';
+  return '<div class="progress" role="progressbar" aria-valuenow="'.$val.'" aria-valuemin="0" aria-valuemax="100">'
+       .   '<div class="progress-bar '.$cls.'" style="width: '.$val.'%">'.$label.'</div>'
+       . '</div>';
+}
+
+
+
+
 /**
  * Accepts many possible shapes and returns a numerically indexed list of events.
  * - $raw can be an array with 'response' (string or array) or a raw JSON string, etc.
