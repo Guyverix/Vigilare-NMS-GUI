@@ -63,7 +63,7 @@ if ($quitEarly === 0) {
     }
 
     echo '<tr><td>' . $prettyName . "</td><td>\n";
-    echo '<form method="POST" action="/host/index.php?page=/graphs/rrd.php">' . "\n";
+    echo '<form method="POST" action="/host/index.php?page=graphs/rrd.php">' . "\n";
     echo '<input type="hidden" name="templateName" value="' . htmlspecialchars($templateName) . '">' . "\n";
     echo '<input type="hidden" name="hostname" value="' . htmlspecialchars($hostname) . '">' . "\n";
     echo '<input type="hidden" name="id" value="' . htmlspecialchars($id) . '">' . "\n";
