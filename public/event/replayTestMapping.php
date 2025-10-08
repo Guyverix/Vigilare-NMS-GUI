@@ -18,8 +18,10 @@
     $headers[] = 'Authorization: Bearer ' . $_COOKIE['token'];
     $post = array();  // We are using post, so give it an empty array to post with
     $post = $_POST;
+    // debugger($_POST);
     $rawUpdateMapping = callApiPost("/globalMapping/trap/update", $post, $headers);
     $updateMapping = json_decode($rawUpdateMapping['response'], true);
+    // debugger($updateMapping);
 
     $responseCode = $updateMapping['statusCode'];
 

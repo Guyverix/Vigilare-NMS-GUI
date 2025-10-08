@@ -577,6 +577,13 @@ function sevBadgeNoSpan(int $sev): string {
   return '<div class="badge '.$cls.'">S-'.$sev.'</div>';
 }
 
+function convertUtcLocal($recordedTime, $localOffset) {
+  $utcRaw= strtotime($recordedTime . ' UTC');
+  $utcChanged=($utcRaw + $localOffset);
+  $resultTime=date('Y-m-d H:i:s', $utcChanged) . " $timezone";
+  return $resultTime;
+}
+
 
 ?>
 
