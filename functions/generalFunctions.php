@@ -577,6 +577,11 @@ function sevBadgeNoSpan(int $sev): string {
   return '<div class="badge '.$cls.'">S-'.$sev.'</div>';
 }
 
+/*
+  Conversion of a UTC timestamp to a local timestamp
+  EX: 2025-10-01 00:00:00, -3600
+*/
+
 function convertUtcLocal($recordedTime, $localOffset) {
   $utcRaw= strtotime($recordedTime . ' UTC');
   $utcChanged=($utcRaw + $localOffset);
