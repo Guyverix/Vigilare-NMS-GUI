@@ -180,6 +180,7 @@ $sites = array_map(function ($s) {
   ];
 }, $appGroupList['data']);
 
+
 // Setting API calls for Maintenance
 $rawMaintenanceList = callApiGet("/maintenance/findAllMaintenance", $headers);
 $maintenanceList = json_decode($rawMaintenanceList['response'], true);

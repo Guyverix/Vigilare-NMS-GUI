@@ -1,4 +1,10 @@
 <?php
+  /*
+    This is simply a table return of our devices
+    using dataTable...   Overall it does not do
+    much, and is fairly simple.
+  */
+
 require_once(__DIR__ . '/../../functions/generalFunctions.php');
 checkCookie($_COOKIE);
 require_once __DIR__ . "/../../config/api.php";
