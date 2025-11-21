@@ -34,7 +34,8 @@
     else {
       // After a successful creation, wait and then reload the page
       successMessage('Monitor creation is successful.');
-      $_SERVER['REQUEST_METHOD'] = '';   // Unset our POST before reloading the page :)
+      $_SERVER['REQUEST_METHOD'] = '';
+      // Unset our POST before reloading the page :)
       /*  This is not needed.  the page loads fine even after creating a new monitor.
       echo '<script>
               window.setTimeout(function() {
@@ -139,8 +140,8 @@ echo '
   </div>
   <div class="row ">
     <div class="col-lg-7 mx-auto">
-      <div class="card mt-2 mx-auto p-4 bg-light">
-        <div class="card-body bg-light">
+      <div class="card mt-2 mx-auto p-4">
+        <div class="card-body">
           <div class = "container">
             <form id="create-monitor-form" role="form" action="" method="POST">
             <div class="controls">
@@ -201,7 +202,8 @@ echo '
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <input type="submit" class="btn btn-success btn-send  pt-2 btn-block" value="Create Monitor" >
+                <span><br></span>
+                  <input type="submit" class="btn text-light btn-success btn-send  pt-2 btn-block" value="Create Monitor" >
                 </div>
               </div> <!-- row -->
 

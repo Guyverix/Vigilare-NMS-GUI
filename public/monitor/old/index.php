@@ -4,9 +4,7 @@
     Load boilerplate first, then focus on data
   */
 
-  if (! function_exists('debugger')) {
-    require (__DIR__ . '/../../functions/generalFunctions.php');
-  }
+  require_once(__DIR__ . '/../../functions/generalFunctions.php');
   checkCookie($_COOKIE);
   checkTimer($_COOKIE);
 
@@ -27,7 +25,7 @@
     Optional if we want a different page "title"
     You must call the function with the $title var for this to work
   */
-  $title = 'Vigilare NMS - Monitor and Control';
+  $title = 'Vigilare NMS - Monitor';
 
   if (isset($_GET['page'])) {
     $page = $_GET['page'];
@@ -37,10 +35,7 @@
   }
 
   // begin loading page since we have valid cookies
-  if ( file_exists (__DIR__ . '/includes/head.php')) {
-    include_once(__DIR__ . '/includes/head.php');
-  }
-  elseif ( file_exists (__DIR__ . '/includes/head.html')) {
+  if ( file_exists (__DIR__ . '/includes/head.html')) {
     readfile(__DIR__ . '/includes/head.html');
   }
   else {
@@ -72,7 +67,7 @@
   */
 
   echo '<!-- Any <nav> goes here including user options -->';
-  echo '<nav class="sb-topnav navbar navbar-expand">';
+  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
 
   /*
     Load any overrides we have now to the template
@@ -115,13 +110,6 @@
   // Close off our NAV section now and begin to show our page
   echo '</nav>';
 
-  // Left side vertical menu must be defined before the main pages.  This is not nav
-  if ( file_exists(__DIR__ . '/includes/leftVerticalMenu.html')) {
-    readfile(__DIR__ . '/includes/leftVerticalMenu.html');
-    $extraDiv='true';
-  }
-
-
 ?>
   <!-- Add Main panel content here -->
   <div id="layoutSidenav_content">
@@ -141,11 +129,6 @@
     </main>
   </div>
 <?php
-  if ( $extraDiv == 'true' ) {
-    // Needed when we have the leftVerticalMenu loaded... Sigh...
-    echo "</div>";
-  }
-
   /*
     Load our Javascript and footers at this point.
     Any JS changes require the bottomFooter to be loaded from the includes, instead of shared
