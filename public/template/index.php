@@ -39,8 +39,9 @@
       $page = $_GET['page'];
     }
     else {
-      loadIncomplete("Missing called page $_GET['page']");
-      show404();
+      loadIncomplete("Missing called page: " . htmlspecialchars($_GET['page']));
+      // Optionally, you can add more context or logging here before calling show404()
+show404();
     }
   }
   else {
