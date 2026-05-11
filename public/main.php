@@ -128,6 +128,11 @@ $rawActiveEvents = callApiGet("/events/view/eventCounter/DESC/order", $headers);
 // 2) Extract the real list of events from a variety of shapes
 $eventList = extractEventsList($rawActiveEvents);
 
+// return actually returns an array we need to check
+if ( $eventList[0] === [] ) {
+  $eventList = [];
+}
+
 // 3) Map to the lightweight dashboard format ($alerts)
 $alerts = array_map(function ($e) {
     return [
