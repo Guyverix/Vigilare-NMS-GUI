@@ -134,6 +134,19 @@ if ( $eventList[0] === [] ) {
 }
 
 // 3) Map to the lightweight dashboard format ($alerts)
+usort($eventList, function ($a, $b) {
+  $severityA = (int)($a['eventSeverity'] ?? 0);
+  $severityB = (int)($b['eventSeverity'] ?? 0);
+  if ($severityA !== $severityB) {
+    return $severityB <=> $severityA;
+  }
+  $timeA = strtotime($a['startEvent'] ?? $a['stateChange'] ?? $a['firstSeen'] ?? '');
+  $timeB = strtotime($b['startEvent'] ?? $b['stateChange'] ?? $b['firstSeen'] ?? '');
+  return $timeB <=> $timeA;
+});
+
+$eventListSmall = array_slice($eventList, 0, 20);
+
 $alerts = array_map(function ($e) {
     return [
         'id'       => (string)($e['id'] ?? 0),
@@ -145,7 +158,7 @@ $alerts = array_map(function ($e) {
         // If you have a real ack flag, use it here. Defaulting to false.
         'acked'    => isset($e['acked']) ? filter_var($e['acked'], FILTER_VALIDATE_BOOLEAN) : false,
     ];
-}, $eventList);
+}, $eventListSmall);
 
 /*
   hotspot data pull from API
