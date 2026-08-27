@@ -4,13 +4,13 @@
     Load boilerplate first, then focus on data
   */
 
-  // Load local vars for use (urls, ports, etc)
-  require_once __DIR__ . "/../config/api.php";
-
-
-  require_once(__DIR__ . '/../functions/generalFunctions.php');
-  checkCookie($_COOKIE);  // disable check here to test 401 responses elsewhere due to expired stuff
+  require_once(__DIR__ . '/../../functions/generalFunctions.php');
+  checkCookie($_COOKIE);
   checkTimer($_COOKIE);
+
+  // Load local vars for use (urls, ports, etc)
+  require_once __DIR__ . "/../../config/api.php";
+
   /*
     This is the boilerplate that all pages need to adhere to.
     Only if there is custom work will it read the  includes page.
@@ -25,35 +25,27 @@
     Optional if we want a different page "title"
     You must call the function with the $title var for this to work
   */
-  $title = 'Vigilare NMS - Main';
+  $title = 'Vigilare NMS - Monitor';
+
+  if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+  }
+  else {
+    $page = 'main.html';
+  }
 
   // begin loading page since we have valid cookies
-  echo '<!DOCTYPE html><META HTTP-EQUIV=Refresh CONTENT="120"> ';  // comment this out if index refresh gets annoying
-
   if ( file_exists (__DIR__ . '/includes/head.html')) {
     readfile(__DIR__ . '/includes/head.html');
   }
   else {
     if (isset($title)) {
-      includeHead($title);  // calls head.php from the generalFunctions.php script
+      includeHead($title);
     }
     else {
-      readfile(__DIR__ . '/shared/head.html');  // generic with generic title
+      readfile(__DIR__ . '/shared/head.html');
     }
   }
-
-  if ( ! isset($_SESSION)) {
-    session_start();
-  }
-
-  if ( empty($_COOKIE['clientTimezone'])) {
-    // This is specifically if it did not get set at login
-    $timezone = $_SESSION['time'];
-    if ( ! empty($timezone)) {
-      setCookieSimple('clientTimezone', $timezone , '/', 864000);
-    }
-  }
-
 
   /*
     Set the body of the HTML now
@@ -65,8 +57,7 @@
     and possibly interact with some portions of the site when they
     should not be able to.
   */
-  echo "<!-- Check login cookie every 15 seconds -->\n";
-  echo '<body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >' . "\n";
+  echo '<!-- Check login cookie every 15 seconds --><body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
 
   /*
     All navigation needs to be defined before we begin our main page
@@ -75,6 +66,8 @@
     as they are needed
   */
 
+  echo '<!-- Any <nav> goes here including user options -->';
+  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
 
   /*
     Load any overrides we have now to the template
@@ -84,25 +77,20 @@
     can choose a color scheme.
   */
 
-
-  echo '<!-- Any <nav> goes here including user options -->' . "\n";
-  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">' . "\n";
-
   // Top bar horizontal
   if ( file_exists(__DIR__ . '/includes/topNav.html')) {
     readfile(__DIR__ . '/includes/topNav.html');
   }
   else {
-    readfile(__DIR__ . '/shared/topNav.html');
+    readfile(__DIR__ . '/../shared/topNav.html');
   }
-
 
   // Top search option
   if ( file_exists(__DIR__ . '/includes/search.html')) {
     readfile(__DIR__ . '/includes/search.html');
   }
   else {
-    readfile(__DIR__ . '/shared/search.html');
+    readfile(__DIR__ . '/../shared/search.html');
   }
 
   // Top user controls
@@ -116,29 +104,28 @@
     include __DIR__ . ("/includes/userControls.php");
   }
   else {
-    include __DIR__ . ('/shared/userControls.php');
+    include __DIR__ . ('/../shared/userControls.php');
   }
 
   // Close off our NAV section now and begin to show our page
-  echo "</nav>\n";
-
-  // Left side vertical menu must be defined before the main pages.  This is not nav
-  if ( file_exists(__DIR__ . '/includes/leftVerticalMenu.html')) {
-    readfile(__DIR__ . '/includes/leftVerticalMenu.html');
-  }
-  else {
-    readfile(__DIR__ . '/shared/leftVerticalMenu.html');
-  }
+  echo '</nav>';
 
 ?>
   <!-- Add Main panel content here -->
   <div id="layoutSidenav_content">
     <main>
       <!-- This is where you can add your page data easiest -->
-<?php
-  include_once __DIR__ . ("/main.php");
-?>
+      <!-- I am not fond of breadcrubs, but if you are, feel free to define like this -->
+      <?php if ( file_exists(__DIR__ . '/includes/breadcrumb.html')) { echo "<br><br><br>"; readfile( __DIR__ . '/includes/breadcrumb.html'); } ?>
 
+      <!-- Include somefile.php|html here :) -->
+      <?php if ( preg_match('/html/', $page)) {
+              readfile( $page );
+            }
+            else {
+              include  __DIR__ . "/$page";
+            }
+      ?>
     </main>
   </div>
 <?php
@@ -150,7 +137,7 @@
     include __DIR__ . ('/includes/bottomFooter.php');
   }
   else {
-    include __DIR__ . ('/shared/bottomFooter.php');
+    include __DIR__ . ('/../shared/bottomFooter.php');
   }
 ?>
 </body>

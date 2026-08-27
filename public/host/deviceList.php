@@ -1,4 +1,10 @@
 <?php
+  /*
+    This is simply a table return of our devices
+    using dataTable...   Overall it does not do
+    much, and is fairly simple.
+  */
+
 require_once(__DIR__ . '/../../functions/generalFunctions.php');
 checkCookie($_COOKIE);
 require_once __DIR__ . "/../../config/api.php";
@@ -29,11 +35,11 @@ switch ($responseCode) {
     $quitEarly = 1;
     break;
 }
-
+$theme = 'dark';
 if ($quitEarly === 0):
 ?>
+<!-- CSS theme defined in index page and used here to set our colors so we dont need to set here except for testing stuff -->
   <h1 class="text-center my-4">All Hosts and Devices</h1>
-
   <div class="container-fluid">
     <div class="col d-flex justify-content-center">
       <div class="card w-75" style="border-radius: .5%">

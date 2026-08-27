@@ -46,13 +46,15 @@ if (isset($_POST['displayDetails'])) {
           $checked = in_array((string)$i, $displaySeverity) ? 'checked' : '';
           $labels = ["Debug", "Information", "Error", "Warning", "Critical"];
           $btnClass = ["secondary", "primary", "info", "warning", "danger"];
-          echo "<label class='btn btn-sm btn-outline-{$btnClass[$i-1]}'>";
+//          echo "<label class='btn btn-sm btn-outline-{$btnClass[$i-1]}'>";
+          echo "<label class='btn btn-sm btn-{$btnClass[$i-1]}'>";
           echo "<input type='checkbox' name='activeFilter[]' value='{$i}' {$checked}> {$labels[$i-1]}";
           echo "</label>\n";
         }
         ?>
-        <button type="submit" class="btn btn-sm btn-outline-primary" name="saveFilter">
-          <i class="fas fa-bookmark"></i> Save filter
+<!--        <button type="submit" class="btn btn-sm btn-outline-primary" name="saveFilter">    -->
+        <button type="submit" class="btn btn-sm btn-outline-success" name="saveFilter">
+          <i class="fas fa-bookmark"></i> Save filters
         </button>
       </form>
     </div>
@@ -77,13 +79,13 @@ if (isset($_POST['displayDetails'])) {
     <table id="dt-events" class="table table-striped table-hover bg-dark table-dark text-center text-nowrap">
       <thead>
         <tr>
+          <th>Severity</th>
           <th>Device</th>
           <th>Monitor</th>
           <th>Summary</th>
           <th>First Seen</th>
           <th>Last Update</th>
           <th>Count</th>
-          <th>Severity</th>
           <th>Manipulation</th>
         </tr>
       </thead>
@@ -94,8 +96,101 @@ if (isset($_POST['displayDetails'])) {
   </div>
 </div>
 
+
 <script src="/js/simple-datatables/simple-datatables.js"></script>
 <script>
+let dt;
+const tableEl = document.getElementById("dt-events");
+
+const DT_OPTIONS = {
+  searchable: true,
+  sortable: true,
+  storable: true,             // also persists to localStorage; our manual restore keeps it instant
+  paging: true,
+  perPage: 25,
+  perPageSelect: [25, 50, 100, 200],
+  labels: { placeholder: "Search Active Events" }
+};
+
+// ---- read current UI state from the rendered DataTable (safe across versions) ----
+function readDTState() {
+  if (!tableEl) return {};
+  const state = {};
+
+  // Sort: read from thead aria-sort + index
+  const th = tableEl.querySelector('thead th[aria-sort="ascending"], thead th[aria-sort="descending"]');
+  if (th) {
+    state.sortIndex = Array.from(th.parentNode.children).indexOf(th);
+    state.sortDir   = th.getAttribute('aria-sort') === 'descending' ? 'desc' : 'asc';
+  }
+
+  // Search text (input added by simple-datatables)
+  const searchInput = tableEl.closest('.dataTable-wrapper')?.querySelector('.dataTable-input');
+  if (searchInput) state.search = searchInput.value;
+
+  // Per-page (selector added by simple-datatables)
+  const perPageSel = tableEl.closest('.dataTable-wrapper')?.querySelector('.dataTable-selector');
+  if (perPageSel) state.perPage = parseInt(perPageSel.value, 10);
+
+  // Current page (pagination UI)
+  const activePage = tableEl.closest('.dataTable-wrapper')?.querySelector('.dataTable-pagination li.active a');
+  if (activePage) state.page = parseInt(activePage.textContent.trim(), 10);
+
+  return state;
+}
+
+// ---- apply state to a newly-initialized table instance ----
+function applyDTState(instance, state) {
+  if (!instance || !state) return;
+
+  // Per-page first (affects pagination)
+  if (state.perPage && Number.isFinite(state.perPage)) {
+    instance.update({ perPage: state.perPage });
+  }
+
+  // Reapply sort (if we captured it)
+  if (state.sortIndex != null && state.sortDir) {
+    try { instance.columns.sort(state.sortIndex, state.sortDir); } catch(e) {}
+  }
+
+  // Reapply search (do this after sort so layout settles)
+  if (state.search) {
+    try { instance.search(state.search); } catch(e) {}
+  }
+
+  // Reapply page (if API available). Fallback: click the pagination link.
+  if (state.page && Number.isFinite(state.page)) {
+    if (typeof instance.page === 'function') {
+      try { instance.page(state.page); } catch(e) {}
+    } else {
+      const link = tableEl.closest('.dataTable-wrapper')?.querySelector(`.dataTable-pagination a[href="#${state.page}"]`);
+      if (link) link.click();
+    }
+  }
+}
+
+function refreshEventTable() {
+  // capture state before destroying
+  const state = readDTState();
+
+  fetch('/event/eventData.php', { cache: 'no-store' })
+    .then(r => r.text())
+    .then(html => {
+      // Tear down to restore the original table DOM
+      if (dt) dt.destroy();
+
+      // Replace rows
+      const tbody = document.getElementById('eventTableBody');
+      if (tbody) tbody.innerHTML = html;
+
+      // Re-init and reapply saved state
+      dt = new simpleDatatables.DataTable(tableEl, DT_OPTIONS);
+      applyDTState(dt, state);
+    })
+    .catch(err => console.error("Event fetch error:", err));
+}
+
+// ----- your existing helpers kept intact -----
 function saveEventSetting(name, value) {
   fetch(`/event/saveEventSetting.php?name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`)
     .then(resp => resp.ok ? console.log(`Saved: ${name} = ${value}`) : console.warn("Save failed"))
@@ -117,38 +212,24 @@ document.addEventListener("DOMContentLoaded", () => {
   if (ackButton) {
     ackButton.addEventListener("click", (e) => {
       e.preventDefault();
-      const val = ackButton.value;
-      saveEventSetting("showEventAck", val);
+      saveEventSetting("showEventAck", ackButton.value);
       document.getElementById("chooseAck").submit();
     });
   }
 
-  function refreshEventTable() {
-    fetch('/event/eventData.php')
-      .then(response => response.text())
-      .then(html => {
-        const tbody = document.getElementById('eventTableBody');
-        if (tbody) tbody.innerHTML = html;
-      })
-      .catch(err => console.error("Event fetch error:", err));
-  }
-
-  setInterval(refreshEventTable, 45000);
+  // init + periodic updates
+  if (tableEl) dt = new simpleDatatables.DataTable(tableEl, DT_OPTIONS);
   refreshEventTable();
-
-  const datatablesSimple = document.getElementById("dt-events");
-  if (datatablesSimple) {
-    new simpleDatatables.DataTable("#dt-events", {
-      searchable: true,
-      sortable: true,
-      storable: true,
-      paging: true,
-      perPage: 25,
-      perPageSelect: [25, 50, 100, 200],
-      labels: {
-        placeholder: "Search Active Events"
-      }
-    });
-  }
+  setInterval(refreshEventTable, 45000);
 });
 </script>
+
+
+
+
+
+
+
+
+
+

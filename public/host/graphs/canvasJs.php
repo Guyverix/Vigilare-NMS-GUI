@@ -40,12 +40,13 @@ $post = [
   'to'   => $endTime
 ];
 
-// debugger($post);
+// debuggerComment($post);
 
 $rawRenderGraphs = callApiPost("/graphite/test", $post, $headers);
-$renderGraphsResult = json_decode($rawRenderGraphs['response'], true);
+//debuggerComment($rawRenderGraphs);
 
-// debugger($renderGraphsResult);
+$renderGraphsResult = json_decode($rawRenderGraphs['response'], true);
+//debuggerComment($renderGraphsResult);
 
 $graphNumber = 0;
 echo '<script src="/js/jquery/jquery-1.7.1.min.js"></script>';
@@ -62,7 +63,7 @@ echo '<thead><tr><th>From Range</th><th>Until Range</th></tr></thead>';
 echo '<tbody><tr><td>';
 echo '<input type="text" name="startNumber" value="' . $startNumber . '" size="3"> ';
 echo '<select name="startRange">';
-foreach (['d'=>'days','h'=>'hours','w'=>'weeks','m'=>'months'] as $val=>$label) {
+foreach (['d'=>'days','h'=>'hours','w'=>'weeks','month'=>'months'] as $val=>$label) {
   $sel = ($startRange == $val) ? 'selected' : '';
   echo "<option value=\"$val\" $sel>$label</option>";
 }
@@ -70,7 +71,7 @@ echo '</select>';
 echo '</td><td>';
 echo '<input type="text" name="endNumber" value="' . $endNumber . '" size="3"> ';
 echo '<select name="endRange">';
-foreach (['d'=>'days','h'=>'hours','w'=>'weeks','m'=>'months'] as $val=>$label) {
+foreach (['d'=>'days','h'=>'hours','w'=>'weeks','month'=>'months'] as $val=>$label) {
   $sel = ($endRange == $val) ? 'selected' : '';
   echo "<option value=\"$val\" $sel>$label</option>";
 }
@@ -91,14 +92,14 @@ if ($renderGraphsResult['statusCode'] !== 200) {
 }
 
 $graphData = $renderGraphsResult['data'][0] ?? [];
-// debugger($graphData);
+// debuggerComment($graphData);
 if (array_keys($graphData) === range(0, count($graphData) -1 )) {
   $indexedGraphs = "indexed";
 }
 else {
   $indexedGraphs = "not indexed";
 }
-// debugger($indexedGraphs);
+// debuggerComment($indexedGraphs);
 echo '<div class="container mt-5">';
 
 // Cannot find a decent mix between the two possible returns, so break them apart
@@ -160,12 +161,12 @@ if ( $indexedGraphs == "indexed" ) {
 
 // These have the string defined for $graphData so it is mixed-key....
 else {
-  // debugger($graphData);
+  // debuggerComment($graphData);
   foreach ($graphData as $checkNameKey => $checkMetrics) {
-    // debugger($checkNameKey); // can be 0-9 or a string... sigh...
+    // debuggerComment($checkNameKey); // can be 0-9 or a string... sigh...
   
     foreach ($checkMetrics as $metricName => $urls) {
-      // debugger($metricName);
+      // debuggerComment($metricName);
       $metricTitle = is_numeric($metricName) ? $checkNameKey : $metricName;
       $urlList = is_array($urls) ? $urls : [$urls];
 

@@ -2,48 +2,48 @@
   <!-- left side vertical menu -->
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
-      <nav class="sb-sidenav accordion sb-sidenav-dark bg-dark" id="sidenavAccordion">
-        <div class="sb-sidenav-menu">
+      <nav class="sidenav accordion sidenav-dark bg-dark" id="sidenavAccordion">
+        <div class="sidenav-menu">
           <div class="nav">
-            <div class="sb-sidenav-menu-heading">Main</div>
+            <div class="sidenav-menu-heading">Main</div>
               <a class="nav-link" href="/index.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              <div class="nav-link-icon"><i class="fas fa-table"></i></div>
               Dashboard
               </a>
               <a class="nav-link" href="/event/index.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-bell"></i></div>
+              <div class="nav-link-icon"><i class="fas fa-bell"></i></div>
               Event
               </a>
               <a class="nav-link" href="/infrastructure/index.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-network-wired"></i></div>
+              <div class="nav-link-icon"><i class="fas fa-network-wired"></i></div>
               Infrastructure
               </a>
               <a class="nav-link" href="/mapping/index.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-diagram-project"></i></div>
+              <div class="nav-link-icon"><i class="fas fa-diagram-project"></i></div>
               Mapping
               </a>
               <a class="nav-link" href="/reporting/index.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-flag"></i></div>
+              <div class="nav-link-icon"><i class="fas fa-flag"></i></div>
               Reporting
               </a>
               <a class="nav-link" href="/daemon/index.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-stopwatch"></i></div>
+              <div class="nav-link-icon"><i class="fas fa-stopwatch"></i></div>
               Daemon
               </a>
 
 
-              <div class="sb-sidenav-menu-heading">Support</div>
+              <div class="sidenav-menu-heading">Support</div>
               <a class="nav-link" href="/admin/index.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-lock-open"></i></div>
+              <div class="nav-link-icon"><i class="fas fa-lock-open"></i></div>
               Admin
               </a>
               <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-              <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+              <div class="nav-link-icon"><i class="fas fa-columns"></i></div>
               Documentation
-              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+              <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
               </a>
               <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
+                <nav class="sidenav-menu-nested nav">
                   <a class="nav-link" href="/support/hosts.html" target="_blank">Host</a>
                   <a class="nav-link" href="/support/infrastructure.html" target="_blank">Infrastructure</a>
                   <a class="nav-link" href="/support/mapping.html" target="_blank">Mapping</a>

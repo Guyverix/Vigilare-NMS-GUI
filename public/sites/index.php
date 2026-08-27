@@ -26,18 +26,21 @@
     Optional if we want a different page "title"
     You must call the function with the $title var for this to work
   */
-  $title = 'Vigilare NMS - Template (changeme, duh)';
+  $title = 'Site Group Lists';
 
   if (isset($_GET['page'])) {
     $page = $_GET['page'];
   }
   else {
-    $page = 'main.html';
+    $page = '';
   }
 
   // begin loading page since we have valid cookies
   if ( file_exists (__DIR__ . '/includes/head.html')) {
     readfile(__DIR__ . '/includes/head.html');
+  }
+  elseif ( file_exists (__DIR__ . '/includes/head.php')) {
+    include(__DIR__ . '/includes/head.php');
   }
   else {
     if (isset($title)) {
@@ -58,7 +61,7 @@
     and possibly interact with some portions of the site when they
     should not be able to.
   */
-  echo '<!-- Check login cookie every 15 seconds --><body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
+  echo '<!-- Check login cookie every 15 seconds --><body class="nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >';
 
   /*
     All navigation needs to be defined before we begin our main page
@@ -68,7 +71,7 @@
   */
 
   echo '<!-- Any <nav> goes here including user options -->';
-  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">';
+  echo '<nav class="topnav navbar navbar-expand">';
 
   /*
     Load any overrides we have now to the template
@@ -110,25 +113,28 @@
 
   // Close off our NAV section now and begin to show our page
   echo '</nav>';
+  //    debugger($page);
+  //    exit();
 ?>
   <!-- Add Main panel content here -->
   <div id="layoutSidenav_content">
     <main>
       <!-- This is where you can add your page data easiest -->
-      <!-- I am not fond of breadcrubs, but if you are, feel free to define like this -->
-      <?php if ( file_exists(__DIR__ . '/includes/breadcrumb.html')) { echo "<br><br><br>"; readfile( __DIR__ . '/includes/breadcrumb.html'); } ?>
-
-      <!-- Include somefile.php here :) -->
-
-      <?php if ( preg_match('/html/', $page)) {
-              readfile( $page );
-            }
-            else {
-              include  __DIR__ . "/$page";
-            }
+      <!-- Include somefile.php here :)  check for main.php and load main.html if not found -->
+      <?php
+        if (preg_match('/html/', $page) && is_readable(__DIR__ . "$page")) {
+          readfile(__DIR__ . "/$page");
+        }
+        elseif (!empty($page) && file_exists(__DIR__ . "/$page")) {
+          include(__DIR__ . "/$page");
+        }
+        elseif (file_exists(__DIR__ . "/main.php")) {
+          include(__DIR__ . "/main.php");
+        }
+        else {
+          readfile(__DIR__ . "/main.html");
+        }
       ?>
-
-
     </main>
   </div>
 <?php

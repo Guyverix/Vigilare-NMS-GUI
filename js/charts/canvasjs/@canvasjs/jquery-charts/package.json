@@ -1,0 +1,30 @@
+{
+	"name": "@canvasjs/jquery-charts",
+	"version": "1.0.2",
+	"description": "CanvasJS jQuery Charts - Official",
+	"main": "jquery.canvasjs.min.js",
+	"keywords": [
+		"jQuery",
+		"charts",
+		"jQuery graphs",
+		"jQuery charting library",
+		"jQuery chart library",
+		"jQuery charts",
+		"graphs",
+		"dataviz",
+		"canvasjs",
+		"canvas",
+		"high performance charts",
+		"line charts",
+		"area charts",
+		"bar charts",
+		"pie charts"
+	],
+	"author": "fenopix",
+	"license": "MIT",
+	"homepage": "https://canvasjs.com/jquery-charts/",
+	"dependencies": {
+		"jquery": ">=1.11.0",
+		"@canvasjs/charts": "^3.7.5"
+	}
+}

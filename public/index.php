@@ -27,19 +27,36 @@
   */
   $title = 'Vigilare NMS - Main';
 
-  // begin loading page since we have valid cookies
-  echo '<!DOCTYPE html><META HTTP-EQUIV=Refresh CONTENT="120"> ';  // comment this out if index refresh gets annoying
+  // Set our css colors to what is in the cookir and default to dark if null
+  $theme=$_COOKIE['theme'] ?? 'dark';
 
-  if ( file_exists (__DIR__ . '/includes/head.html')) {
-    readfile(__DIR__ . '/includes/head.html');
+  // begin loading page since we have valid cookies
+  echo '<!DOCTYPE html><META HTTP-EQUIV=Refresh CONTENT="30"> ';  // comment this out if index refresh gets annoying
+
+  // begin loading page since we have valid cookies
+  $base = __DIR__;
+  $candidates = [
+    "$base/includes/head.php" ,
+    "$base/includes/head.html",
+    "$base/shared/head.html",
+  ];
+
+  $loaded = false;
+  foreach ($candidates as $path) {
+    if (is_readable($path)) {
+      // execute PHP files, stream HTML files
+      if (str_ends_with($path, '.php')) {
+        include $path;
+      }
+      else {
+        readfile($path);   // or: include $path;
+      }
+      $loaded = true;
+      break;
+    }
   }
-  else {
-    if (isset($title)) {
-      includeHead($title);  // calls head.php from the generalFunctions.php script
-    }
-    else {
-      readfile(__DIR__ . '/shared/head.html');  // generic with generic title
-    }
+  if (!$loaded) {
+    loadIncomplete("head file is missing");
   }
 
   if ( ! isset($_SESSION)) {
@@ -66,25 +83,9 @@
     should not be able to.
   */
 
-//        echo '
- //       <style>
-          /* https://www.cssmatic.com/gradient-generator */
- //         body {
-  //          background: rgba(115,115,115,1);
-   //         background: -moz-linear-gradient(top, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-    //        background: -webkit-gradient(left top, left bottom, color-stop(15%, rgba(115,115,115,1)), color-stop(34%, rgba(110,110,110,1)), color-stop(42%, rgba(109,109,109,1)), color-stop(61%, rgba(105,105,105,0.79)), color-stop(79%, rgba(128,128,128,0.58)), color-stop(83%, rgba(128,128,128,0.54)));
-     //       background: -webkit-linear-gradient(top, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-      //      background: -o-linear-gradient(top, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-       //     background: -ms-linear-gradient(top, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-       //     background: linear-gradient(to bottom, rgba(115,115,115,1) 15%, rgba(110,110,110,1) 34%, rgba(109,109,109,1) 42%, rgba(105,105,105,0.79) 61%, rgba(128,128,128,0.58) 79%, rgba(128,128,128,0.54) 83%);
-       //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#737373", endColorstr="#808080", GradientType=0 );
-      //    }
-     //  </style>';
-
-
-
   echo "<!-- Check login cookie every 15 seconds -->\n";
-  echo '<body class="sb-nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >' . "\n";
+//  echo '<body class="nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >' . "\n";
+  echo '<body class="nav-fixed" onload="setInterval(checkCookieExpiration, 15000)" >' . "\n";
 
   /*
     All navigation needs to be defined before we begin our main page
@@ -104,7 +105,8 @@
 
 
   echo '<!-- Any <nav> goes here including user options -->' . "\n";
-  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">' . "\n";
+//  echo '<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">' . "\n";
+  echo '<nav class="topnav navbar navbar-expand">' . "\n";
 
   // Top bar horizontal
   if ( file_exists(__DIR__ . '/includes/topNav.html')) {
@@ -138,7 +140,7 @@
   }
 
   // Close off our NAV section now and begin to show our page
-  echo "</nav>\n";
+  echo "</nav></div>\n";
 
   // Left side vertical menu must be defined before the main pages.  This is not nav
   if ( file_exists(__DIR__ . '/includes/leftVerticalMenu.html')) {
@@ -158,7 +160,7 @@
     ?>
     </main>
   </div>
-</div> <!-- Appears to be unbalanced somewhere...  Still looking betting leftVerticalMenu -->
+</div> <!-- per chatGPT this is balanced, bugger off.  I can have it check for me :P -->
 <?php
   /*
     Load our Javascript and footers at this point.

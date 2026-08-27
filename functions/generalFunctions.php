@@ -5,12 +5,108 @@
   All of the generic or boilerplate functions should go here.
 */
 
-require __DIR__ . ("/../config/api.php");
+/*
+  This is likely a security problem.  Functions should already have this
+  active via the calling page.
+  This does mean that it is called before the generalFunctions.
 
+  Revist if this becomes a problem.
+*/
+require __DIR__ . ("/../config/api.php");
 
 /**
  * ---- Helpers ----
+ * chatgpt random things that seem somewhat useful
  */
+
+// rename to something smarter function h sucks, but cant think of anything better. SMH
+function h($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
+
+function include_first(array $paths): bool {
+    foreach ($paths as $p) {
+        if (is_readable($p)) {
+            return str_ends_with($p, '.php') ? (include $p) || true : (readfile($p) !== false);
+        }
+    }
+    return false;
+}
+
+function normalize_csv(?string $csv): string {
+    if ($csv === null) return '';
+    $s = trim($csv);
+    // strip a single pair of surrounding single quotes if present
+    if (strlen($s) >= 2 && $s[0] === "'" && substr($s, -1) === "'") {
+        $s = substr($s, 1, -1);
+    }
+    // remove spaces, collapse duplicate commas, trim commas
+    $s = str_replace(' ', '', $s);
+    $s = preg_replace('/,+/', ',', $s);
+    return trim($s, ',');
+}
+
+
+function csv_to_array(?string $csv): array {
+    $clean = normalize_csv($csv);
+    if ($clean === '') return [];
+    return array_values(array_filter(explode(',', $clean), 'strlen'));
+}
+
+// Adjust to your routing
+function device_details_url($deviceId): string {
+    return '/host/index.php?page=deviceDetails.php&id=' . urlencode((string)$deviceId);
+}
+
+// above threshold sets color
+function pctBarDays(int|float $value, string $label = '', int $days): string {
+  $valDays = intdiv($value, $days);
+  $val = max(0, min(100, (float)$valDays));
+  $cls = $val >= 30 ? 'bg-danger' : ($val >= 25 ? 'bg-warning text-dark' : 'bg-success');
+  $label = $label !== '' ? htmlspecialchars($label) : $val.'%';
+  return '<div class="progress" role="progressbar" aria-valuenow="'.$val.'" aria-valuemin="0" aria-valuemax="100">'
+       .   '<div class="progress-bar '.$cls.'" style="width: '.$val.'%">'.$label.'</div>'
+       . '</div>';
+}
+
+
+function calcAvailability(array $summary, string $mode = 'inclusive'): ?float {
+    $d = $summary['devices'] ?? [];
+    $up       = (int)($d['up'] ?? 0);
+    $down     = (int)($d['down'] ?? 0);
+    // accept either 'unknown' or 'unreachable'
+    $unknown  = (int)($d['unknown'] ?? ($d['unreachable'] ?? 0));
+
+    if ($mode === 'exclude_unknown') {
+        $den = $up + $down;
+        return $den > 0 ? round(($up / $den) * 100, 3) : null;
+    }
+
+    // inclusive (unknown treated as down)
+    $total = $up + $down + $unknown;
+    return $total > 0 ? round(($up / $total) * 100, 3) : null;
+}
+
+// below threshold sets color
+function pctBarReverse(int|float $value, string $label = ''): string {
+  $val = max(0, min(100, (float)$value));
+  $cls = $val <= 90 ? 'bg-danger' : ($val <= 75 ? 'bg-warning text-dark' : 'bg-success');
+  $label = $label !== '' ? htmlspecialchars($label) : $val.'%';
+  return '<div class="progress" role="progressbar" aria-valuenow="'.$val.'" aria-valuemin="0" aria-valuemax="100">'
+       .   '<div class="progress-bar '.$cls.'" style="width: '.$val.'%">'.$label.'</div>'
+       . '</div>';
+}
+
+// above threshold sets color
+function pctBar(int|float $value, string $label = ''): string {
+  $val = max(0, min(100, (float)$value));
+  $cls = $val >= 90 ? 'bg-danger' : ($val >= 75 ? 'bg-warning text-dark' : 'bg-success');
+  $label = $label !== '' ? htmlspecialchars($label) : $val.'%';
+  return '<div class="progress" role="progressbar" aria-valuenow="'.$val.'" aria-valuemin="0" aria-valuemax="100">'
+       .   '<div class="progress-bar '.$cls.'" style="width: '.$val.'%">'.$label.'</div>'
+       . '</div>';
+}
+
+
+
 
 /**
  * Accepts many possible shapes and returns a numerically indexed list of events.
@@ -143,6 +239,11 @@ function load401($message){
   echo '<div class="alert alert-danger" role="alert"><center>' . $message . '</center></div>';
 }
 
+function load404(?string $message = ''): void {
+  if ( $message == '' ) { $message = "Page not found"; }
+  echo '<div class="alert alert-danger" role="alert"><center>' . $message . '</center></div>';
+}
+
 function load405($message){
   if ( $message == '' ) { $message = "Method Not Allowed"; }
   echo '<div class="alert alert-danger" role="alert"><center>' . $message . '</center></div>';
@@ -165,8 +266,8 @@ function loadIncomplete($message) {
 
 // A special page related to API testing.  Regular users should not hit
 // this unless they are doing weird things
-function load418($message) {
-  if ( $message == '' ) { $message = "Call returned a 418 response from the API.  A call was done for something that the UI would not normally call."; }
+function load418(?string $message = ''): void {
+  if ( $message == '' ) { $message = "Call returned a 418 response from the API.<br>A call was done for something that the UI would not normally call.<br>Bad user!<br>Bad, bad, no!<br>Dont make me rub your nose in it!"; }
   echo '<div class="alert alert-warning" role="alert"><center>' . $message . '</center></div>';
 }
 
@@ -200,6 +301,30 @@ function loadUnknown($message) {
   echo '</div></div>';
 
 }
+
+function loadCenteredSuccess($message){
+  if ( $message == '' ) { $message = "success"; }
+  echo '<div id="loginSuccess" class="alert alert-success text-center ribbon-alert" role="alert">';
+  echo '  Login ' . $message . ' — redirecting…';
+  echo '</div>';
+  echo '
+<style>
+.ribbon-alert {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);  /* center vertically */
+  z-index: 1055;               /* above card/backdrop */
+  border-radius: 0;             /* full-width strip */
+  background-color: var(--bs-success) !important;  /* sets as a transparent look, dont use for login ribbon */
+  color: var(--bs-white) !important;
+  background-color: #198754 !important; /* solid Bootstrap "success" green */
+  opacity: 1;
+}
+</style>';
+}
+
 
 function loadWarning($message) {
   echo '<div class="alert alert-primary" role="alert"><center>' . $message . '</center></div>';
@@ -399,6 +524,16 @@ function debugger($values) {
   echo "</pre>";
 }
 
+// Dump whatever array we are given for debugging as HTML comment
+function debuggerComment($values) {
+  echo "<!-- ARRAY DEBUGGER OUTPUT COMMENT\n";
+  echo "print_r result\n " . print_r($values, true);
+  echo "\n";
+  echo "var_dump result\n ";
+  var_dump($values);
+  echo "\n END ARRAY DEBUGGER OUTPUT COMMENT-->\n";
+}
+
 function showModal($title, $body) {
 echo '<div class="modal" tabindex="-1" id="deviceGroupModal">';
 echo '  <div class="modal-dialog">';
@@ -417,8 +552,42 @@ echo '  </div>';
 echo '</div>';
 }
 
+function sevBadge(int $sev): string {
+  $cls = match(true) {
+    $sev >= 5 => 'bg-danger',
+    $sev === 4 => 'bg-warning text-dark',
+    $sev === 3 => 'bg-primary',
+    $sev === 2 => 'bg-info text-dark',
+    $sev === 1 => 'bg-secondary text-dark',
+    default   => 'bg-secondary',
+  };
+  return '<span class="badge '.$cls.'">S-'.$sev.'</span>';
+}
 
+// When we cant span for one reason or another..
+function sevBadgeNoSpan(int $sev): string {
+  $cls = match(true) {
+    $sev >= 5 => 'bg-danger',
+    $sev === 4 => 'bg-warning text-dark',
+    $sev === 3 => 'bg-primary',
+    $sev === 2 => 'bg-info text-dark',
+    $sev === 1 => 'bg-secondary text-dark',
+    default   => 'bg-secondary',
+  };
+  return '<div class="badge '.$cls.'">S-'.$sev.'</div>';
+}
 
+/*
+  Conversion of a UTC timestamp to a local timestamp
+  EX: 2025-10-01 00:00:00, -3600
+*/
+
+function convertUtcLocal($recordedTime, $localOffset) {
+  $utcRaw= strtotime($recordedTime . ' UTC');
+  $utcChanged=($utcRaw + $localOffset);
+  $resultTime=date('Y-m-d H:i:s', $utcChanged) . " $timezone";
+  return $resultTime;
+}
 
 
 ?>

@@ -25,25 +25,30 @@ foreach ($eventList as $events) {
   if (!in_array($events['eventSeverity'], $displaySeverity)) continue;
 
   switch ($events['eventSeverity']) {
-    case "0": $rowColor = ' class="table-success"'; break;
-    case "1": $rowColor = ' class="table-secondary"'; break;
-    case "2": $rowColor = ' class="table-primary"'; break;
-    case "3": $rowColor = ' class="table-info"'; break;
-    case "4": $rowColor = ' class="table-warning"'; break;
-    case "5": $rowColor = ' class="table-danger"'; break;
+    case "0": $rowColor = ' class="table-success"'; $btnColor="success"; break;
+    case "1": $rowColor = ' class="table-secondary"'; $btnColor="secondary";break;
+    case "2": $rowColor = ' class="table-primary"';$btnColor="primary"; break;
+    case "3": $rowColor = ' class="table-info"';$btnColor="info"; break;
+    case "4": $rowColor = ' class="table-warning"';$btnColor="warning"; break;
+    case "5": $rowColor = ' class="table-danger"';$btnColor="danger"; break;
     default:  $rowColor = ''; break;
   }
 
-  echo '<tr' . $rowColor . '>';
+//  echo '<tr' . $rowColor . '>';
+  echo '<tr>';
+  echo '<td>' . sevBadgeNoSpan((int)$events['eventSeverity']) . '</td>';
 
   // Device link
   if (empty($events['id'])) {
     echo '<td><center><a href="/host/index.php?&page=createDevice.php&hostname=' . $events['device'] . '&address=' . $events['eventAddress'] . '" target="_blank">' . $events['device'] . '</a></center></td>';
   } else {
+//    echo '<td>' . sevBadgeNoSpan((int)$events['eventSeverity']) . '<center><a href="/host/index.php?&page=deviceDetails.php&id=' . $events['id'] . '">' . $events['device'] . '</a></center></td>';
+//    echo '<td>' . sevBadgeNoSpan((int)$events['eventSeverity']) . '<a href="/host/index.php?&page=deviceDetails.php&id=' . $events['id'] . '">' . $events['device'] . '</a></td>';
     echo '<td><center><a href="/host/index.php?&page=deviceDetails.php&id=' . $events['id'] . '">' . $events['device'] . '</a></center></td>';
   }
 
   // Monitor name button
+//  echo '<td><button type="button" class="btn btn-sm-' . $btnColor . ' name="S-' . $events['eventSeverity'] . '"></button> <form id="details' . $events['evid'] . '" method="POST">';
   echo '<td><form id="details' . $events['evid'] . '" method="POST">';
   foreach ($events as $k => $v) {
     $v = in_array($k, ['eventRaw','eventDetails']) ? htmlspecialchars(json_encode($v)) : $v;
@@ -60,7 +65,7 @@ foreach ($eventList as $events) {
   echo '<td>' . $startLocal . '</td>';
   echo '<td>' . $stateLocal . '</td>';
   echo '<td><center>' . $events['eventCounter'] . '</center></td>';
-  echo '<td><center>' . $events['eventSeverity'] . '</center></td>';
+//  echo '<td><center>' . $events['eventSeverity'] . '</center></td>';
 
   // Action buttons
   echo '<td><table><tr><td>';

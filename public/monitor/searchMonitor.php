@@ -68,7 +68,7 @@ exit();
       <br><br><br> <!--- Drop below the menu banner --->
       <center><h1>Search all monitors</h1></center>
       <div class="container-fluid">
-      <table id="datatablesSimple" class="table table-striped table-hover bg-dark table-dark" data-loading-template="loadingTemplate" style="white-space: nowrap;">
+      <table id="datatablesSimple" class="table table-striped table-hover" data-loading-template="loadingTemplate" style="white-space: nowrap;">
       <thead>
         <tr>
           <th><center>Check Name</center></th>
